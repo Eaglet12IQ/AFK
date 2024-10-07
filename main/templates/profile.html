@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>AFK</title>
+</head>
+
+<body class="grid-bg min-h-screen flex flex-col items-center">
+    <header>
+        <div class="navbar">
+            <a href="{% url 'main' %}"><i class="fas fa-home"></i></a>
+            <a href="#"><i class="fas fa-briefcase"></i></a>
+            <a href="#"><i class="fas fa-book"></i></a>
+            <a href="{% url 'profile' %}" class="active"><i class="fas fa-user"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+    </header>
+    <div class="conteiner">
+        <div class="profile-info">
+            <img alt="Profile img" height="100" src="" width="100" />
+            <div class="details">
+                <h2>"UserName"</h2>
+                <p><i class="fas fa-briefcase"></i> Programmer</p>
+                <p><i class="fas fa-map-marker-alt"></i> Russia</p>
+                <p><i class="fas fa-calendar-alt"></i> Зарегистрирован в апреле 2021 года</p>
+            </div>
+        </div>
+        <div class="nav">
+            <a class="active" href="#"><i class="fas fa-user"></i> Профиль</a>
+            <a href="#"><i class="fas fa-users"></i> Команды</a>
+            <a href="#"><i class="fas fa-tasks"></i> Занятия</a>
+            <a href="#"><i class="fas fa-link"></i> Другое</a>
+        </div>
+        <div class="content">
+            <div class="about">
+                <h3>О НАС</h3>
+                <p><i class="fas fa-user"></i> Полное имя: Джон Доу</p>
+                <p><i class="fas fa-check"></i> Статус: Активен</p>
+                <p><i class="fas fa-code"></i> Роль: Пользователь</p>
+                <p><i class="fas fa-flag"></i> Страна: Россия</p>
+                <p><i class="fas fa-language"></i> Языки: Русский, английский</p>
+            </div>
+            <div class="activity">
+                <h3>Временная шкала активности</h3>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+</body>
+
+</html>

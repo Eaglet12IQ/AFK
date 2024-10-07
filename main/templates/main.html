@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Document</title>
+</head>
+
+<body class="grid-bg min-h-screen flex flex-col items-center">
+    <header>
+        <div class="navbar">
+            <a href="{% url 'main' %}" class="active"><i class="fas fa-home"></i></a>
+            <a href="#"><i class="fas fa-briefcase"></i></a>
+            <a href="#"><i class="fas fa-book"></i></a>
+            <a href="{% url 'profile' %}"><i class="fas fa-user"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+    </header>
+    <div class="conteiner preview">
+        <div class="text">
+            <h1>Краткая информация о нас</h1>
+            <p>Проект AFK - это инновационная система, которая генерирует персонализированные занятия для индивидуумов
+                на основе их интересов. Система собирает информацию о предпочтениях и хобби пользователей, а затем
+                выводит занятие, которое соответствует их профилю. </p>
+        </div>
+        <div class="button">
+            <a href="{% url 'login' %}"><button>Начать</button></a> 
+        </div>
+        
+    </div>
+
+</body>
+
+</html>

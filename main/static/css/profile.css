@@ -1,0 +1,134 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c;
+    height: 100vh;
+}
+
+
+.grid-bg { 
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); 
+    background-size: 70px 70px; 
+} 
+
+
+header{
+    padding: 20px;
+}
+
+.navbar {
+    background-color: #2a2a2a;
+    border-radius: 20px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 400px;
+}
+
+.navbar a {
+    color: #b0b0b0;
+    font-size: 24px;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.navbar a.active {
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+
+.navbar a:hover{
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+
+  
+.header1 {
+    background: linear-gradient(90deg, #6DD5FA, #FFFFFF, #FFB6C1);
+    height: 200px;
+    position: relative;
+}
+.profile-info {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(31 41 55);
+    margin: 10px;
+    border-radius: 10px;    
+    color:#A0A0A0;
+    width: 700px;
+    height: 200px;
+}
+.profile-info img {
+    border-radius: 10px;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+.profile-info .details {
+    flex-grow: 1;
+}
+.profile-info .details h2 {
+    margin: 0;
+    font-size: 24px;
+}
+.profile-info .details p {
+    margin: 5px 0;
+    color: #A0A0A0;
+}
+.profile-info .status {
+    background-color: rgb(31 41 55);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #b0b0b0;;
+    font-size: 14px;
+}
+.nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(31 41 55);
+    padding: 10px 0;
+    margin: 10px;
+    border-radius: 10px;
+    width: 700px;
+}
+.nav a {
+    color: #b0b0b0;;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.nav a.active {
+    background-color: #6C63FF;
+}
+.content {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    color:#b0b0b0;;
+    width: 700px;
+}
+.content .about {
+    background-color: rgb(31 41 55);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+}
+
+.content .activity {
+    background-color: rgb(31 41 55);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+}
+
+.content .about h3, .content .activity h3 {
+    margin-top: 0;
+}
+.content .about p, .content .activity p {
+    margin: 10px 0;
+}
