@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 def register_submit(request):
     username = request.POST.get('login')  # Получаем имя пользователя из POST
@@ -9,9 +11,11 @@ def register_submit(request):
 
     # Проверяем, существует ли уже пользователь
     if User.objects.filter(username=username).exists():
-        return render(request, 'register.html', {'error': 'Пользователь с таким именем уже существует.'})
+        messages.error(request, 'Пользователь с таким именем уже существует.')
+        return redirect('register')
     elif User.objects.filter(email=email).exists():
-        return render(request, 'register.html', {'error': 'Пользователь с такой почтой уже существует.'})
+        messages.error(request, 'Пользователь с такой почтой уже существует.')
+        return redirect('register')
 
     # Создаем нового пользователя
     user = User.objects.create_user(username=username, password=password, email=email)
@@ -35,7 +39,8 @@ def login_submit(request):
             login(request, user)  # Вход в систему
             return redirect('profile')  # Перенаправление на профиль
         else:
-            return render(request, 'login.html', {'error': 'Invalid email or password.'})
+            messages.error(request, 'Invalid email or password.')
+            return redirect('login')
     else:
         username = email_username
         user = authenticate(username=username, password=password)
@@ -43,7 +48,12 @@ def login_submit(request):
             login(request, user)  # Вход в систему
             return redirect('profile')  # Перенаправление на профиль
         else:
-            return render(request, 'login.html', {'error': 'Invalid login or password.'})
+            messages.error(request, 'Invalid email or password.')
+            return redirect('login')
+        
+def profile_logout(request):
+    logout(request)  # Завершает сессию пользователя
+    return redirect('login')  # Перенаправление на страницу входа
 
 
 

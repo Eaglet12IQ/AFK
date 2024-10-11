@@ -5,7 +5,10 @@ def main(request):
     return render(request, "main.html")
 
 def profile(request):
-    return render(request, "profile.html")
+    if not request.user.is_authenticated:
+        return render(request, "login.html")
+    else:
+        return render(request, "profile.html")
 
 def login(request):
     if request.user.is_authenticated:

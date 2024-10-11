@@ -22,9 +22,10 @@ from auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", main_views.main, name="main"),
-    path("profile/", main_views.profile, name="profile"),
+    path('profile/', main_views.profile, name='profile'),
     path("login/", main_views.login, name="login"),
     path("register/", main_views.register, name="register"),
     path("register/submit_form/", auth_views.register_submit, name="register/submit_form"),
-    path("login/sumbit_form/", auth_views.login_submit, name="login/submit_form"), 
+    path("login/submit_form/", auth_views.login_submit, name="login/submit_form"), 
+    path("profile/logout/", auth_views.profile_logout, name="profile/logout"),
 ]
