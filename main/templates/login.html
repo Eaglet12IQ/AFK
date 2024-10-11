@@ -17,10 +17,11 @@
             <a href="{% url 'main' %}"><img alt="Logo" class="h-12" src="{% static 'images/logo.png' %}" width="50" height="50"/></a>
         </div>
         <h2 class="text-center text-2xl font-semibold text-white mb-6"> Sign in to your account </h2>
-        <form class="space-y-6">
-            <div> <label class="block text-sm font-medium text-gray-300" for="email"> Email address or Login </label> <input
+        <form action="{% url 'login/submit_form' %}" method="POST" class="space-y-6">
+            {% csrf_token %}
+            <div> <label class="block text-sm font-medium text-gray-300" for="email/login"> Email address or Login </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
-                    id="email" name="email" required="" type="email" /> </div>
+                    id="email/login" name="email/login" required="" type="email" /> </div>
             <div> <label class="block text-sm font-medium text-gray-300" for="password"> Password </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="password" name="password" required="" type="password" /> </div>
