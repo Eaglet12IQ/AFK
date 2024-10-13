@@ -7,7 +7,7 @@ from django.contrib import messages
 def register_submit(request):
     username = request.POST.get('login')  # Получаем имя пользователя из POST
     password = request.POST.get('password')  # Получаем пароль из POST
-    email = request.POST.get('email')
+    email = request.POST.get('email').lower()
 
     # Проверяем, существует ли уже пользователь
     if User.objects.filter(username=username).exists():
