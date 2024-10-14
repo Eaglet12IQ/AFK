@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.urls import reverse
+from profiles.models import Profile
 
 def register_submit(request):
     username = request.POST.get('login').lower()  # Получаем имя пользователя из POST
@@ -24,7 +26,8 @@ def register_submit(request):
     user = authenticate(username=username, password=password, email=email)
     if user is not None:
         login(request, user)  # Вход в систему
-        return redirect('profile')  # Перенаправление на профиль
+        Profile.objects.create(user=user, nickname="Новый пользователь")
+        return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
         
 def login_submit(request):
     email_username = request.POST.get('email/login').lower()
@@ -37,7 +40,7 @@ def login_submit(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)  # Вход в систему
-            return redirect('profile')  # Перенаправление на профиль
+            return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
         else:
             messages.error(request, 'Invalid email or password.')
             return redirect('login')
@@ -46,12 +49,12 @@ def login_submit(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)  # Вход в систему
-            return redirect('profile')  # Перенаправление на профиль
+            return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
         else:
             messages.error(request, 'Invalid email or password.')
             return redirect('login')
         
-def profile_logout(request):
+def profile_logout(request, user_id):
     logout(request)  # Завершает сессию пользователя
     return redirect('login')  # Перенаправление на страницу входа
 

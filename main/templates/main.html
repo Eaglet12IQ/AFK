@@ -17,7 +17,7 @@
             <a href="{% url 'main' %}" class="active"><i class="fas fa-home"></i></a>
             <a href="#"><i class="fas fa-briefcase"></i></a>
             <a href="#"><i class="fas fa-book"></i></a>
-            <a href="{% url 'profile' %}"><i class="fas fa-user"></i></a>
+            <a href="{% if user.is_authenticated %}{% url 'profile' user.id %}{% else %}{% url "login" %}{% endif %}"><i class="fas fa-user"></i></a>
             <a href="#"><i class="fas fa-envelope"></i></a>
         </div>
     </header>

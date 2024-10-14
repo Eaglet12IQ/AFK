@@ -17,7 +17,7 @@
             <a href="{% url 'main' %}"><i class="fas fa-home"></i></a>
             <a href="#"><i class="fas fa-briefcase"></i></a>
             <a href="#"><i class="fas fa-book"></i></a>
-            <a href="{% url 'profile' %}" class="active"><i class="fas fa-user"></i></a>
+            <a href="{% if user.is_authenticated %}{% url 'profile' user.id %}{% else %}{% url "login" %}{% endif %}" class="active"><i class="fas fa-user"></i></a>
             <a href="#"><i class="fas fa-envelope"></i></a>
         </div>
     </header>
@@ -25,16 +25,18 @@
         <div class="profile-info">
             <img alt="Profile img" height="100" src="" width="100" />
             <div class="details">
-                <h2>"UserName"</h2>
+                <h2>{{ profile.nickname }}</h2>
                 <p><i class="fas fa-briefcase"></i> Programmer</p>
                 <p><i class="fas fa-map-marker-alt"></i> Russia</p>
                 <p><i class="fas fa-calendar-alt"></i> Зарегистрирован в апреле 2021 года</p>
             </div>
+        {% if user.id == profile.user_id %}
             <div class="logout">
-                <a href="{% url 'profile/logout' %}">
+                <a href="{% url 'logout' user.id %}">
                     <button>Выйти</button>
                 </a>
             </div>
+        {% endif %}
         </div>
         <div class="nav">
             <a class="active" href="#"><i class="fas fa-user"></i> Профиль</a>
