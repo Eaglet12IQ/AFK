@@ -23,7 +23,7 @@
             <a href="{% url 'profile' %}">Other</a>
         </div>
         <div class="login">
-            <a href="{% url 'login' %}"> Sign in </a>
+            <a href="{% if user.is_authenticated %}{% url 'profile' user.id %}{% else %}{% url "login" %}{% endif %}"> Sign in </a>
         </div>
     </header>
     <div class="profile-container">
@@ -33,15 +33,17 @@
                     alt="Profile Image">
             </div>
             <div class="profile-info">
-                <h2>Username</h2>
+                <h2>{{ profile.nickname }}</h2>
                 <p>Email: <a href="mailto:user@example.com">user@example.com</a></p>
                 <p>Joined: <span>2022-01-01</span></p>
             </div>
+        {% if user.id == profile.user_id %}
             <div class="logout">
-                <a href="{% url 'profile/logout' %}">
+                <a href="{% url 'logout' user.id %}">
                     <button>Выйти</button>
                 </a>
             </div>
+        {% endif %}
         </div>
         <div class="profile-stats">
             <div class="stat">

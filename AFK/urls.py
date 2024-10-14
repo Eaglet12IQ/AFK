@@ -18,15 +18,16 @@ from django.contrib import admin
 from django.urls import path
 from main import views as main_views
 from auth import views as auth_views
+from profiles import views as profiles_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", main_views.main, name="main"),
-    path('profile/', main_views.profile, name='profile'),
+    path('profile/<int:user_id>/', profiles_views.profile_view, name='profile'),
     path('events/', main_views.events, name='events'),
     path("login/", main_views.login, name="login"),
     path("register/", main_views.register, name="register"),
     path("register/submit_form/", auth_views.register_submit, name="register/submit_form"),
     path("login/submit_form/", auth_views.login_submit, name="login/submit_form"), 
-    path("profile/logout/", auth_views.profile_logout, name="profile/logout"),
+    path("profile/<int:user_id>/logout/", auth_views.profile_logout, name="logout"),
 ]

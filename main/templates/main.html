@@ -23,7 +23,7 @@
             <a href="{% url 'profile' %}">Other</a>
         </div>
         <div class="login">
-            <a href="{% url 'login' %}"> Sign in </a>
+            <a href="{% if user.is_authenticated %}{% url 'profile' user.id %}{% else %}{% url "login" %}{% endif %}"> Sign in </a>
         </div>
     </header>
     <div class="preview">
