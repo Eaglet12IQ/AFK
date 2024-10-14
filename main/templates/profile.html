@@ -14,11 +14,11 @@
 <body>
     <header class="conteiner">
         <div class="logo">
-            <a href="main.html"> AFK</a>
+            <a href="{% url 'main' %}"> AFK</a>
         </div>
         <div class="navbar">
             <a href="{% url 'main' %}">Home</a>
-            <a href="{% url 'events' %}">Events</a>
+            <a href="{% if user.is_authenticated %}{% url 'events' %}{% else %}{% url "login" %}{% endif %}">Events</a>
             <a href="#">Top</a>
             <a href="">Other</a>
         </div>
@@ -33,11 +33,10 @@
                     alt="Profile Image">
             </div>
             <div class="profile-info">
-                <h2>{{ profile.nickname }}</h2>
-                <p>Email: <a href="mailto:user@example.com">user@example.com</a></p>
-                <p>Joined: <span>2022-01-01</span></p>
+                <h2>{{ nickname }}</h2>
+                <p>Joined: <span>{{ date_joined }}</span></p>
             </div>
-        {% if user.id == profile.user_id %}
+        {% if user.id == user_id %}
             <div class="logout">
                 <a href="{% url 'logout' user.id %}">
                     <button>Выйти</button>

@@ -14,16 +14,16 @@
 <body>
     <header class="conteiner">
         <div class="logo">
-            <a href="main.html"> AFK</a>
+            <a href="{% url 'main' %}"> AFK</a>
         </div>
         <div class="navbar">
             <a href="{% url 'main' %}">Home</a>
-            <a href="{% url 'events' %}">Events</a>
+            <a href="{% if user.is_authenticated %}{% url 'events' %}{% else %}{% url "login" %}{% endif %}">Events</a>
             <a href="#">Top</a>
             <a href="">Other</a>
         </div>
         <div class="login">
-            <a href="{% url 'login' %}"> Sign in </a>
+            <a href="{% if user.is_authenticated %}{% url 'profile' user.id %}{% else %}{% url "login" %}{% endif %}"> Sign in </a>
         </div>
     </header>
     <div class="container">
