@@ -6,105 +6,125 @@ body {
     height: 100vh;
 }
 
-
-.grid-bg { 
-    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
-        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); 
-    background-size: 70px 70px; 
-} 
-
-header{
-    padding: 20px;
+.background {
+    -webkit-mask-image: radial-gradient(#fff, transparent 85%);
+    mask-image: radial-gradient(#fff, transparent 85%);
+    background-size: 4rem;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='rgb(255 255 255 / 0.1)' viewBox='0 0 64 64'%3E%3Cpath d='M64 0H0v64'/%3E%3C/svg%3E");
+    background-position: 50%;
+    z-index: -10;
+    inset: 0;
+    position: absolute;
+    pointer-events: none;
 }
 
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    z-index: 5;
+    color: white;
+}
+
+.conteiner {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.logo {
+    flex: 1 1 0%;
+}
+
+.logo a {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding: 0.25rem 0.75rem;
+}
 
 .navbar {
-    background-color: #2a2a2a;
-    border-radius: 20px;
-    padding: 10px 20px;
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    width: 400px;
+    padding: 0.25rem;
+    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+    /* box-shadow: 0 0 0 2px #334155; */
+    background-color: rgb(26 27 29 / 90%);
+    border-radius: 9999px;
 }
 
 .navbar a {
-    color: #b0b0b0;
-    font-size: 24px;
-    text-decoration: none;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: 500;
+    color: #ebebeb;
+    transition: all 0.2s ease-in-out;
 }
 
-.navbar a.active {
-    background-color: #3a3a3a;
+.navbar a:hover {
+    padding: 0.25rem 0.75rem;
+    background-color: #2f365f;
     color: #ffffff;
 }
 
-.navbar a:hover{
-    background-color: #3a3a3a;
-    color: #ffffff;
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
 }
 
+.login a {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    transition: all 0.2s ease-linear;
+}
 
-
+.login a:hover {
+    background-color: #2f365f;
+}
 
 .preview {
-    height: 500px;
-    padding: 30px 0px;
     align-items: center;
-}
-
-.preview .text h1 {
-    font-family: "Playfair Display", serif;
-    font-size: 34px;
-    margin-bottom: 10px;
-    color: #ffffff;
-}
-
-.preview .text p {
-    color: #ffffff;
-    line-height: 1.5;
-}
-
-
-.conteiner {
-    max-width: 1200px;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    height: 750px;
     justify-content: center;
-    margin-bottom: 100px;
-    border-radius: 50px;
-    border: 3px solid white;
-    padding: 20px;
-    height: 75vh;
-
+    position: relative;
+    width: 100%;
+    z-index: 1
 }
 
-.button {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .button button {
-    background-color: #3a3a3a;
+.preview .title {
+    font-size: 8rem;
+    font-weight: 900;
+    z-index: 10;
+    color: white
+}
+
+.preview .subtitle {
+    color: hsla(0, 0%, 100%, .75);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 5rem;
+    z-index: 10;
+}
+
+.preview a {
+    z-index: 10;
+    transition: all 0.2s ease-in-out;
+    background-color: #6610f2;
+    font-size: 1.25rem;
+    color: #ebebeb;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+}
+
+.preview a:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);
     color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 18px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  
-  .button button:hover {
-    background-color: #2a2a2a;
-    transition: 0.3s;
-  }
-  
-  .button button:active {
-    background-color: #1c1c1c;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  }
-  
+}

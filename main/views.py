@@ -21,3 +21,9 @@ def register(request):
         return render(request, "profile.html")
     else:
         return render(request, "register.html")
+    
+def events(request):
+    if request.user.is_authenticated:
+        return render(request, "events.html")
+    else:
+        return render(request, "register.html")
