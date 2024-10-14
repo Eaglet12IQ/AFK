@@ -54,7 +54,7 @@ header {
 }
 
 .navbar a {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 1rem;
     border-radius: 9999px;
     font-size: 0.875rem;
     line-height: 1.5;
