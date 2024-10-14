@@ -135,6 +135,14 @@ header {
     color: #cccccc; 
 }
 
+.logout{
+    background-color: rgb(26 27 29 / 90%);
+    border-radius: 9999px;
+    border: 1px solid white;
+    padding: 10px;
+    
+}
+
 .profile-stats {
     display: flex;
     justify-content: space-between;
