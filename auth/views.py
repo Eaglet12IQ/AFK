@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 def register_submit(request):
-    username = request.POST.get('login')  # Получаем имя пользователя из POST
+    username = request.POST.get('login').lower()  # Получаем имя пользователя из POST
     password = request.POST.get('password')  # Получаем пароль из POST
     email = request.POST.get('email').lower()
 
@@ -27,7 +27,7 @@ def register_submit(request):
         return redirect('profile')  # Перенаправление на профиль
         
 def login_submit(request):
-    email_username = request.POST.get('email/login')
+    email_username = request.POST.get('email/login').lower()
     password = request.POST.get('password')
 
     if len(email_username.split("@")) == 2:
