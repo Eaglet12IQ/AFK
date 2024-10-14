@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", main_views.main, name="main"),
     path('profile/<int:user_id>/', profiles_views.profile_view, name='profile'),
+    path('events/', main_views.events, name='events'),
     path("login/", main_views.login, name="login"),
     path("register/", main_views.register, name="register"),
     path("register/submit_form/", auth_views.register_submit, name="register/submit_form"),
