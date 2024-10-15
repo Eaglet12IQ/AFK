@@ -18,7 +18,7 @@
         </div>
         <div class="navbar">
             <a href="{% url 'main' %}">Home</a>
-            <a href="{% if user.is_authenticated %}{% url 'events' %}{% else %}{% url "login" %}{% endif %}">Events</a>
+            <a href="{% url 'events' %}">Events</a>
             <a href="#">Top</a>
             <a href="">Other</a>
         </div>

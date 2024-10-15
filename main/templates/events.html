@@ -18,7 +18,7 @@
         </div>
         <div class="navbar">
             <a href="{% url 'main' %}">Home</a>
-            <a href="{% if user.is_authenticated %}{% url 'events' %}{% else %}{% url "login" %}{% endif %}">Events</a>
+            <a href="{% url 'events' %}">Events</a>
             <a href="#">Top</a>
             <a href="">Other</a>
         </div>
@@ -33,7 +33,7 @@
     <div class="container">
         <div class="slogan">
             <div class="slogan-container"><span>Выбирайте ваши любимые <span style="color: #6610f2;">интересы</span> и
-                    находите для себя новые занятия!</span>
+                    находите для себя новые занятия!</span> 
             </div>
             <div class="slogan-container-sub"> Найдите, чем заняться в одиночку, в паре или компании. </div>
         </div>
