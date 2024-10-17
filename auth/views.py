@@ -48,7 +48,9 @@ def login_submit(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         if remember_me:
-            request.session.set_expiry(1209600)  # Сессия истекает через 2 недели
+            request.session.set_expiry(1209600)
+        else:
+            request.session.set_expiry(0)
         login(request, user)  # Вход в систему
         return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
     else:
