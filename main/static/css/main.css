@@ -16,6 +16,17 @@ body {
     inset: 0;
     position: absolute;
     pointer-events: none;
+    animation: slide-background 3s linear infinite;
+}
+
+
+@keyframes slide-background {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateY(-128px);
+    }
 }
 
 header {
