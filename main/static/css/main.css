@@ -25,7 +25,7 @@ body {
         transform: translateX(0);
     }
     100% {
-        transform: translateY(-128px);
+        transform: translateY(-64px);
     }
 }
 
@@ -65,7 +65,7 @@ header {
 }
 
 .navbar a {
-    padding: 0.25rem 1rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.875rem;
     line-height: 1.5;

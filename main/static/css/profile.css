@@ -16,8 +16,18 @@ body {
     inset: 0;
     position: absolute;
     pointer-events: none;
+    animation: slide-background 3s linear infinite;
 }
 
+
+@keyframes slide-background {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateY(-64px);
+    }
+}
 
 header {
     display: flex;
@@ -49,13 +59,12 @@ header {
     justify-content: space-around;
     padding: 0.25rem;
     box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
-    /* box-shadow: 0 0 0 2px #334155; */
     background-color: rgb(26 27 29 / 90%);
     border-radius: 9999px;
 }
 
 .navbar a {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.875rem;
     line-height: 1.5;
@@ -80,7 +89,7 @@ header {
 .login a {
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
-    transition: all 0.2s ease-linear;
+    transition: all 0.2s;
 }
 
 .login a:hover {
@@ -91,10 +100,11 @@ header {
     max-width: 1280px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #2a2a2a75; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
     color:white;
+    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+    background-color: rgb(26 27 29 / 10%);
+    backdrop-filter: blur(10px);
 }
 
 .profile-header {
@@ -102,7 +112,7 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    border-bottom: 1px solid #4FACFE;
+    border-bottom: 1px solid rgb(99 102 241 / 0.6);
 }
 
 .profile-image {
@@ -136,11 +146,23 @@ header {
 }
 
 .logout{
-    background-color: rgb(26 27 29 / 90%);
     border-radius: 9999px;
-    border: 1px solid white;
-    padding: 10px;
-    
+    /*padding: 10px;*/
+    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+    background-color: rgb(26 27 29 / 90%);
+    transition: 0.3s;
+    padding: 0.25rem;
+}
+
+.logout a {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    transition: 0.2s;
+}
+
+.logout a:hover {
+    transition: 0.2s;
+    background-color: #5f2f2f;
 }
 
 .profile-stats {
@@ -185,9 +207,9 @@ header {
     width: 150px;
     height: 250px;
     background: #1B1821;
-    border: 1px solid #4FACFE;
+    border: 1px solid rgb(99 102 241 / 0.6);
     box-sizing: border-box;
-    box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);
+    box-shadow: 0 10px 15px -3px rgb(99 102 241 / 0.6);
     border-radius: 10px;
     position: relative;
     display: flex;
