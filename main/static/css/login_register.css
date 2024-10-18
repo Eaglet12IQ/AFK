@@ -1,16 +1,23 @@
-body { 
-    font-family: 'Inter', sans-serif; 
-    background-color: #0d0d0d; 
-    color: #e5e5e5; 
-    height: 100vh; 
-    margin: 0; 
-    padding: 0; 
-} 
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-.grid-bg { 
-    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
-        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); 
-    background-size: 70px 70px; 
-} 
-
-
+.background {
+    -webkit-mask-image: radial-gradient(#fff, transparent 85%);
+    mask-image: radial-gradient(#fff, transparent 85%);
+    background-size: 4rem;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='rgb(255 255 255 / 0.1)' viewBox='0 0 64 64'%3E%3Cpath d='M64 0H0v64'/%3E%3C/svg%3E");
+    background-position: 50%;
+    z-index: -10;
+    inset: 0;
+    position: absolute;
+    pointer-events: none;
+}

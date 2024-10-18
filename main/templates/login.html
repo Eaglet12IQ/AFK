@@ -11,7 +11,7 @@
     <title>Document</title>
 </head>
 
-<body class="grid-bg min-h-screen flex flex-col items-center justify-center">
+<body>
     <div class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
         <div class="flex justify-center mb-6">
             <a href="{% url 'main' %}"><img alt="Logo" class="h-12" src="{% static 'images/logo.png' %}" width="50"
@@ -23,7 +23,7 @@
             <div> <label class="block text-sm font-medium text-gray-300" for="email/login"> Email address or Login
                 </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
-                    id="email/login" name="email/login" required=""/> </div>
+                    id="email/login" name="email/login" required="" /> </div>
             <div> <label class="block text-sm font-medium text-gray-300" for="password"> Password </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="password" name="password" required="" type="password" /> </div>
@@ -40,11 +40,11 @@
                     type="submit"> Sign in </button> </div>
             <div class="flex items-center justify-center">
                 {% if messages %}
-                    {% for message in messages %}
-                        <label class="ml-2 block text-sm text-red-500" for="remember_me">
-                            {{ message }}
-                        </label>
-                    {% endfor %}
+                {% for message in messages %}
+                <label class="ml-2 block text-sm text-red-500" for="remember_me">
+                    {{ message }}
+                </label>
+                {% endfor %}
                 {% endif %}
             </div>
             <div class="relative mt-6">
@@ -69,9 +69,13 @@
                 </a> </p>
         </div>
     </div>
-</body>
-
-</html>
+    <div
+        class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
+    </div>
+    <div
+        class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
+    </div>
+    <div class="background"></div>
 </body>
 
 </html>
