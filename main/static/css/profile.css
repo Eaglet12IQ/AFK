@@ -1,3 +1,11 @@
+::-webkit-scrollbar {
+    /* chrome based */
+    width: 0px;
+    /* ширина scrollbar'a */
+    background: transparent;
+    /* опционально  */
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -250,4 +258,40 @@ header {
 
 .interest-box.selected .label {
     color: black;
+}
+
+.events h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #ffffff; /* Цвет заголовка */
+}
+
+.task-list {
+    list-style-type: none; 
+    padding: 0;
+    margin: 0; 
+}
+
+.task-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px; 
+    margin: 10px 0; 
+    border-radius: 8px; 
+    transition: transform 0.3s, background-color 0.3s; 
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-date {
+    font-size: 14px;
+    color: #cccccc; /* Цвет даты */
+    margin-left: 10px; /* Отступ от задания */
+}
+
+.task-item:hover {
+    transform: scale(1.02); 
+    background-color: rgba(255, 255, 255, 0.2); 
+
 }

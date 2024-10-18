@@ -18,7 +18,7 @@
                     height="50" /></a>
         </div>
         <h2 class="text-center text-2xl font-semibold text-white mb-6"> Sign in to your account </h2>
-        <form action="{% url 'register/submit_form' %}" method="POST" class="space-y-6" onsubmit="return validateForm()">
+        <form action="{% url 'login/submit_form' %}" method="POST" class="space-y-6">
             {% csrf_token %}
             <div> <label class="block text-sm font-medium text-gray-300" for="email/login"> Email address or Login
                 </label> <input

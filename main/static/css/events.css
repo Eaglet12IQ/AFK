@@ -1,3 +1,11 @@
+::-webkit-scrollbar {
+    /* chrome based */
+    width: 0px;
+    /* ширина scrollbar'a */
+    background: transparent;
+    /* опционально  */
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -16,6 +24,17 @@ body {
     inset: 0;
     position: absolute;
     pointer-events: none;
+    animation: slide-background 3s linear infinite;
+}
+
+
+@keyframes slide-background {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateY(-64px);
+    }
 }
 
 header {
@@ -48,13 +67,12 @@ header {
     justify-content: space-around;
     padding: 0.25rem;
     box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
-    /* box-shadow: 0 0 0 2px #334155; */
     background-color: rgb(26 27 29 / 90%);
     border-radius: 9999px;
 }
 
 .navbar a {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.875rem;
     line-height: 1.5;
@@ -79,7 +97,7 @@ header {
 .login a {
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
-    transition: all 0.2s ease-linear;
+    transition: all 0.2s;
 }
 
 .login a:hover {
@@ -216,6 +234,7 @@ header {
     color: #ebebeb;
     font-weight: 500;
     padding: 0.5rem 1.25rem;
+    margin:0 10px;
     border-radius: 9999px;
 }
 
@@ -224,3 +243,41 @@ header {
     box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);
     color: #ffffff;
 }
+.difficulty-selection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Стили для кнопок выбора сложности */
+
+.difficulty-button.easy {
+    background-color: #28a745; 
+}
+
+.difficulty-button.medium {
+    background-color: #ffc107; 
+}
+
+.difficulty-button.hard {
+    background-color: #dc3545; 
+}
+
+/* Тени для каждой сложности */
+.difficulty-button.easy:hover {
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.5); 
+}
+
+.difficulty-button.medium:hover {
+    box-shadow: 0 4px 6px rgba(255, 193, 7, 0.5); 
+}
+
+.difficulty-button.hard:hover {
+    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.5); 
+}
+
+.difficulty-button.selected {
+    border: 2px solid #fff; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); 
+}
+

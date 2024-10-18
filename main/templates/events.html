@@ -33,7 +33,7 @@
     <div class="container">
         <div class="slogan">
             <div class="slogan-container"><span>Выбирайте ваши любимые <span style="color: #6610f2;">интересы</span> и
-                    находите для себя новые занятия!</span> 
+                    находите для себя новые занятия!</span>
             </div>
             <div class="slogan-container-sub"> Найдите, чем заняться в одиночку, в паре или компании. </div>
         </div>
@@ -41,25 +41,29 @@
     <div class="interest">
         <div class="interest-box" onclick="selectBox(this)">
             <div class="image-container">
-                <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13" alt="Sport">
+                <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
+                    alt="Sport">
             </div>
             <div class="label">Sport</div>
         </div>
         <div class="interest-box" onclick="selectBox(this)">
             <div class="image-container">
-                <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13" alt="Creative">
+                <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
+                    alt="Creative">
             </div>
             <div class="label">Creative</div>
         </div>
         <div class="interest-box" onclick="selectBox(this)">
             <div class="image-container">
-                <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13" alt="Technology">
+                <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13"
+                    alt="Technology">
             </div>
             <div class="label">Technology</div>
         </div>
         <div class="interest-box" onclick="selectBox(this)">
             <div class="image-container">
-                <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13" alt="Travel">
+                <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13"
+                    alt="Travel">
             </div>
             <div class="label">Travel</div>
         </div>
@@ -69,23 +73,49 @@
             </div>
             <div class="label">Food</div>
         </div>
-        
+
     </div>
 
     <div class="generate-container">
+        <div class="difficulty-selection">
+            <button class="difficulty-button easy" onclick="selectDifficulty('easy')">Легкая</button>
+            <button class="difficulty-button medium" onclick="selectDifficulty('medium')">Средняя</button>
+            <button class="difficulty-button hard" onclick="selectDifficulty('hard')">Сложная</button>
+        </div>
         <button>Сгенерировать занятие</button>
     </div>
 
-    <div class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]"></div>
-    <div class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]"></div>
+    <div
+        class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
+    </div>
+    <div
+        class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
+    </div>
     <div class="background"></div>
 </body>
 
 <script>
-function selectBox(box) {
-    // Toggle класс selected для выбранного блока
-    box.classList.toggle('selected');
-}
+    function selectBox(box) {
+        // Toggle класс selected для выбранного блока
+        box.classList.toggle('selected');
+    }
+
+    function selectBox(box) {
+        // Toggle класс selected для выбранного блока
+        box.classList.toggle('selected');
+    }
+
+    function selectDifficulty(difficulty) {
+        // Удаляем класс 'selected' у всех кнопок сложности
+        const buttons = document.querySelectorAll('.difficulty-button');
+        buttons.forEach(button => {
+            button.classList.remove('selected');
+        });
+
+        // Добавляем класс 'selected' к выбранной кнопке
+        const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
+        selectedButton.classList.add('selected');
+    }
 </script>
 
 </html>
