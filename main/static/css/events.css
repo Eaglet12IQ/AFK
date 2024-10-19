@@ -239,7 +239,7 @@ header {
     border-radius: 9999px;
 }
 
-.generate-container button:hover {
+.generate-container-button:hover {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);
     color: #ffffff;
@@ -253,32 +253,25 @@ header {
 /* Стили для кнопок выбора сложности */
 
 .difficulty-button.easy {
+    outline: 2px solid #ffffff00;
     background-color: #28a745; 
-}
-
-.difficulty-button.medium {
-    background-color: #ffc107; 
-}
-
-.difficulty-button.hard {
-    background-color: #dc3545; 
-}
-
-/* Тени для каждой сложности */
-.difficulty-button.easy:hover {
     box-shadow: 0 4px 6px rgba(40, 167, 69, 0.5); 
 }
 
-.difficulty-button.medium:hover {
+.difficulty-button.medium {
+    outline: 2px solid #ffffff00;
+    background-color: #ffc107; 
     box-shadow: 0 4px 6px rgba(255, 193, 7, 0.5); 
 }
 
-.difficulty-button.hard:hover {
+.difficulty-button.hard {
+    outline: 2px solid #ffffff00;
+    background-color: #dc3545; 
     box-shadow: 0 4px 6px rgba(220, 53, 69, 0.5); 
 }
 
 .difficulty-button.selected {
-    border: 2px solid #fff; 
+    outline-color: #fff;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); 
 }
 
