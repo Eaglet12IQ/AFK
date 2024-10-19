@@ -22,3 +22,9 @@ def events(request):
         return render(request, "events.html")
     else:
         return redirect("login")
+
+def reset(request):
+    return render(request, "login_reset.html")
+
+def reset_password(request):
+    return render(request, "reset_password.html")
