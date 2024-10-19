@@ -1,3 +1,11 @@
+::-webkit-scrollbar {
+    /* chrome based */
+    width: 0px;
+    /* ширина scrollbar'a */
+    background: transparent;
+    /* опционально  */
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -16,6 +24,18 @@ body {
     inset: 0;
     position: absolute;
     pointer-events: none;
+    animation: slide-background 3s linear infinite;
+    height: calc(100vh + 64px)
+}
+
+
+@keyframes slide-background {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateY(-64px);
+    }
 }
 
 header {
@@ -48,13 +68,12 @@ header {
     justify-content: space-around;
     padding: 0.25rem;
     box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
-    /* box-shadow: 0 0 0 2px #334155; */
     background-color: rgb(26 27 29 / 90%);
     border-radius: 9999px;
 }
 
 .navbar a {
-    padding: 0.25rem 1rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.875rem;
     line-height: 1.5;
@@ -79,7 +98,7 @@ header {
 .login a {
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
-    transition: all 0.2s ease-linear;
+    transition: all 0.2s;
 }
 
 .login a:hover {

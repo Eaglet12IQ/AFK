@@ -17,8 +17,9 @@
             <a href="{% url 'main' %}"><img alt="Logo" class="h-12" height="50" src="{% static 'images/logo.png' %}"
                     width="50" /></a>
         </div>
+
         <h2 class="text-center text-2xl font-semibold text-white mb-6"> Sign up your account</h2>
-        <form action="{% url 'register/submit_form' %}" method="POST" class="space-y-6">
+        <form action="{% url 'register/submit_form' %}" method="POST" class="space-y-6" onsubmit="return validateForm()">
             {% csrf_token %}
             <div> <label class="block text-sm font-medium text-gray-300" for="email"> Email address </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
@@ -44,7 +45,7 @@
                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     type="submit"> Register </button>
             </div>
-            <div class="flex items-center justify-center"> 
+            <div class="flex items-center justify-center flex-col"> 
                 {% if messages %}
                     {% for message in messages %}
                         <label class="ml-2 block text-sm text-red-500" for="remember_me">
@@ -60,6 +61,7 @@
                 </a> </p>
         </div>
     </div>
+
     <div
         class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
     </div>
@@ -67,6 +69,47 @@
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
     </div>
     <div class="background"></div>
+    <script>
+        function validateForm() {
+            const checkbox = document.getElementById('remember_me');
+            const password = document.getElementById('password').value;
+            const passwordAgain = document.getElementById('password-again').value;
+            const messagesDiv = document.querySelector('.flex.items-center.justify-center');
+            
+            
+            messagesDiv.innerHTML = '';
+    
+            let errors = [];
+    
+            
+            if (!checkbox.checked) {
+                errors.push('Пожалуйста, согласитесь на обработку персональных данных.');
+            }
+    
+            
+            if (password.length < 8) {
+                errors.push('Пароль должен содержать минимум 8 символов.');
+            }
+    
+            
+            if (password !== passwordAgain) {
+                errors.push('Пароли не совпадают.');
+            }
+    
+            
+            if (errors.length > 0) {
+                errors.forEach(error => {
+                    const errorLabel = document.createElement('label');
+                    errorLabel.className = 'ml-2 block text-sm text-red-500';
+                    errorLabel.textContent = error;
+                    messagesDiv.appendChild(errorLabel);
+                });
+                return false; 
+            }
+    
+            return true; 
+        }
+    </script>
 </body>
 
 </html>
