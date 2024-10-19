@@ -32,27 +32,30 @@ def register_submit(request):
 def login_submit(request):
     email_username = request.POST.get('email/login').lower()
     password = request.POST.get('password')
+    remember_me = request.POST.get('remember_me')
 
     if len(email_username.split("@")) == 2:
         email = email_username
-        user = User.objects.get(email=email)
-        username = user.username
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)  # Вход в систему
-            return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
-        else:
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
             messages.error(request, 'Invalid email or password.')
             return redirect('login')
+        username = user.username
     else:
         username = email_username
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)  # Вход в систему
-            return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
+
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if remember_me:
+            request.session.set_expiry(1209600)
         else:
-            messages.error(request, 'Invalid email or password.')
-            return redirect('login')
+            request.session.set_expiry(0)
+        login(request, user)  # Вход в систему
+        return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
+    else:
+        messages.error(request, 'Invalid email or password.')
+        return redirect('login')
         
 def profile_logout(request, user_id):
     logout(request)  # Завершает сессию пользователя

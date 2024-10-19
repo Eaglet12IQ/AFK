@@ -39,35 +39,35 @@
         </div>
     </div>
     <div class="interest">
-        <div class="interest-box" onclick="selectBox(this)">
+        <div class="interest-box" data="Sport" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
                     alt="Sport">
             </div>
             <div class="label">Sport</div>
         </div>
-        <div class="interest-box" onclick="selectBox(this)">
+        <div class="interest-box" data="Creative" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
                     alt="Creative">
             </div>
             <div class="label">Creative</div>
         </div>
-        <div class="interest-box" onclick="selectBox(this)">
+        <div class="interest-box" data="Technology" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13"
                     alt="Technology">
             </div>
             <div class="label">Technology</div>
         </div>
-        <div class="interest-box" onclick="selectBox(this)">
+        <div class="interest-box" data="Travel" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13"
                     alt="Travel">
             </div>
             <div class="label">Travel</div>
         </div>
-        <div class="interest-box" onclick="selectBox(this)">
+        <div class="interest-box" data="Food" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Food">
             </div>
@@ -92,30 +92,68 @@
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
     </div>
     <div class="background"></div>
+
 </body>
 
 <script>
-    function selectBox(box) {
-        // Toggle класс selected для выбранного блока
-        box.classList.toggle('selected');
-    }
-
-    function selectBox(box) {
-        // Toggle класс selected для выбранного блока
-        box.classList.toggle('selected');
-    }
-
     function selectDifficulty(difficulty) {
-        // Удаляем класс 'selected' у всех кнопок сложности
-        const buttons = document.querySelectorAll('.difficulty-button');
-        buttons.forEach(button => {
-            button.classList.remove('selected');
-        });
+      // Удаляем класс 'selected' у всех кнопок сложности
+      const buttons = document.querySelectorAll('.difficulty-button');
+      buttons.forEach(button => {
+          button.classList.remove('selected');
+      });
 
-        // Добавляем класс 'selected' к выбранной кнопке
-        const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
-        selectedButton.classList.add('selected');
+      // Добавляем класс 'selected' к выбранной кнопке
+      const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
+      selectedButton.classList.add('selected');
     }
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    function selectBox(box) {
+      // Toggle класс selected для выбранного блока
+      box.classList.toggle('selected');
+      const expires = new Date(9999, 11, 31).toUTCString();
+      const interestsCookie = getCookie('interests');
+      if (interestsCookie) {
+          // Если кука существует, парсим ее как JSON
+          myDictFromCookie = JSON.parse(interestsCookie);
+      } else {
+          // Если кука не существует, задаем значение по умолчанию
+          myDictFromCookie = []; // Или любое другое значение по умолчанию
+      }
+
+      const boxValue = box.getAttribute('data'); // Получаем уникальный id
+      if (myDictFromCookie.includes(boxValue)) {
+          myDictFromCookie = myDictFromCookie.filter(element => element !== boxValue);
+      } else {
+          myDictFromCookie.push(boxValue);
+      }
+
+      const myDictFromCookieStr = JSON.stringify(myDictFromCookie);
+      document.cookie = `interests=${myDictFromCookieStr}; expires=new Date(9999, 11, 31).toUTCString(); path=/;`;
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const interestsCookie = getCookie('interests');
+      let myDictFromCookie = [];
+
+      if (interestsCookie) {
+          myDictFromCookie = JSON.parse(interestsCookie);
+      }
+
+      // Ищем все элементы с классом 'box'
+      const boxes = document.querySelectorAll('.interest-box');
+
+      boxes.forEach(box => {
+          const boxValue = box.getAttribute('data');
+          if (myDictFromCookie.includes(boxValue)) {
+              box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
+          }
+      });
+    });
 </script>
 
 </html>

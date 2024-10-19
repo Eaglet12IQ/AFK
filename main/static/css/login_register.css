@@ -1,3 +1,4 @@
+
 ::-webkit-scrollbar {
     /* chrome based */
     width: 0px;
@@ -31,5 +32,3 @@ body {
     pointer-events: none;
     height: calc(100vh + 64px)
 }
-
-
