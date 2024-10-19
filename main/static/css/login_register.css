@@ -29,6 +29,7 @@ body {
     inset: 0;
     position: absolute;
     pointer-events: none;
+    height: calc(100vh + 64px)
 }
 
 
