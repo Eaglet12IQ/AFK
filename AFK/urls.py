@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from main import views as main_views
-from auth import views as auth_views
+from authentication import views as auth_views
 from profiles import views as profiles_views
 
 urlpatterns = [
@@ -25,8 +25,9 @@ urlpatterns = [
     path("", main_views.main, name="main"),
     path('profile/<int:user_id>/', profiles_views.profile_view, name='profile'),
     path('events/', main_views.events, name='events'),
-    path('reset/', main_views.reset, name='reset'),
-    path('reset/reset_password', main_views.reset_password, name='reset_password'),
+    path('forgot_password/', main_views.forgot_password, name='forgot_password'),
+    path('forgot_password/submit_form/', auth_views.forgot_password_submit, name='forgot_password/submit_form'),
+    path('forgot_password/reset_password/', main_views.reset_password, name='forgot_password/reset_password'),
     path("login/", main_views.login, name="login"),
     path("register/", main_views.register, name="register"),
     path("register/submit_form/", auth_views.register_submit, name="register/submit_form"),

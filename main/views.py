@@ -23,8 +23,14 @@ def events(request):
     else:
         return redirect("login")
 
-def reset(request):
-    return render(request, "login_reset.html")
+def forgot_password(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
+    else:
+        return render(request, "forgot_password.html")
 
 def reset_password(request):
-    return render(request, "reset_password.html")
+    if request.user.is_authenticated:
+        return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
+    else:
+        return render(request, "reset_password.html")
