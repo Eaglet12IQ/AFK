@@ -32,7 +32,12 @@
     </header>
     <div class="container">
         <div class="slogan">
-            <div class="slogan-container"><span>Выбирайте ваши любимые <span style="color: #6610f2;">интересы</span> и
+            <div class="slogan-container"><span>Выбирайте ваши любимые <span style="
+                font-weight: bold;
+                background: linear-gradient(90deg, #6610f2, #4FACFE);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 10px;">интересы</span> и
                     находите для себя новые занятия!</span>
             </div>
             <div class="slogan-container-sub"> Найдите, чем заняться в одиночку, в паре или компании. </div>
@@ -82,7 +87,7 @@
             <button class="difficulty-button medium" onclick="selectDifficulty('medium')">Средняя</button>
             <button class="difficulty-button hard" onclick="selectDifficulty('hard')">Сложная</button>
         </div>
-        <button class="generate-container-button">Сгенерировать занятие</button>
+        <button class="generate-container-button" id="open-modal-btn">Сгенерировать занятие</button>
     </div>
 
     <div
@@ -93,66 +98,116 @@
     </div>
     <div class="background"></div>
 
+    <div class="modal" id="my-modal">
+        <div class="modal-window">
+            <h2 class="modal-title">Сгенерированная Идея</h2>
+            <div class="idea">
+                <h3>Сходите на стадион и посмотрите футбольный матч</h3>
+                <p class="idea-description">Это отличная возможность провести время с друзьями и насладиться атмосферой
+                    спортивного события!</p>
+            </div>
+            <div class="img">
+                <img src="{% static 'images/like.png' %}" alt="Like" width="30%">
+                <img src="{% static 'images/reload.png' %}" alt="Dislike" width="90px">
+                <img src="{% static 'images/dislike.png' %}" alt="Dislike" width="30%">
+            </div>
+            <div class="modal-window-close">
+                <button class="btn-close" id="close-modal-btn">X</button>
+            </div>
+        </div>
+        <div class="overlay"></div>
+    </div>
+
 </body>
 
 <script>
-    function selectDifficulty(difficulty) {
-      // Удаляем класс 'selected' у всех кнопок сложности
-      const buttons = document.querySelectorAll('.difficulty-button');
-      buttons.forEach(button => {
-          button.classList.remove('selected');
-      });
+    // Открытие модального окна
+    const modalButtons = document.querySelectorAll('#open-modal-btn');
+    modalButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            let title = button.getAttribute('data-title')
+            document.getElementById("my-modal").classList.add("open");
+        });
+    });
 
-      // Добавляем класс 'selected' к выбранной кнопке
-      const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
-      selectedButton.classList.add('selected');
+    // Закрытие модального окна по крестику
+    document.getElementById("close-modal-btn").addEventListener("click", function () {
+        document.getElementById("my-modal").classList.remove("open")
+    })
+
+    // Закрытие модального окна при нажатии на Esc
+    window.addEventListener('keydown', (e) => {
+        if ((e.key) === "Escape") {
+            document.getElementById("my-modal").classList.remove("open")
+        }
+    });
+
+    // Закрытие модального окна при клике вне его
+    document.querySelector("#my-modal .modal-window").addEventListener('click', event => {
+        event._isClickWithInModal = true;
+    });
+    document.getElementById("my-modal").addEventListener('click', event => {
+        if (event._isClickWithInModal) return;
+        event.currentTarget.classList.remove('open');
+    });
+
+    function selectDifficulty(difficulty) {
+        // Удаляем класс 'selected' у всех кнопок сложности
+        const buttons = document.querySelectorAll('.difficulty-button');
+        buttons.forEach(button => {
+            button.classList.remove('selected');
+        });
+
+        // Добавляем класс 'selected' к выбранной кнопке
+        const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
+        selectedButton.classList.add('selected');
     }
 
     function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
     }
     function selectBox(box) {
-      // Toggle класс selected для выбранного блока
-      box.classList.toggle('selected');
-      const expires = new Date(9999, 11, 31).toUTCString();
-      const interestsCookie = getCookie('interests');
-      if (interestsCookie) {
-          // Если кука существует, парсим ее как JSON
-          myDictFromCookie = JSON.parse(interestsCookie);
-      } else {
-          // Если кука не существует, задаем значение по умолчанию
-          myDictFromCookie = []; // Или любое другое значение по умолчанию
-      }
+        // Toggle класс selected для выбранного блока
+        box.classList.toggle('selected');
+        const expires = new Date(9999, 11, 31).toUTCString();
+        const interestsCookie = getCookie('interests');
+        if (interestsCookie) {
+            // Если кука существует, парсим ее как JSON
+            myDictFromCookie = JSON.parse(interestsCookie);
+        } else {
+            // Если кука не существует, задаем значение по умолчанию
+            myDictFromCookie = []; // Или любое другое значение по умолчанию
+        }
 
-      const boxValue = box.getAttribute('data'); // Получаем уникальный id
-      if (myDictFromCookie.includes(boxValue)) {
-          myDictFromCookie = myDictFromCookie.filter(element => element !== boxValue);
-      } else {
-          myDictFromCookie.push(boxValue);
-      }
+        const boxValue = box.getAttribute('data'); // Получаем уникальный id
+        if (myDictFromCookie.includes(boxValue)) {
+            myDictFromCookie = myDictFromCookie.filter(element => element !== boxValue);
+        } else {
+            myDictFromCookie.push(boxValue);
+        }
 
-      const myDictFromCookieStr = JSON.stringify(myDictFromCookie);
-      document.cookie = `interests=${myDictFromCookieStr}; expires=new Date(9999, 11, 31).toUTCString(); path=/;`;
+        const myDictFromCookieStr = JSON.stringify(myDictFromCookie);
+        document.cookie = `interests=${myDictFromCookieStr}; expires=new Date(9999, 11, 31).toUTCString(); path=/;`;
     }
-    document.addEventListener('DOMContentLoaded', function() {
-      const interestsCookie = getCookie('interests');
-      let myDictFromCookie = [];
+    document.addEventListener('DOMContentLoaded', function () {
+        const interestsCookie = getCookie('interests');
+        let myDictFromCookie = [];
 
-      if (interestsCookie) {
-          myDictFromCookie = JSON.parse(interestsCookie);
-      }
+        if (interestsCookie) {
+            myDictFromCookie = JSON.parse(interestsCookie);
+        }
 
-      // Ищем все элементы с классом 'box'
-      const boxes = document.querySelectorAll('.interest-box');
+        // Ищем все элементы с классом 'box'
+        const boxes = document.querySelectorAll('.interest-box');
 
-      boxes.forEach(box => {
-          const boxValue = box.getAttribute('data');
-          if (myDictFromCookie.includes(boxValue)) {
-              box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
-          }
-      });
+        boxes.forEach(box => {
+            const boxValue = box.getAttribute('data');
+            if (myDictFromCookie.includes(boxValue)) {
+                box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
+            }
+        });
     });
 </script>
 
