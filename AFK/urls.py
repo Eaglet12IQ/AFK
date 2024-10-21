@@ -27,7 +27,6 @@ urlpatterns = [
     path('events/', main_views.events, name='events'),
     path('forgot_password/', main_views.forgot_password, name='forgot_password'),
     path('forgot_password/submit_form/', auth_views.forgot_password_submit, name='forgot_password/submit_form'),
-    path('forgot_password/reset_password/', main_views.reset_password, name='forgot_password/reset_password'),
     path("login/", main_views.login, name="login"),
     path("register/", main_views.register, name="register"),
     path("register/submit_form/", auth_views.register_submit, name="register/submit_form"),
