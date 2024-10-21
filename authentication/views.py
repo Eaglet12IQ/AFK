@@ -78,7 +78,9 @@ def forgot_password_submit(request):
     if request.method == "POST":
         email = request.POST.get('email').lower()
         code = request.POST.get('code')
-        if code is None:
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        if code is None and email is not None and password1 is None and password2 is None:
             try:
                 user = User.objects.get(email=email)
                 confirmation_code = uuid.uuid4()
@@ -87,12 +89,21 @@ def forgot_password_submit(request):
                 return JsonResponse({"message": "Код отправлен."}, status=200)
             except User.DoesNotExist:
                 return JsonResponse({"message": "Пользователя с такой почтой не существует."}, status=400)
-        else:
+        elif code is not None and email is not None and password1 is None and password2 is None:
             user = User.objects.get(email=email)
             password_reset_codes = PasswordResetCode.objects.filter(user_id=user.id)
             last_code = PasswordResetCode.objects.filter(user_id=user.id).order_by('-id').first().code
             if password_reset_codes.filter(code=code).exists() and code == last_code:
                 PasswordResetCode.objects.filter(user_id=user.id).delete()
-                return JsonResponse({"redirect_url": "reset_password/"}, status=200)
+                return JsonResponse({"message": "Код подтвержден."}, status=200)
             else:
-                return JsonResponse({"message": "Код неверен либо устарел."}, status=400)
+                return JsonResponse({"message": "Код неверен либо устарел."}, status=400) 
+        else:
+            if password1 != password2:
+                return JsonResponse({"message": "Пароли не совпадают."}, status=400)
+            else:
+                user = User.objects.get(email=email)
+                user.set_password(password1)
+                user.save()
+                login(request, user)
+                return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': user.id})}, status=200)
