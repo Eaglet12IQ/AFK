@@ -10,6 +10,7 @@ from django.core.mail import send_mail
 import uuid
 from django.conf import settings
 from authentication.models import PasswordResetCode
+import threading
 
 def register_submit(request):
     username = request.POST.get('login').lower()  # Получаем имя пользователя из POST
@@ -73,7 +74,7 @@ def forgot_password_submit(request):
         message = f'Your confirmation code is: {confirmation_code}'
         email_from = settings.DEFAULT_FROM_EMAIL
         recipient_list = [email]
-        send_mail(subject, message, email_from, recipient_list)
+        threading.Thread(target=send_mail, args=(subject, message, email_from, recipient_list)).start()
 
     if request.method == "POST":
         email = request.POST.get('email').lower()
