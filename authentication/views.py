@@ -13,6 +13,21 @@ from authentication.models import PasswordResetCode
 import threading
 import regex as re
 
+def password_check(password):
+    if len(password) < 8:
+        return JsonResponse({"message": "Пароль содержит менее 8 символов."}, status=400)
+    
+    if not re.search(r'\p{Lu}', password):
+        return JsonResponse({"message": "Пароль не содержит хотя бы одну заглавную букву."}, status=400)
+    
+    if not re.search(r'\p{Nd}', password):
+        return JsonResponse({"message": "Пароль не содержит хотя бы одну цифру."}, status=400)
+    
+    if not re.search(r'[^\w\s]', password):
+        return JsonResponse({"message": "Пароль не содержит хотя бы один специальный символ."}, status=400)
+    
+    return False
+
 def register_submit(request):
     if request.method == "POST":
         email = request.POST.get('email').lower()
@@ -21,17 +36,11 @@ def register_submit(request):
         password2 = request.POST.get('password2')
 
         if password1 == password2:
-            if len(password1) < 8:
-                return JsonResponse({"message": "Пароль содержит менее 8 символов."}, status=400)
-            
-            if not re.search(r'\p{Lu}', password1):
-                return JsonResponse({"message": "Пароль не содержит хотя бы одну заглавную букву."}, status=400)
-            
-            if not re.search(r'\p{Nd}', password1):
-                return JsonResponse({"message": "Пароль не содержит хотя бы одну цифру."}, status=400)
-            
-            if not re.search(r'[^\w\s]', password1):
-                return JsonResponse({"message": "Пароль не содержит хотя бы один специальный символ."}, status=400)
+
+            check = password_check(password1)
+
+            if check:
+                return check
 
             # Проверяем, существует ли уже пользователь
             if User.objects.filter(username=login).exists():
@@ -118,6 +127,9 @@ def forgot_password_submit(request):
             if password1 != password2:
                 return JsonResponse({"message": "Пароли не совпадают."}, status=400)
             else:
+                check = password_check(password1)
+                if check:
+                    return check
                 user = User.objects.get(email=email)
                 user.set_password(password1)
                 user.save()
