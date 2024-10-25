@@ -11,6 +11,7 @@ import uuid
 from django.conf import settings
 from authentication.models import PasswordResetCode
 import threading
+import regex as re
 
 def register_submit(request):
     if request.method == "POST":
@@ -20,6 +21,18 @@ def register_submit(request):
         password2 = request.POST.get('password2')
 
         if password1 == password2:
+            if len(password1) < 8:
+                return JsonResponse({"message": "Пароль содержит менее 8 символов."}, status=400)
+            
+            if not re.search(r'\p{Lu}', password1):
+                return JsonResponse({"message": "Пароль не содержит хотя бы одну заглавную букву."}, status=400)
+            
+            if not re.search(r'\p{Nd}', password1):
+                return JsonResponse({"message": "Пароль не содержит хотя бы одну цифру."}, status=400)
+            
+            if not re.search(r'[^\w\s]', password1):
+                return JsonResponse({"message": "Пароль не содержит хотя бы один специальный символ."}, status=400)
+
             # Проверяем, существует ли уже пользователь
             if User.objects.filter(username=login).exists():
                 return JsonResponse({"message": "Пользователь с таким именем уже существует."}, status=400)
