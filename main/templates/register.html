@@ -34,6 +34,9 @@
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="password2" name="password-again" required="" type="password"/>
             </div>
+            <div style="display: block;" id="code"> <label class="block text-sm font-medium text-gray-300"> Code </label> <input
+                class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
+                required="" /> </div>
             <div class="flex items-center">
                 <input
                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-600 rounded bg-gray-700"
@@ -111,6 +114,7 @@
                 },
                 success: function(response) {
                     window.location.href = response.redirect_url;
+                    // document.getElementById('code').style.display = 'block';
                 },
                 error: function(xhr) {
                     responseMessageElement.textContent = xhr.responseJSON.message;
