@@ -19,8 +19,7 @@
         </div>
 
         <h2 class="text-center text-2xl font-semibold text-white mb-6"> Sign up your account</h2>
-        <form action="{% url 'register/submit_form' %}" method="POST" class="space-y-6" onsubmit="return validateForm()">
-            {% csrf_token %}
+        <form id="register_form" class="space-y-6">
             <div> <label class="block text-sm font-medium text-gray-300" for="email"> Email address </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="email" name="email" required="" type="email" /> </div>
@@ -29,16 +28,19 @@
                     id="login" name="login" required="" type="login" /> </div>
             <div> <label class="block text-sm font-medium text-gray-300" for="password"> Password </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
-                    id="password" name="password" required="" type="password" /> </div>
+                    id="password1" name="password" required="" type="password" /> </div>
             <div> <label class="block text-sm font-medium text-gray-300" for="password-again"> Password again</label>
                 <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
-                    id="password-again" name="password-again" required="" type="password"/>
+                    id="password2" name="password-again" required="" type="password"/>
             </div>
+            <div style="display: block;" id="code"> <label class="block text-sm font-medium text-gray-300"> Code </label> <input
+                class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
+                required="" /> </div>
             <div class="flex items-center">
                 <input
                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-600 rounded bg-gray-700"
-                id="remember_me" name="remember_me" type="checkbox" required="" /> <label
+                id="personalData" name="personalData" type="checkbox" required="" /> <label
                 class="ml-2 block text-sm text-gray-300" for="remember_me"> Согласие на обработку персональных данных </label>
             </div>
             <div> <button
@@ -46,13 +48,9 @@
                     type="submit"> Register </button>
             </div>
             <div class="flex items-center justify-center flex-col"> 
-                {% if messages %}
-                    {% for message in messages %}
-                        <label class="ml-2 block text-sm text-red-500" for="remember_me">
-                            {{ message }}
-                        </label>
-                    {% endfor %}
-                {% endif %}
+                <label class="ml-2 block text-sm text-red-500" id="response-message">
+                    
+                </label>
             </div>
         </form>
         <div class="mt-6 text-center">
@@ -69,46 +67,62 @@
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
     </div>
     <div class="background"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function validateForm() {
-            const checkbox = document.getElementById('remember_me');
-            const password = document.getElementById('password').value;
-            const passwordAgain = document.getElementById('password-again').value;
-            const messagesDiv = document.querySelector('.flex.items-center.justify-center');
-            
-            
-            messagesDiv.innerHTML = '';
-    
-            let errors = [];
-    
-            
-            if (!checkbox.checked) {
-                errors.push('Пожалуйста, согласитесь на обработку персональных данных.');
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
             }
-    
-            
-            if (password.length < 8) {
-                errors.push('Пароль должен содержать минимум 8 символов.');
-            }
-    
-            
-            if (password !== passwordAgain) {
-                errors.push('Пароли не совпадают.');
-            }
-    
-            
-            if (errors.length > 0) {
-                errors.forEach(error => {
-                    const errorLabel = document.createElement('label');
-                    errorLabel.className = 'ml-2 block text-sm text-red-500';
-                    errorLabel.textContent = error;
-                    messagesDiv.appendChild(errorLabel);
-                });
-                return false; 
-            }
-    
-            return true; 
+            return cookieValue;
         }
+
+        const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
+
+        function registerSubmit(event){
+            event.preventDefault();
+            const responseMessageElement = document.getElementById('response-message');
+            const emailInput = document.getElementById('email');
+            const loginInput = document.getElementById('login');
+            const password1Input = document.getElementById('password1');
+            const password2Input = document.getElementById('password2');
+
+            const email = emailInput.value;
+            const login = loginInput.value;
+            const password1 = password1Input.value;
+            const password2 = password2Input.value;
+
+            $.ajax({
+                url: 'submit_form/',
+                method: 'POST',
+                data: {
+                    'email': email,
+                    'login': login,
+                    'password1': password1,
+                    'password2': password2
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    window.location.href = response.redirect_url;
+                    // document.getElementById('code').style.display = 'block';
+                },
+                error: function(xhr) {
+                    responseMessageElement.textContent = xhr.responseJSON.message;
+                }
+            });
+        }
+        
+        document.getElementById('register_form').addEventListener('submit', registerSubmit);
     </script>
 </body>
 

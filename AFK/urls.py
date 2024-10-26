@@ -28,8 +28,8 @@ urlpatterns = [
     path('forgot_password/', main_views.forgot_password, name='forgot_password'),
     path('forgot_password/submit_form/', auth_views.forgot_password_submit, name='forgot_password/submit_form'),
     path("login/", main_views.login, name="login"),
+    path("login/submit_form/", auth_views.login_submit, name="login/submit_form"),
     path("register/", main_views.register, name="register"),
     path("register/submit_form/", auth_views.register_submit, name="register/submit_form"),
-    path("login/submit_form/", auth_views.login_submit, name="login/submit_form"), 
     path("profile/<int:user_id>/logout/", auth_views.profile_logout, name="logout"),
 ]

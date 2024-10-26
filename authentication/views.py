@@ -10,57 +10,82 @@ from django.core.mail import send_mail
 import uuid
 from django.conf import settings
 from authentication.models import PasswordResetCode
+import threading
+import regex as re
+
+def password_check(password):
+    if len(password) < 8:
+        return JsonResponse({"message": "Пароль содержит менее 8 символов."}, status=400)
+    
+    if not re.search(r'\p{Lu}', password):
+        return JsonResponse({"message": "Пароль не содержит хотя бы одну заглавную букву."}, status=400)
+    
+    if not re.search(r'\p{Nd}', password):
+        return JsonResponse({"message": "Пароль не содержит хотя бы одну цифру."}, status=400)
+    
+    if not re.search(r'[^\w\s]', password):
+        return JsonResponse({"message": "Пароль не содержит хотя бы один специальный символ."}, status=400)
+    
+    return False
 
 def register_submit(request):
-    username = request.POST.get('login').lower()  # Получаем имя пользователя из POST
-    password = request.POST.get('password')  # Получаем пароль из POST
-    email = request.POST.get('email').lower()
+    if request.method == "POST":
+        email = request.POST.get('email').lower()
+        loginStr = request.POST.get('login').lower()
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
 
-    # Проверяем, существует ли уже пользователь
-    if User.objects.filter(username=username).exists():
-        messages.error(request, 'Пользователь с таким именем уже существует.')
-        return redirect('register')
-    elif User.objects.filter(email=email).exists():
-        messages.error(request, 'Пользователь с такой почтой уже существует.')
-        return redirect('register')
+        if password1 == password2:
 
-    # Создаем нового пользователя
-    user = User.objects.create_user(username=username, password=password, email=email)
+            check = password_check(password1)
 
-    # Аутентифицируем пользователя
-    user = authenticate(username=username, password=password, email=email)
-    if user is not None:
-        login(request, user)  # Вход в систему
-        Profile.objects.create(user=user, nickname="Новый пользователь")
-        return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
+            if check:
+                return check
+
+            # Проверяем, существует ли уже пользователь
+            if User.objects.filter(username=login).exists():
+                return JsonResponse({"message": "Пользователь с таким именем уже существует."}, status=400)
+            elif User.objects.filter(email=email).exists():
+                return JsonResponse({"message": "Пользователь с такой почтой уже существует."}, status=400)
+
+            # Создаем нового пользователя
+            user = User.objects.create_user(username=loginStr, password=password1, email=email)
+
+            # Аутентифицируем пользователя
+            user = authenticate(username=loginStr, password=password1, email=email)
+            if user is not None:
+                login(request, user)  # Вход в систему
+                Profile.objects.create(user=user, nickname="Новый пользователь")
+                return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': user.id})}, status=200)
+        else:
+            return JsonResponse({"message": "Пароли не совпадают."}, status=400)
         
 def login_submit(request):
-    email_username = request.POST.get('email/login').lower()
-    password = request.POST.get('password')
-    remember_me = request.POST.get('remember_me')
+    if request.method == "POST":
+        emailLogin = request.POST.get('emailLogin').lower()
+        password = request.POST.get('password')
+        rememberMe = request.POST.get('rememberMe')
 
-    if len(email_username.split("@")) == 2:
-        email = email_username
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            messages.error(request, 'Invalid email or password.')
-            return redirect('login')
-        username = user.username
-    else:
-        username = email_username
-
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if remember_me:
-            request.session.set_expiry(1209600)
+        if len(emailLogin.split("@")) == 2:
+            email = emailLogin
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                return JsonResponse({"message": "Invalid email or password."}, status=400)
+            username = user.username
         else:
-            request.session.set_expiry(0)
-        login(request, user)  # Вход в систему
-        return redirect(reverse('profile', kwargs={'user_id': user.id}))  # Перенаправление на профиль
-    else:
-        messages.error(request, 'Invalid email or password.')
-        return redirect('login')
+            username = emailLogin
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if rememberMe:
+                request.session.set_expiry(1209600)
+            else:
+                request.session.set_expiry(0)
+            login(request, user)  # Вход в систему
+            return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': user.id})}, status=200)
+        else:
+            return JsonResponse({"message": "Invalid email or password."}, status=400)
         
 def profile_logout(request, user_id):
     logout(request)  # Завершает сессию пользователя
@@ -73,7 +98,7 @@ def forgot_password_submit(request):
         message = f'Your confirmation code is: {confirmation_code}'
         email_from = settings.DEFAULT_FROM_EMAIL
         recipient_list = [email]
-        send_mail(subject, message, email_from, recipient_list)
+        threading.Thread(target=send_mail, args=(subject, message, email_from, recipient_list)).start()
 
     if request.method == "POST":
         email = request.POST.get('email').lower()
@@ -102,6 +127,9 @@ def forgot_password_submit(request):
             if password1 != password2:
                 return JsonResponse({"message": "Пароли не совпадают."}, status=400)
             else:
+                check = password_check(password1)
+                if check:
+                    return check
                 user = User.objects.get(email=email)
                 user.set_password(password1)
                 user.save()
