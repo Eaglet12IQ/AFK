@@ -34,9 +34,10 @@
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="password2" name="password-again" required="" type="password"/>
             </div>
-            <div style="display: block;" id="code"> <label class="block text-sm font-medium text-gray-300"> Code </label> <input
+            <div style="display: none;" id="code_container"> <label class="block text-sm font-medium text-gray-300"> Введите код, который пришел Вам на почту </label> <input
                 class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
-                required="" /> </div>
+                id="code"/>
+            </div>
             <div class="flex items-center">
                 <input
                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-600 rounded bg-gray-700"
@@ -47,7 +48,7 @@
                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     type="submit"> Register </button>
             </div>
-            <div class="flex items-center justify-center flex-col"> 
+            <div id="message" style="display: none" class="flex items-center justify-center flex-col"> 
                 <label class="ml-2 block text-sm text-red-500" id="response-message">
                     
                 </label>
@@ -87,9 +88,48 @@
 
         const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
 
+        function registerCodeSubmit(event){
+            event.preventDefault();
+            const responseMessageLabel = document.getElementById('response-message');
+            const emailInput = document.getElementById('email');
+            const loginInput = document.getElementById('login');
+            const password1Input = document.getElementById('password1');
+            const password2Input = document.getElementById('password2');
+            const codeInput = document.getElementById('code');
+
+            const email = emailInput.value;
+            const login = loginInput.value;
+            const password1 = password1Input.value;
+            const password2 = password2Input.value;
+            const code = codeInput.value;
+
+            $.ajax({
+                url: 'submit_form/',
+                method: 'POST',
+                data: {
+                    'email': email,
+                    'login': login,
+                    'password1': password1,
+                    'password2': password2,
+                    'code': code
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    window.location.href = response.redirect_url;
+                },
+                error: function(xhr) {
+                    responseMessageLabel.className = "ml-2 block text-sm text-red-500";
+                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                }
+            });
+        }
+
         function registerSubmit(event){
             event.preventDefault();
-            const responseMessageElement = document.getElementById('response-message');
+            const responseMessageLabel = document.getElementById('response-message');
+            const responseMessageDiv = document.getElementById('message');
             const emailInput = document.getElementById('email');
             const loginInput = document.getElementById('login');
             const password1Input = document.getElementById('password1');
@@ -113,11 +153,26 @@
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
                 success: function(response) {
-                    window.location.href = response.redirect_url;
-                    // document.getElementById('code').style.display = 'block';
+                    const Form = document.getElementById('register_form');
+                    Form.removeEventListener('submit', registerSubmit);
+                    Form.addEventListener('submit', registerCodeSubmit);
+                    document.getElementById('code').required = true;
+                    emailInput.disabled = true;
+                    emailInput.style.opacity = '0.5';
+                    loginInput.disabled = true;
+                    loginInput.style.opacity = '0.5';
+                    password1Input.disabled = true;
+                    password1Input.style.opacity = '0.5';
+                    password2Input.disabled = true;
+                    password2Input.style.opacity = '0.5';
+                    document.getElementById('code_container').style.display = 'block';
+                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                    responseMessageLabel.textContent = response.message;
+                    responseMessageDiv.style.display = 'flex';
                 },
                 error: function(xhr) {
-                    responseMessageElement.textContent = xhr.responseJSON.message;
+                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                    responseMessageDiv.style.display = 'flex';
                 }
             });
         }
