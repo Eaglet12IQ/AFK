@@ -11,6 +11,7 @@ import threading
 import regex as re
 from django.core.cache import cache
 import random
+import requests
 
 def send_confirmation_email(email, confirmation_code):
     subject = 'Email Confirmation'
@@ -73,7 +74,6 @@ def register_submit(request):
                 user = User.objects.create_user(username=loginStr, password=password1, email=email)
 
                 # Аутентифицируем пользователя
-                user = authenticate(username=loginStr, password=password1, email=email)
                 if user is not None:
                     login(request, user)  # Вход в систему
                     Profile.objects.create(user=user, nickname="Новый пользователь")
@@ -82,6 +82,41 @@ def register_submit(request):
                 return JsonResponse({"message": "Код неверен либо устарел."}, status=400) 
         
 def login_submit(request):
+    if request.GET.get('code'):
+        code = request.GET.get('code')
+        token_url = 'https://oauth.yandex.ru/token'
+        
+        # Получение токена
+        data = {
+            'grant_type': 'authorization_code',
+            'code': code,
+            'client_id': "2f83d1ed7ab94e6f9b01785af3282327",
+            'client_secret': "669d976630fa409cbd99d3d01d9f5d5f",
+            'redirect_uri': "http://127.0.0.1:8000/login/submit_form/",
+        }
+        
+        response = requests.post(token_url, data=data)
+        token_info = response.json()
+        access_token = token_info.get('access_token')
+
+        # Используйте access_token для получения информации о пользователе
+        user_info_url = 'https://login.yandex.ru/info'
+        headers = {'Authorization': f'OAuth {access_token}'}
+        user_info_response = requests.get(user_info_url, headers=headers)
+        user_info = user_info_response.json()
+
+        loginStr = user_info.get('login')
+        email = user_info.get('default_email')
+        try:
+            user = User.objects.get(email=email)
+            login(request, user)
+            return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
+        except User.DoesNotExist:
+            user = User.objects.create_user(username=loginStr, email=email)
+            login(request, user)  # Вход в систему
+            Profile.objects.create(user=user, nickname="Новый пользователь")
+            return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
+
     if request.method == "POST":
         emailLogin = request.POST.get('emailLogin').lower()
         password = request.POST.get('password')
@@ -146,3 +181,12 @@ def forgot_password_submit(request):
                 user.save()
                 login(request, user)
                 return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': user.id})}, status=200)
+            
+def yandex_auth(request):
+    # URL для авторизации
+    auth_url = 'https://oauth.yandex.ru/authorize'
+    params = {
+        'response_type': 'code',
+        'client_id': "2f83d1ed7ab94e6f9b01785af3282327",
+    }
+    return redirect(f"{auth_url}?{requests.compat.urlencode(params)}")

@@ -28,9 +28,3 @@ def forgot_password(request):
         return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
     else:
         return render(request, "forgot_password.html")
-
-def reset_password(request):
-    if request.user.is_authenticated:
-        return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
-    else:
-        return render(request, "reset_password.html")
