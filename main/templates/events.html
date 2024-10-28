@@ -24,6 +24,7 @@
         </div>
         <div class="login">
             {% if user.is_authenticated %}
+            <a href="{% url 'profile' user.id %}"> Admin </a>
             <a href="{% url 'profile' user.id %}"> Profile </a>
             {% else %}
             <a href="{% url 'login' %}"> Sign in </a>
@@ -35,7 +36,7 @@
             <div class="slogan-container"><span>Выбирайте ваши любимые <span style="
                 font-weight: bold;
                 background: linear-gradient(90deg, #6610f2, #4FACFE);
-                -webkit-background-clip: text;
+                background-clip: text;
                 -webkit-text-fill-color: transparent;
                 margin-bottom: 10px;">интересы</span> и
                     находите для себя новые занятия!</span>
