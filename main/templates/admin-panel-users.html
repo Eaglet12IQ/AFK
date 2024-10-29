@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <style>
@@ -47,7 +47,7 @@
 
                 <nav class="mt-10">
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-100 bg-gray-700 bg-opacity-25"
-                        href="admin-panel.html">
+                        href="{% url 'admin/users' %}">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -60,7 +60,7 @@
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="admin-panel1.html">
+                        href="{% url 'admin/profiles' %}">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -72,7 +72,7 @@
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="admin-panel2.html">
+                        href="{% url 'admin/tasks' %}">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -221,8 +221,8 @@
                                         </div>
 
                                         <div class="mx-5">
-                                            <h4 class="text-2xl font-semibold text-gray-700">8,282</h4>
-                                            <div class="text-gray-500">New Users</div>
+                                            <h4 class="text-2xl font-semibold text-gray-700">{{ users|length }}</h4>
+                                            <div class="text-gray-500">User count</div>
                                         </div>
                                     </div>
                                 </div>
@@ -244,9 +244,6 @@
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                                     Id</th>
-                                                <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                    Password</th>
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                                     last_login</th>
@@ -279,66 +276,64 @@
                                             </tr>
                                         </thead>
 
+                                        {% for user in users %}
                                         <tbody class="bg-white">
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    1
+                                                    <span>{{ user.id }}</span>
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>pbkdf2_sha256$870000$am4cb1qEvQmu4nOsxRvVcF$nXikWeGlK342pN4y5WRcYRGB490q65IuI2hrqZkCx2s=</span>
-                                                </td>
-
-                                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>2024-10-25 13:48:35.104552</span>
+                                                    <span>{{ user.last_login }}</span>
                                                 </td>
 
                                                 <td
                                                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>0</span>
+                                                    <span>{{ user.is_superuser }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>crist</span>
+                                                    <span>{{ user.username }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>-</span>
+                                                    <span>{{ user.last_name }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>test@mail.ru</span>
+                                                    <span>{{ user.email }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>0</span>
+                                                    <span>{{ user.is_staff }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>1</span>
+                                                    <span>{{ user.is_active }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>2024-10-21 06:52:02.174599</span>
+                                                    <span>{{ user.date_joined }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>-</span>
+                                                    <span>{{ user.first_name }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                                                        data-modal-target="edit-modal"
-                                                        data-modal-toggle="edit-modal">Edit</a>
+                                                        data-modal-target="edit-modal" data-user='{"id": "{{ user.id }}", "first_name": "{{ user.first_name }}", "last_name": "{{ user.last_name }}", "username": "{{ user.username }}", "email": "{{ user.email }}", "is_superuser": {{ user.is_superuser|yesno:"true,false" }}, "is_staff": {{ user.is_staff|yesno:"true,false" }}, "is_active": {{ user.is_active|yesno:"true,false" }}}'
+                                                        data-modal-toggle="edit-modal" onclick="openEditModal(event)">Edit</a>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-red-500 hover:text-red-600"
-                                                        data-modal-target="popup-modal"
-                                                        data-modal-toggle="popup-modal">Delete</a>
+                                                        data-modal-target="popup-modal" data-user='{"id": "{{ user.id }}"}'
+                                                        data-modal-toggle="popup-modal" onclick="openDeleteModal(event)">Delete</a>
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        {% endfor %}
                                     </table>
                                 </div>
                             </div>
@@ -371,7 +366,7 @@
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
                         delete this product?</h3>
-                    <button data-modal-hide="popup-modal" type="button"
+                    <button onclick="Delete(event)" data-modal-hide="popup-modal" type="button" 
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Yes, I'm sure
                     </button>
@@ -408,94 +403,73 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 md:p-5">
+                <form id="add_form" class="p-4 md:p-5">
                     <div class="grid gap-4 mb-4 grid-cols-2">
-                        <div class="col-span-2">
-                            <label for="Id"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
-                            <input type="text" name="Id" id="Id"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="ID" required="">
-                        </div>
                         <div class="col-span-2">
                             <label for="Password"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password" name="Password" id="Password"
+                            <input type="password" name="password" id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Password" required="">
-                        </div>
-                        <div class="col-span-2">
-                            <label for="last_login"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Login</label>
-                            <input type="datetime-local" name="last_login" id="last_login"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required="">
                         </div>
                         <div class="col-span-2">
                             <label for="is_superuser"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is
                                 Superuser</label>
-                            <select id="is_superuser"
+                            <select id="is_superuser" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select option</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
+                                <option value="" disabled selected hidden>Select option</option>
+                                <option value="True">Yes</option>
+                                <option value="False">No</option>
                             </select>
                         </div>
                         <div class="col-span-2">
                             <label for="Username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Username</label>
-                            <input type="text" name="Username" id="Username"
+                            <input type="text" name="username" id="username"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Username" required="">
                         </div>
                         <div class="col-span-2">
                             <label for="Last_name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input type="text" name="Last_name" id="Last_name"
+                            <input type="text" name="last_name" id="last_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Last Name" required="">
+                                placeholder="Last Name">
                         </div>
                         <div class="col-span-2">
                             <label for="Email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                            <input type="email" name="Email" id="Email"
+                            <input type="email" name="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Email" required="">
                         </div>
                         <div class="col-span-2">
                             <label for="is_staff"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is Staff</label>
-                            <select id="is_staff"
+                            <select id="is_staff" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select option</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
+                                <option value="" disabled selected hidden>Select option</option>
+                                <option value="True">Yes</option>
+                                <option value="False">No</option>
                             </select>
                         </div>
                         <div class="col-span-2">
                             <label for="is_active"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is Active</label>
-                            <select id="is_active"
+                            <select id="is_active" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select option</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
+                                <option value="" disabled selected hidden>Select option</option>
+                                <option value="True">Yes</option>
+                                <option value="False">No</option>
                             </select>
-                        </div>
-                        <div class="col-span-2">
-                            <label for="Data_Joined"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Joined</label>
-                            <input type="datetime-local" name="Data_Joined" id="Data_Joined"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required="">
                         </div>
                         <div class="col-span-2">
                             <label for="first_name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
                             <input type="text" name="first_name" id="first_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="First Name" required="">
+                                placeholder="First Name">
                         </div>
                     </div>
                     <button type="submit"
@@ -508,6 +482,11 @@
                         </svg>
                         Add new user
                     </button>
+                    <div id="message" style="display: none" class="flex items-center justify-center flex-col">
+                        <label class="ml-2 block text-sm text-red-500" id="response-message">
+                            
+                        </label>
+                    </div>
                 </form>
             </div>
         </div>
@@ -537,85 +516,73 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 md:p-5">
+                <form id="edit_form" class="p-4 md:p-5">
                     <div class="grid gap-4 mb-4 grid-cols-2">
                         <div class="col-span-2">
-                            <label for="Id"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
-                            <input type="text" name="Id" id="Id" value="1"
+                            <label for="ID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ID</label>
+                            <input type="text" name="id" id="id_edit" disabled style="opacity: 0.5"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="ID" required="">
-                        </div>
-                        <div class="col-span-2">
-                            <label for="Password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password" name="Password" id="Password"
-                                value="pbkdf2_sha256$870000$am4cb1qEvQmu4nOsxRvVcF$nXikWeGlK342pN4y5WRcYRGB490q65IuI2hrqZkCx2s="
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Password" required="">
-                        </div>
-                        <div class="col-span-2">
-                            <label for="last_login"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Login</label>
-                            <input type="datetime-local" name="last_login" id="last_login" value="2024-10-25T13:48:35"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required="">
+                                placeholder="ID">
                         </div>
                         <div class="col-span-2">
                             <label for="is_superuser"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is
                                 Superuser</label>
-                            <select id="is_superuser"
+                            <select id="is_superuser_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option value="0" selected="">No</option>
-                                <option value="1">Yes</option>
+                                <option value="" disabled selected hidden>Select option</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
                         </div>
                         <div class="col-span-2">
-                            <label for="Username"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                            <input type="text" name="Username" id="Username" value="crist"
+                            <label for="Username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Username</label>
+                            <input type="text" name="username" id="username_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Username" required="">
+                                placeholder="Username">
                         </div>
                         <div class="col-span-2">
                             <label for="Last_name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input type="text" name="Last_name" id="Last_name" value="-"
+                            <input type="text" name="last_name" id="last_name_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Last Name" required="">
+                                placeholder="Last Name">
                         </div>
                         <div class="col-span-2">
                             <label for="Email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                            <input type="email" name="Email" id="Email" value="test@mail.ru"
+                            <input type="email" name="email" id="email_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Email" required="">
+                                placeholder="Email">
                         </div>
                         <div class="col-span-2">
                             <label for="is_staff"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is Staff</label>
-                            <select id="is_staff"
+                            <select id="is_staff_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option value="0" selected="">No</option>
-                                <option value="1">Yes</option>
+                                <option value="" disabled selected hidden>Select option</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
                         </div>
                         <div class="col-span-2">
                             <label for="is_active"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is Active</label>
-                            <select id="is_active"
+                            <select id="is_active_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option value="1" selected="">Yes</option>
-                                <option value="0">No</option>
+                                <option value="" disabled selected hidden>Select option</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
                         </div>
                         <div class="col-span-2">
-                            <label for="Data_Joined"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Joined</label>
-                            <input type="datetime-local" name="Data_Joined" id="Data_Joined" value="2024-10-21T06:52:02"
+                            <label for="first_name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                            <input type="text" name="first_name" id="first_name_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required="">
+                                placeholder="First Name">
                         </div>
                     </div>
                     <button type="submit"
@@ -628,11 +595,182 @@
                         </svg>
                         Save changes
                     </button>
+                    <div id="message_edit" style="display: none" class="flex items-center justify-center flex-col">
+                        <label class="ml-2 block text-sm text-red-500" id="response-message_edit">
+                            
+                        </label>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function capitalizeFirstLetter(str) {
+            if (!str) return ""; // Проверка на пустую строку
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
+
+        function handleAddSubmit(event){
+            event.preventDefault();
+
+            const responseMessageLabel = document.getElementById('response-message');
+            const responseMessageDiv = document.getElementById('message');
+
+            password = document.getElementById('password').value;
+            is_superuser = document.getElementById('is_superuser').value;
+            username = document.getElementById('username').value;
+            last_name = document.getElementById('last_name').value;
+            email = document.getElementById('email').value;
+            is_staff = document.getElementById('is_staff').value;
+            is_active = document.getElementById('is_active').value;
+            first_name = document.getElementById('first_name').value;
+    
+            $.ajax({
+                url: 'add/',
+                method: 'POST',
+                data: {
+                    'password': password,
+                    'is_superuser': is_superuser,
+                    'username': username,
+                    'last_name': last_name,
+                    'email': email,
+                    'is_staff': is_staff,
+                    'is_active': is_active,
+                    'first_name': first_name,
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    responseMessageLabel.textContent = response.message;
+                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                    responseMessageDiv.style.display = 'flex';
+                },
+                error: function (xhr) {
+                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                    responseMessageDiv.style.display = 'flex';
+                }
+            });
+        }
+
+        function handleEditSubmit(event){
+            event.preventDefault();
+
+            const responseMessageLabel = document.getElementById('response-message_edit');
+            const responseMessageDiv = document.getElementById('message_edit');
+
+            edit_id = document.getElementById('id_edit').value;
+            is_superuser = capitalizeFirstLetter(document.getElementById('is_superuser_edit').value);
+            username = document.getElementById('username_edit').value;
+            last_name = document.getElementById('last_name_edit').value;
+            email = document.getElementById('email_edit').value;
+            is_staff = capitalizeFirstLetter(document.getElementById('is_staff_edit').value);
+            is_active = capitalizeFirstLetter(document.getElementById('is_active_edit').value);
+            first_name = document.getElementById('first_name_edit').value;
+    
+            $.ajax({
+                url: 'edit/',
+                method: 'POST',
+                data: {
+                    'edit_id': edit_id,
+                    'is_superuser': is_superuser,
+                    'username': username,
+                    'last_name': last_name,
+                    'email': email,
+                    'is_staff': is_staff,
+                    'is_active': is_active,
+                    'first_name': first_name,
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    responseMessageLabel.textContent = response.message;
+                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                    responseMessageDiv.style.display = 'flex';
+                },
+                error: function (xhr) {
+                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                    responseMessageDiv.style.display = 'flex';
+                }
+            });
+        }
+
+        document.getElementById('add_form').addEventListener('submit', handleAddSubmit);
+        document.getElementById('edit_form').addEventListener('submit', handleEditSubmit);
+
+        function openEditModal(event) {
+            // Остановим поведение по умолчанию
+            event.preventDefault();
+        
+            // Получим значение data-user
+            const userData = JSON.parse(event.currentTarget.dataset.user);
+        
+            // Найдём элемент модального окна и вставим данные
+            const edit_idInput = document.getElementById('id_edit');
+            const is_superuserInput = document.getElementById('is_superuser_edit');
+            const usernameInput = document.getElementById('username_edit');
+            const last_nameInput = document.getElementById('last_name_edit');
+            const emailInput = document.getElementById('email_edit');
+            const is_staffInput = document.getElementById('is_staff_edit');
+            const is_activeInput = document.getElementById('is_active_edit');
+            const first_nameInput = document.getElementById('first_name_edit');
+            
+            edit_idInput.value = userData.id;
+            is_superuserInput.value = userData.is_superuser;
+            usernameInput.value = userData.username;
+            last_nameInput.value = userData.last_name;
+            emailInput.value = userData.email;
+            is_staffInput.value = userData.is_staff;
+            is_activeInput.value = userData.is_active;
+            first_nameInput.value = userData.first_name;
+        }
+
+        function openDeleteModal(event) {
+            // Остановим поведение по умолчанию
+            event.preventDefault();
+        
+            // Получим значение data-user
+            const userData = JSON.parse(event.currentTarget.dataset.user);
+            
+            delete_id = userData.id;
+            
+            function Delete(event) {
+                $.ajax({
+                    url: 'delete/',
+                    method: 'POST',
+                    data: {
+                        'delete_id': delete_id,
+                    },
+                    headers: {
+                        'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                    },
+                });
+            }
+
+            window.Delete = Delete;
+        }
+    </script>
 </body>
 
 </html>
