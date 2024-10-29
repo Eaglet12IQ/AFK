@@ -5,38 +5,11 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from profiles.models import Profile
 from django.http import JsonResponse
-from django.core.mail import send_mail
-from django.conf import settings
-import threading
-import regex as re
 from django.core.cache import cache
-import random
 import requests
-
-def send_confirmation_email(email, confirmation_code):
-    subject = 'Email Confirmation'
-    message = f'Your confirmation code is: {confirmation_code}'
-    email_from = settings.DEFAULT_FROM_EMAIL
-    recipient_list = [email]
-    threading.Thread(target=send_mail, args=(subject, message, email_from, recipient_list)).start()
-
-def generate_numeric_code(length=6):
-    return str(random.randint(10**(length-1), 10**length - 1))
-
-def password_check(password):
-    if len(password) < 8:
-        return JsonResponse({"message": "Пароль содержит менее 8 символов."}, status=400)
-    
-    if not re.search(r'\p{Lu}', password):
-        return JsonResponse({"message": "Пароль не содержит хотя бы одну заглавную букву."}, status=400)
-    
-    if not re.search(r'\p{Nd}', password):
-        return JsonResponse({"message": "Пароль не содержит хотя бы одну цифру."}, status=400)
-    
-    if not re.search(r'[^\w\s]', password):
-        return JsonResponse({"message": "Пароль не содержит хотя бы один специальный символ."}, status=400)
-    
-    return False
+from AFK.utils.password_check import password_check
+from AFK.utils.confirmation import send_confirmation_email
+from AFK.utils.confirmation import generate_numeric_code
 
 def register_submit(request):
     if request.method == "POST":
