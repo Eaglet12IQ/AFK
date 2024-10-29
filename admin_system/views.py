@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from profiles.models import Profile
 from django.http import JsonResponse
+from django.http import HttpResponse
 
 def admin_users(request):
     if not request.user.is_superuser:
@@ -35,6 +36,50 @@ def admin_users_add(request):
         if user is not None:
             Profile.objects.create(user=user, nickname="Новый пользователь")
             return JsonResponse({"message": "Пользователь зарегистрирован."}, status=200)
+        
+def admin_users_edit(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        edit_id = request.POST.get('edit_id')
+
+        username = request.POST.get('username')
+        if User.objects.filter(username=username).exclude(id=edit_id).exists():
+            return JsonResponse({"message": "Пользователь с таким именем уже существует."}, status=400)
+        
+        email = request.POST.get('email')
+        if User.objects.filter(email=email).exclude(id=edit_id).exists():
+            return JsonResponse({"message": "Пользователь с такой почтой уже существует."}, status=400)
+        
+        is_superuser = request.POST.get('is_superuser')
+        last_name = request.POST.get('last_name')
+        is_staff = request.POST.get('is_staff')
+        is_active = request.POST.get('is_active')
+        first_name = request.POST.get('first_name')
+
+        edit_user = User.objects.get(id=edit_id)
+
+        edit_user.username = username
+        edit_user.email = email
+        edit_user.is_superuser = is_superuser
+        edit_user.last_name = last_name
+        edit_user.is_staff = is_staff
+        edit_user.is_active = is_active
+        edit_user.first_name = first_name
+
+        edit_user.save()
+
+        return JsonResponse({"message": "Данные пользователя изменены."}, status=200)
+    
+def admin_users_delete(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        delete_id = request.POST.get('delete_id')
+
+        User.objects.filter(id=delete_id).delete()
+
+        return HttpResponse(status=200)
 
 def admin_profiles(request):
     if not request.user.is_superuser:
@@ -42,6 +87,22 @@ def admin_profiles(request):
     else:
         profiles = Profile.objects.all()
         return render(request, "admin-panel-profiles.html", {'profiles': profiles})
+
+def admin_profiles_edit(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        edit_id = request.POST.get('edit_id')
+
+        nickname = request.POST.get('nickname')
+
+        edit_profile = Profile.objects.get(id=edit_id)
+
+        edit_profile.nickname = nickname
+
+        edit_profile.save()
+
+        return JsonResponse({"message": "Данные профиля изменены."}, status=200)
 
 def admin_tasks(request):
     if not request.user.is_superuser:
