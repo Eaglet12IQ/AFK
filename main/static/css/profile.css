@@ -6,6 +6,11 @@
     /* опционально  */
 }
 
+@font-face {
+    font-family: PixelText;
+    src: url("/static/fonts/determinationrusbylyajka.otf");
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -61,6 +66,9 @@ header {
     font-size: 1.5rem;
     line-height: 2rem;
     padding: 0.25rem 0.75rem;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .navbar {
@@ -70,6 +78,9 @@ header {
     box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
     background-color: rgb(26 27 29 / 90%);
     border-radius: 9999px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .navbar a {
@@ -99,6 +110,9 @@ header {
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     transition: all 0.2s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .login a:hover {
@@ -114,6 +128,9 @@ header {
     box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
     background-color: rgb(26 27 29 / 10%);
     backdrop-filter: blur(10px);
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .profile-header {
@@ -202,7 +219,10 @@ header {
 
 .profile-interests h2{
     font-size: 30px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /*font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;*/
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .interests-list {

@@ -6,6 +6,11 @@
     /* опционально  */
 }
 
+@font-face {
+    font-family: PixelText;
+    src: url("/static/fonts/determinationrusbylyajka.otf");
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -47,6 +52,9 @@ header {
     padding-bottom: 0.75rem;
     z-index: 5;
     color: white;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .conteiner {
@@ -70,6 +78,9 @@ header {
     font-size: 1.5rem;
     line-height: 2rem;
     padding: 0.25rem 0.75rem;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .navbar {
@@ -147,6 +158,9 @@ header {
     font-size: 34px;
     line-height: 33px;
     text-align: center;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
     color: #fff
 }
 
@@ -158,6 +172,9 @@ header {
     flex-wrap: wrap;
     font-family: Gotham Pro;
     font-style: normal;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
     font-size: 20px;
     line-height: 23px;
     text-align: center;
@@ -210,6 +227,9 @@ header {
     color: white;
     text-align: center;
     padding: 10px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .interest-box:hover {
@@ -246,6 +266,9 @@ header {
     padding: 0.5rem 1.25rem;
     margin: 0 10px;
     border-radius: 9999px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .generate-container-button:hover {
@@ -258,6 +281,9 @@ header {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 /* Стили для кнопок выбора сложности */
@@ -402,6 +428,9 @@ header {
     top: 50px;
     right: 10px;
     transition: all 0.3s ease-in-out;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .spisok li p {
@@ -409,6 +438,9 @@ header {
     line-height: 18px;
     color: #b7b7b7;
     margin-top: 5px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .spisok li button {
@@ -423,6 +455,9 @@ header {
     opacity: 0;
     cursor: pointer;
     overflow: hidden;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .spisok li button:before {

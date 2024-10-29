@@ -6,6 +6,11 @@
     /* опционально  */
 }
 
+@font-face {
+    font-family: PixelText;
+    src: url("/static/fonts/determinationrusbylyajka.otf");
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -26,7 +31,7 @@ body {
     position: absolute;
     pointer-events: none;
     animation: slide-background 3s linear infinite;
-    max-height:100dvh;
+    max-height: 100dvh;
 }
 
 
@@ -62,6 +67,9 @@ header {
     font-size: 1.5rem;
     line-height: 2rem;
     padding: 0.25rem 0.75rem;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .navbar {
@@ -81,6 +89,9 @@ header {
     font-weight: 500;
     color: #ebebeb;
     transition: all 0.2s ease-in-out;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .navbar a:hover {
@@ -100,6 +111,9 @@ header {
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     transition: all 0.2s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .login a:hover {
@@ -118,11 +132,14 @@ header {
 }
 
 .preview .title {
-    font-size: 8rem;
+    font-size: 9rem;
     font-weight: 900;
     z-index: 10;
     color: white;
     animation: slide-in-top 3s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .preview .subtitle {
@@ -132,6 +149,9 @@ header {
     margin-bottom: 5rem;
     z-index: 10;
     animation: slide-in-top 3s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .preview a {
@@ -144,6 +164,9 @@ header {
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
     animation: slide-in-bottom 3s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .preview a:hover {
