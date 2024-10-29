@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
     <title>Document</title>
@@ -51,7 +51,7 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div> <a class="w-full inline-flex items-center justify-center py-2 px-4 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-sm font-medium text-gray-300 hover:bg-gray-600"
-                        href="{% url 'login/yandex' %}"> <span class="sr-only"> Sign in with Yandex </span> <i class="fab fa-google mr-2">
+                        href="{% url 'login/yandex' %}"> <span class="sr-only"> Sign in with Yandex </span> <i class="fab fa-yandex mr-2">
                         </i> Yandex </a> </div>
                 <div> <a class="w-full inline-flex items-center justify-center py-2 px-4 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-sm font-medium text-gray-300 hover:bg-gray-600"
                         href="#"> <span class="sr-only"> Sign in with VK ID</span> <i
