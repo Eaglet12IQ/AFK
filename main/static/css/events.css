@@ -152,9 +152,6 @@ header {
     justify-content: center;
     width: 100%;
     flex-wrap: wrap;
-    font-family: Gotham Pro;
-    font-style: normal;
-    font-weight: bold;
     font-size: 34px;
     line-height: 33px;
     text-align: center;
@@ -170,8 +167,6 @@ header {
     justify-content: center;
     width: 100%;
     flex-wrap: wrap;
-    font-family: Gotham Pro;
-    font-style: normal;
     font-family: PixelText, normal;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
@@ -223,7 +218,6 @@ header {
 
 .label {
     font-size: 18px;
-    font-weight: bold;
     color: white;
     text-align: center;
     padding: 10px;
@@ -262,7 +256,6 @@ header {
     background-color: #6610f2;
     font-size: 1.25rem;
     color: #ebebeb;
-    font-weight: 500;
     padding: 0.5rem 1.25rem;
     margin: 0 10px;
     border-radius: 9999px;

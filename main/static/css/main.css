@@ -145,7 +145,6 @@ header {
 .preview .subtitle {
     color: hsla(0, 0%, 100%, .75);
     font-size: 1.5rem;
-    font-weight: 500;
     margin-bottom: 5rem;
     z-index: 10;
     animation: slide-in-top 3s;
@@ -160,7 +159,6 @@ header {
     background-color: #6610f2;
     font-size: 1.25rem;
     color: #ebebeb;
-    font-weight: 500;
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
     animation: slide-in-bottom 3s;

@@ -88,7 +88,6 @@ header {
     border-radius: 9999px;
     font-size: 0.875rem;
     line-height: 1.5;
-    font-weight: 500;
     color: #ebebeb;
     transition: all 0.2s ease-in-out;
 }
@@ -161,7 +160,6 @@ header {
 
 .profile-info h2 {
     font-size: 24px;
-    font-weight: bold;
     margin-bottom: 10px;
     color: #ffffff; /* Цвет заголовка */
 }
@@ -204,13 +202,11 @@ header {
 
 .stat h3 {
     font-size: 18px;
-    font-weight: bold;
     margin-bottom: 10px;
 }
 
 .stat p {
     font-size: 24px;
-    font-weight : bold;
 }
 
 .profile-interests {
@@ -266,7 +262,6 @@ header {
 
 .label {
     font-size: 18px;
-    font-weight: bold;
     color: white;
     text-align: center;
     padding: 10px;
