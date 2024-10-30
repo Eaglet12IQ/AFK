@@ -108,7 +108,7 @@
                     </div>
                     <div class="flex items-center">
                         <div class="relative">
-                            <button class="bg-gray-700 p-2 rounded-full text-white">Back</button>
+                            <a href="{% url 'main' %}"><button class="bg-gray-700 p-2 rounded-full text-white">Back</button></a>
                         </div>
                     </div>
                 </header>
@@ -211,35 +211,35 @@
                                                 </td>
 
                                                 <td
-                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.is_superuser }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.username }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.last_name }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.email }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.is_staff }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.is_active }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.date_joined }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.first_name }}</span>
                                                 </td>
                                                 <td
