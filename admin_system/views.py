@@ -35,7 +35,7 @@ def admin_users_add(request):
         # Аутентифицируем пользователя
         if user is not None:
             Profile.objects.create(user=user, nickname="Новый пользователь")
-            return JsonResponse({"message": "Пользователь зарегистрирован."}, status=200)
+            return JsonResponse({"message": "Пользователь зарегистрирован."}, status=201)
         
 def admin_users_edit(request):
     if not request.user.is_superuser:
