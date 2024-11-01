@@ -141,7 +141,7 @@ def admin_tasks_edit(request):
 
         edit_task.save()
 
-        return JsonResponse({"message": "Данные занятия изменены."}, status=200)
+        return JsonResponse({"message": "Информация о занятии изменена."}, status=200)
     
 def admin_tasks_delete(request):
     if not request.user.is_superuser:
