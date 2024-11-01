@@ -34,9 +34,9 @@ def register_submit(request):
                     return JsonResponse({"message": "Пользователь с такой почтой уже существует."}, status=400)
                 
                 confirmation_code = generate_numeric_code()
-                cache.set(email, confirmation_code, timeout=60)
+                cache.set(email, confirmation_code, timeout=300)
                 send_confirmation_email(email, confirmation_code)
-                return JsonResponse({"message": "Код отправлен."}, status=200)
+                return JsonResponse({"message": "Код отправлен."}, status=202)
             else:
                 return JsonResponse({"message": "Пароли не совпадают."}, status=400)
         else:
@@ -130,16 +130,16 @@ def forgot_password_submit(request):
             try:
                 user = User.objects.get(email=email)
                 confirmation_code = generate_numeric_code()
-                cache.set(email, confirmation_code, timeout=60)
+                cache.set(email, confirmation_code, timeout=300)
                 send_confirmation_email(email, confirmation_code)
-                return JsonResponse({"message": "Код отправлен."}, status=200)
+                return JsonResponse({"message": "Код отправлен."}, status=202)
             except User.DoesNotExist:
                 return JsonResponse({"message": "Пользователя с такой почтой не существует."}, status=400)
         elif code is not None and email is not None and password1 is None and password2 is None:
             confirmation_code = cache.get(email)
             if code == confirmation_code:
                 cache.delete(email)
-                return JsonResponse({"message": "Код подтвержден."}, status=200)
+                return JsonResponse({"message": "Код подтвержден."}, status=202)
             else:
                 return JsonResponse({"message": "Код неверен либо устарел."}, status=400) 
         else:

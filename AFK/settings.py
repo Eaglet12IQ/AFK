@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "profiles",
     "authentication",
     "admin_system",
+    "taskGenerator"
 ]
 
 
