@@ -564,7 +564,8 @@
             $.ajax({
                 url: 'add/',
                 method: 'POST',
-                data: {
+                contentType: 'application/json',
+                data: JSON.stringify({
                     'password': password,
                     'is_superuser': is_superuser,
                     'username': username,
@@ -573,7 +574,7 @@
                     'is_staff': is_staff,
                     'is_active': is_active,
                     'first_name': first_name,
-                },
+                }),
                 headers: {
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
@@ -606,8 +607,9 @@
     
             $.ajax({
                 url: 'edit/',
-                method: 'POST',
-                data: {
+                method: 'PATCH',
+                contentType: 'application/json',
+                data: JSON.stringify({
                     'edit_id': edit_id,
                     'is_superuser': is_superuser,
                     'username': username,
@@ -616,7 +618,7 @@
                     'is_staff': is_staff,
                     'is_active': is_active,
                     'first_name': first_name,
-                },
+                }),
                 headers: {
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
@@ -674,10 +676,11 @@
             function Delete(event) {
                 $.ajax({
                     url: 'delete/',
-                    method: 'POST',
-                    data: {
+                    method: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
                         'delete_id': delete_id,
-                    },
+                    }),
                     headers: {
                         'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                     },

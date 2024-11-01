@@ -10,6 +10,7 @@ import requests
 from AFK.utils.password_check import password_check
 from AFK.utils.confirmation import send_confirmation_email
 from AFK.utils.confirmation import generate_numeric_code
+import json
 
 def register_submit(request):
     if request.method == "POST":
@@ -122,11 +123,10 @@ def profile_logout(request, user_id):
 
 def forgot_password_submit(request):
     if request.method == "POST":
-        email = request.POST.get('email').lower()
-        code = request.POST.get('code')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-        if code is None and email is not None and password1 is None and password2 is None:
+        data = json.loads(request.body)  # Десериализация JSON
+        email = data.get('email').lower()
+        code = data.get('code')
+        if code is None:
             try:
                 user = User.objects.get(email=email)
                 confirmation_code = generate_numeric_code()
@@ -135,25 +135,29 @@ def forgot_password_submit(request):
                 return JsonResponse({"message": "Код отправлен."}, status=202)
             except User.DoesNotExist:
                 return JsonResponse({"message": "Пользователя с такой почтой не существует."}, status=400)
-        elif code is not None and email is not None and password1 is None and password2 is None:
+        else:
             confirmation_code = cache.get(email)
             if code == confirmation_code:
                 cache.delete(email)
                 return JsonResponse({"message": "Код подтвержден."}, status=202)
             else:
                 return JsonResponse({"message": "Код неверен либо устарел."}, status=400) 
+    if request.method == "PATCH":
+        data = json.loads(request.body)  # Десериализация JSON
+        email = data.get('email').lower()
+        password1 = data.get('password1')
+        password2 = data.get('password2')
+        if password1 != password2:
+            return JsonResponse({"message": "Пароли не совпадают."}, status=400)
         else:
-            if password1 != password2:
-                return JsonResponse({"message": "Пароли не совпадают."}, status=400)
-            else:
-                check = password_check(password1)
-                if check:
-                    return check
-                user = User.objects.get(email=email)
-                user.set_password(password1)
-                user.save()
-                login(request, user)
-                return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': user.id})}, status=200)
+            check = password_check(password1)
+            if check:
+                return check
+            user = User.objects.get(email=email)
+            user.set_password(password1)
+            user.save()
+            login(request, user)
+            return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': user.id})}, status=200)
             
 def yandex_auth(request):
     # URL для авторизации

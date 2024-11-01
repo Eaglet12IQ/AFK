@@ -443,11 +443,12 @@
             $.ajax({
                 url: 'add/',
                 method: 'POST',
-                data: {
+                contentType: 'application/json',
+                data: JSON.stringify({
                     'description': description,
                     'difficulty': difficulty,
                     'interest': interest
-                },
+                }),
                 headers: {
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
@@ -476,13 +477,14 @@
     
             $.ajax({
                 url: 'edit/',
-                method: 'POST',
-                data: {
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
                     'edit_id': edit_id,
                     'description': description,
                     'difficulty': difficulty,
                     'interest': interest
-                },
+                }),
                 headers: {
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
@@ -532,10 +534,11 @@
             function Delete(event) {
                 $.ajax({
                     url: 'delete/',
-                    method: 'POST',
-                    data: {
+                    method: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
                         'delete_id': delete_id,
-                    },
+                    }),
                     headers: {
                         'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                     },
