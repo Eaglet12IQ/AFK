@@ -6,46 +6,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Document</title>
 </head>
 
 <body>
-    <header class="conteiner">
-        <div class="logo">
-            <a href="{% url 'main' %}"> AFK</a>
-        </div>
+<header class="conteiner">
+    <div class="logo">
+        <a href="{% url 'main' %}"> AFK</a>
+    </div>
+    <div class="navbarBorder">
         <div class="navbar">
             <a href="{% url 'main' %}">Home</a>
             <a href="{% url 'events' %}">Events</a>
             <a href="#">Top</a>
             <a href="">Other</a>
         </div>
-        <div class="login">
-            {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-            <a href="{% url 'admin/users' %}"> Admin </a>
-            {% endif %}
-            <a href="{% url 'profile' user.id %}"> Profile </a>
-            {% else %}
-            <a href="{% url 'login' %}"> Sign in </a>
-            {% endif %}
+    </div>
+    <div class="login">
+        {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+        <a href="{% url 'admin/users' %}"> Admin </a>
+        {% endif %}
+        <a href="{% url 'profile' user.id %}"> Profile </a>
+        {% else %}
+        <a href="{% url 'login' %}"> Sign in </a>
+        {% endif %}
+    </div>
+</header>
+<div class="preview">
+    <p class="title"> AFK </p>
+    <p class="subtitle"> Find something you like to do</p>
+    <div>
+        <div>
+            <a href="{% url 'events' %}"> Get Started </a>
         </div>
-    </header>
-    <div class="preview">
-        <p class="title"> AFK </p>
-        <p class="subtitle"> Find something you like to do</p>
-        <a href="{% url 'events' %}"> Get Started </a>
     </div>
+</div>
 
-    <div
+<div
         class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
-    </div>
-    <div
+</div>
+<div
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
-    </div>
-    <div class="background"></div>
+</div>
+<div class="background"></div>
 </body>
 
 </html>
