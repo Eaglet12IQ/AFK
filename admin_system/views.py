@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from profiles.models import Profile
+from taskGenerator.models import Tasks
 from django.http import JsonResponse
 from django.http import HttpResponse
 
@@ -108,4 +109,46 @@ def admin_tasks(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        return render(request, "admin-panel-tasks.html")
+        tasks = Tasks.objects.all()
+        return render(request, "admin-panel-tasks.html", {'tasks': tasks})
+
+def admin_tasks_add(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        description = request.POST.get('description')
+        difficulty = request.POST.get('difficulty')
+        interest = request.POST.get('interest')
+
+        Tasks.objects.create(description=description, difficulty=difficulty, interest=interest)
+
+        return JsonResponse({"message": "Занятие создано."}, status=201)
+
+def admin_tasks_edit(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        edit_id = request.POST.get('edit_id')
+        description = request.POST.get('description')
+        difficulty = request.POST.get('difficulty')
+        interest = request.POST.get('interest')
+
+        edit_task = Tasks.objects.get(id=edit_id)
+
+        edit_task.description = description
+        edit_task.difficulty = difficulty
+        edit_task.interest = interest
+
+        edit_task.save()
+
+        return JsonResponse({"message": "Данные занятия изменены."}, status=200)
+    
+def admin_tasks_delete(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        delete_id = request.POST.get('delete_id')
+
+        Tasks.objects.filter(id=delete_id).delete()
+
+        return HttpResponse(status=200)

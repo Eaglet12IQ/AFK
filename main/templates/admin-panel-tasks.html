@@ -144,8 +144,8 @@
                                         </div>
 
                                         <div class="mx-5">
-                                            <h4 class="text-2xl font-semibold text-gray-700">8,282</h4>
-                                            <div class="text-gray-500">New Users</div>
+                                            <h4 class="text-2xl font-semibold text-gray-700">{{ tasks|length }}</h4>
+                                            <div class="text-gray-500">Task count</div>
                                         </div>
                                     </div>
                                 </div>
@@ -171,37 +171,48 @@
                                                     Description</th>
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                    Difficult</th>
+                                                    Difficulty</th>
+                                                <th
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    Interest</th>
                                                 <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
                                                 <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
                                             </tr>
                                         </thead>
 
+                                        {% for task in tasks %}
                                         <tbody class="bg-white">
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>1</span>
+                                                    <span>{{ task.id }}</span>
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>Текст</span>
+                                                    <span>{{ task.description }}</span>
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>Сложна</span>
+                                                    <span>{{ task.difficulty }}</span>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                    <span>{{ task.interest }}</span>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
-                                                    <a href="#" class="text-indigo-600 hover:text-indigo-900" data-modal-target="crud-modal2" data-modal-toggle="crud-modal2" >Edit</a>
+                                                    <a href="#" class="text-indigo-600 hover:text-indigo-900" 
+                                                    data-modal-target="crud-modal2" data-task='{"id": "{{ task.id }}", "description": "{{ task.description }}", "difficulty": "{{ task.difficulty }}", "interest": "{{ task.interest }}"}'
+                                                    data-modal-toggle="crud-modal2" onclick="openEditModal(event)">Edit</a>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-red-500 hover:text-red-600"
-                                                        data-modal-target="popup-modal"
-                                                        data-modal-toggle="popup-modal">Delete</a>
+                                                        data-modal-target="popup-modal" data-task='{"id": "{{ task.id }}"}'
+                                                        data-modal-toggle="popup-modal" onclick="openDeleteModal(event)">Delete</a>
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        {% endfor %}
                                     </table>
                                 </div>
                             </div>
@@ -235,7 +246,7 @@
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
                         delete this product?</h3>
-                    <button data-modal-hide="popup-modal" type="button"
+                    <button onclick="Delete(event)" data-modal-hide="popup-modal" type="button"
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Yes, I'm sure
                     </button>
@@ -272,31 +283,37 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 md:p-5">
+                <form id="add_form" class="p-4 md:p-5">
                     <div class="grid gap-4 mb-4 grid-cols-2">
                         <div class="col-span-2">
                             <label for="name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
-                            <input type="text" name="Id" id="Id"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="ID" required="">
-                        </div>
-                        <div class="col-span-2">
-                            <label for="name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                            <input type="text" name="Description" id="Description"
+                            <input type="text" name="description" id="description"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Description" required="">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="category"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficult</label>
-                            <select id="category"
+                            <label for="difficulty"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficulty</label>
+                            <select id="difficulty" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select difficult</option>
-                                <option value="Easy">Easy</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Hard">Hard</option>
+                                <option value="" disabled selected hidden>Select difficulty</option>
+                                <option value="Легкая">Легкая</option>
+                                <option value="Средняя">Средняя</option>
+                                <option value="Сложная">Сложная</option>
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="interest"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interest</label>
+                            <select id="interest" required
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option value="" disabled selected hidden>Select interest</option>
+                                <option value="Sport">Sport</option>
+                                <option value="Creative">Creative</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Food">Food</option>
                             </select>
                         </div>
                     </div>
@@ -310,6 +327,11 @@
                         </svg>
                         Add new task
                     </button>
+                    <div id="message" style="display: none" class="flex items-center justify-center flex-col">
+                        <label class="ml-2 block text-sm text-red-500" id="response-message">
+                            
+                        </label>
+                    </div>
                 </form>
             </div>
         </div>
@@ -339,31 +361,44 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 md:p-5">
+                <form id="edit_form" class="p-4 md:p-5">
                     <div class="grid gap-4 mb-4 grid-cols-2">
                         <div class="col-span-2">
                             <label for="name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
-                            <input type="text" name="Id" id="Id"
+                            <input type="text" name="id_edit" id="id_edit" disabled style="opacity: 0.5"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="1" required="">
+                                >
                         </div>
                         <div class="col-span-2">
                             <label for="name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                            <input type="text" name="Description" id="Description"
+                            <input type="text" name="description_edit" id="description_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Description" required="" value="Текст">
+                                placeholder="Description">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="category"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficult</label>
-                            <select id="category"
+                            <label for="difficulty"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficulty</label>
+                            <select id="difficulty_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select difficult</option>
-                                <option value="Easy">Easy</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Hard">Hard</option>
+                                <option value="" disabled selected hidden>Select difficulty</option>
+                                <option value="Легкая">Легкая</option>
+                                <option value="Средняя">Средняя</option>
+                                <option value="Сложная">Сложная</option>
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="interest"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interest</label>
+                            <select id="interest_edit"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option value="" disabled selected hidden>Select interest</option>
+                                <option value="Sport">Sport</option>
+                                <option value="Creative">Creative</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Food">Food</option>
                             </select>
                         </div>
                     </div>
@@ -371,12 +406,152 @@
                         class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Edit this task
                     </button>
+                    <div id="message_edit" style="display: none" class="flex items-center justify-center flex-col">
+                        <label class="ml-2 block text-sm text-red-500" id="response-message_edit">
+                            
+                        </label>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
+
+        function handleAddSubmit(event){
+            event.preventDefault();
+
+            const responseMessageLabel = document.getElementById('response-message');
+            const responseMessageDiv = document.getElementById('message');
+
+            description = document.getElementById('description').value;
+            difficulty = document.getElementById('difficulty').value;
+            interest = document.getElementById('interest').value;
+    
+            $.ajax({
+                url: 'add/',
+                method: 'POST',
+                data: {
+                    'description': description,
+                    'difficulty': difficulty,
+                    'interest': interest
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    responseMessageLabel.textContent = response.message;
+                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                    responseMessageDiv.style.display = 'flex';
+                },
+                error: function (xhr) {
+                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                    responseMessageDiv.style.display = 'flex';
+                }
+            });
+        }
+
+        function handleEditSubmit(event){
+            event.preventDefault();
+
+            const responseMessageLabel = document.getElementById('response-message_edit');
+            const responseMessageDiv = document.getElementById('message_edit');
+
+            edit_id = document.getElementById('id_edit').value;
+            description = document.getElementById('description_edit').value;
+            difficulty = document.getElementById('difficulty_edit').value;
+            interest = document.getElementById('interest_edit').value;
+    
+            $.ajax({
+                url: 'edit/',
+                method: 'POST',
+                data: {
+                    'edit_id': edit_id,
+                    'description': description,
+                    'difficulty': difficulty,
+                    'interest': interest
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    responseMessageLabel.textContent = response.message;
+                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                    responseMessageDiv.style.display = 'flex';
+                },
+                error: function (xhr) {
+                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                    responseMessageDiv.style.display = 'flex';
+                }
+            });
+        }
+
+        document.getElementById('add_form').addEventListener('submit', handleAddSubmit);
+        document.getElementById('edit_form').addEventListener('submit', handleEditSubmit);
+
+        function openEditModal(event) {
+            // Остановим поведение по умолчанию
+            event.preventDefault();
+        
+            // Получим значение data-user
+            const taskData = JSON.parse(event.currentTarget.dataset.task);
+        
+            // Найдём элемент модального окна и вставим данные
+            const edit_idInput = document.getElementById('id_edit');
+            const descriptionInput = document.getElementById('description_edit');
+            const difficultyInput = document.getElementById('difficulty_edit');
+            const interestInput = document.getElementById('interest_edit');
+            
+            edit_idInput.value = taskData.id;
+            descriptionInput.value = taskData.description;
+            difficultyInput.value = taskData.difficulty;
+            interestInput.value = taskData.interest;
+        }
+
+        function openDeleteModal(event) {
+            // Остановим поведение по умолчанию
+            event.preventDefault();
+        
+            // Получим значение data-user
+            const taskData = JSON.parse(event.currentTarget.dataset.task);
+            
+            delete_id = taskData.id;
+            
+            function Delete(event) {
+                $.ajax({
+                    url: 'delete/',
+                    method: 'POST',
+                    data: {
+                        'delete_id': delete_id,
+                    },
+                    headers: {
+                        'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                    },
+                });
+            }
+
+            window.Delete = Delete;
+        }
+    </script>
 </body>
 
 </html>

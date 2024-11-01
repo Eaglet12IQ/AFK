@@ -39,4 +39,7 @@ urlpatterns = [
     path("admin/profiles/", admin_system_views.admin_profiles, name="admin/profiles"),
     path("admin/profiles/edit/", admin_system_views.admin_profiles_edit, name="admin/profiles/edit"),
     path("admin/tasks/", admin_system_views.admin_tasks, name="admin/tasks"),
+    path("admin/tasks/add/", admin_system_views.admin_tasks_add, name="admin/tasks/add"),
+    path("admin/tasks/edit/", admin_system_views.admin_tasks_edit, name="admin/tasks/edit"),
+    path("admin/tasks/delete/", admin_system_views.admin_tasks_delete, name="admin/tasks/delete"),
 ]
