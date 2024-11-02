@@ -6,17 +6,23 @@
     /* опционально  */
 }
 
+@font-face {
+    font-family: PixelText;
+    src: url("/static/fonts/determinationrusbylyajka.otf");
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #1c1c1c;
     height: 100vh;
+    overflow: hidden;
 }
 
 .background {
-    -webkit-mask-image: radial-gradient(#fff, transparent 85%);
-    mask-image: radial-gradient(#fff, transparent 85%);
+    -webkit-mask-image: radial-gradient(rgba(0, 0, 0, 0.5), transparent 85%);
+    mask-image: radial-gradient(rgba(0, 0, 0, 0.5), transparent 85%);
     background-size: 4rem;
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='rgb(255 255 255 / 0.1)' viewBox='0 0 64 64'%3E%3Cpath d='M64 0H0v64'/%3E%3C/svg%3E");
     background-position: 50%;
@@ -25,7 +31,7 @@ body {
     position: absolute;
     pointer-events: none;
     animation: slide-background 3s linear infinite;
-    height: calc(100vh + 64px)
+    max-height: 100dvh;
 }
 
 
@@ -61,31 +67,63 @@ header {
     font-size: 1.5rem;
     line-height: 2rem;
     padding: 0.25rem 0.75rem;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .navbar {
     display: flex;
     justify-content: space-around;
     padding: 0.25rem;
-    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+    /*box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);*/
     background-color: rgb(26 27 29 / 90%);
-    border-radius: 9999px;
+    /*border-radius: 9999px;*/
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+
+}
+
+.navbarBorder {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.2rem;
+    background-color: rgba(107, 114, 128, 0.5);
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
 }
 
 .navbar a {
     padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    /*border-radius: 9999px;*/
     font-size: 0.875rem;
     line-height: 1.5;
     font-weight: 500;
     color: #ebebeb;
     transition: all 0.2s ease-in-out;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+
 }
 
 .navbar a:hover {
     padding: 0.25rem 0.75rem;
     background-color: #2f365f;
-    color: #ffffff;
 }
 
 .login {
@@ -97,8 +135,18 @@ header {
 
 .login a {
     padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    /*border-radius: 9999px;*/
     transition: all 0.2s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+
 }
 
 .login a:hover {
@@ -109,7 +157,7 @@ header {
     align-items: center;
     display: flex;
     flex-direction: column;
-    height: 750px;
+    height: 90%;
     justify-content: center;
     position: relative;
     width: 100%;
@@ -117,33 +165,129 @@ header {
 }
 
 .preview .title {
-    font-size: 8rem;
+    font-size: 9rem;
     font-weight: 900;
     z-index: 10;
-    color: white
+    color: white;
+    animation: slide-in-top 4s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .preview .subtitle {
     color: hsla(0, 0%, 100%, .75);
     font-size: 1.5rem;
-    font-weight: 500;
     margin-bottom: 5rem;
     z-index: 10;
+    animation: slide-in-top 4s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .preview a {
     z-index: 10;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s linear;
     background-color: #6610f2;
     font-size: 1.25rem;
     color: #ebebeb;
-    font-weight: 500;
     padding: 0.5rem 1.25rem;
-    border-radius: 9999px;
+    /*border-radius: 9999px;*/
+    animation: slide-in-bottom 4s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    clip-path: polygon(0px 10px, 10px 10px, 10px 0px,
+    calc(100% - 10px) 0px, calc(100% - 10px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 10px), 0px calc(100% - 10px));
+    border: rgba(255, 255, 255, 0.5) 10px solid;
 }
 
-.preview a:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);
-    color: #ffffff;
+/*.preview a:hover {*/
+/*    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);*/
+/*    box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);*/
+/*    color: rgba(0, 0, 0, 0.5)fff;*/
+/*}*/
+
+.preview div:hover a:hover {
+    filter: brightness(125%);
+    /*text-shadow: 2px 0 rgba(0, 0, 0, 0.5), -2px 0 rgba(0, 0, 0, 0.5), 0 2px rgba(0, 0, 0, 0.5), 0 -2px rgba(0, 0, 0, 0.5),*/
+    /*1px 1px rgba(0, 0, 0, 0.5), -1px -1px rgba(0, 0, 0, 0.5), 1px -1px rgba(0, 0, 0, 0.5), -1px 1px rgba(0, 0, 0, 0.5);*/
+}
+
+.preview div div {
+    background-color: rgba(118, 39, 248, 0.5);
+    padding: 20px 6px;
+    clip-path: polygon(0px 10px, 10px 10px, 10px 0px,
+    calc(100% - 10px) 0px, calc(100% - 10px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 10px), 0px calc(100% - 10px));
+    animation: button_animation step-end infinite 3s, slide-in-bottom 4s;
+    transition: 0.5s;
+}
+
+.preview div {
+    filter: drop-shadow(0 0 10px rgba(102, 16, 242, 0.5));
+    animation: button_border_animation step-end infinite 3s;
+    transition: 0.5s;
+}
+
+@keyframes slide-in-top {
+    0% {
+        translate: 0 -150vh;
+        scale: 200% 200%;
+    }
+
+    65% {
+        translate: 0 3vh;
+        scale: 90% 90%;
+    }
+
+    100% {
+        translate: 0 0;
+        scale: 100% 100%;
+    }
+}
+
+@keyframes slide-in-bottom {
+    0% {
+        translate: 0 150vh;
+        scale: 200% 200%;
+    }
+
+    65% {
+        translate: 0 -3vh;
+        scale: 90% 90%;
+    }
+
+    100% {
+        translate: 0 0;
+        scale: 100% 100%;
+    }
+}
+
+@keyframes button_animation {
+    0% {
+        padding: 20px 6px;
+    }
+    50% {
+        padding: 26px 12px;
+    }
+    100% {
+        padding: 26px 12px;
+    }
+}
+
+@keyframes button_border_animation {
+    0% {
+        padding: 26px 6px;
+    }
+    50% {
+        padding: 20px 12px;
+    }
+    100% {
+        padding: 20px 12px;
+    }
 }

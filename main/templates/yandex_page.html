@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+
+<body>
+    <div class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+        <div class="flex justify-center mb-6">
+            <a href="{% url 'main' %}"><img alt="Logo" class="h-12" src="{% static 'images/logo.png' %}" width="50"
+                    height="50" /></a>
+        </div>
+        <h2 class="text-center text-2xl text-white mb-6"> Создание аккаунта </h2>
+        <form id="" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-300" for="email">Email от вашего
+                    аккаунта</label>
+                <input
+                    value = "test@mail.ru" class="mt-1 block w-full opacity-50 px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
+                    id="email" name="email" required="" type="email" value="" disabled = "disabled"/>
+            </div>
+            <div id="password_div">
+                <label class="block text-sm font-medium text-gray-300" for="">Введите пароль</label>
+                <input
+                    class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
+                    type="password" id="password1" name="password1" value="">
+            </div>
+            <div id="password_div_2">
+                <label class="block text-sm font-medium text-gray-300" for="">Повтор пароля</label>
+            
+                <input
+                    class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
+                    type="password" id="password2" name="password2" value="">
+            </div>
+            <div style="display: flex;justify-content: center;">
+                <button id="button"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    type="submit">
+                    Продолжить
+                </button>
+            </div>
+            <div style="display: flex;justify-content: center; ">
+                <a href="" class="opacity-50">Пропустить</a>
+            </div>
+            <div id="message" class="flex items-center justify-center flex-col">
+                <label class="ml-2 block text-sm text-red-500" id="response-message">
+
+                </label>
+            </div>
+        </form>
+    </div>
+    <div
+        class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
+    </div>
+    <div
+        class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
+    </div>
+    <div class="background"></div>
+</body>
+
+</html>

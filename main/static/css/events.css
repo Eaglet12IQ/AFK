@@ -6,6 +6,11 @@
     /* опционально  */
 }
 
+@font-face {
+    font-family: PixelText;
+    src: url("/static/fonts/determinationrusbylyajka.otf");
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -25,7 +30,7 @@ body {
     position: absolute;
     pointer-events: none;
     animation: slide-background 3s linear infinite;
-    height: calc(100vh + 64px)
+    height: calc(100vh)
 }
 
 
@@ -33,6 +38,7 @@ body {
     0% {
         transform: translateX(0);
     }
+
     100% {
         transform: translateY(-64px);
     }
@@ -46,11 +52,22 @@ header {
     padding-bottom: 0.75rem;
     z-index: 5;
     color: white;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .conteiner {
     max-width: 1280px;
     margin: 0 auto;
+}
+
+.conteiner h1{
+    color:white;
+}
+
+.container h1{
+    color:white;
 }
 
 .logo {
@@ -61,6 +78,9 @@ header {
     font-size: 1.5rem;
     line-height: 2rem;
     padding: 0.25rem 0.75rem;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .navbar {
@@ -132,12 +152,12 @@ header {
     justify-content: center;
     width: 100%;
     flex-wrap: wrap;
-    font-family: Gotham Pro;
-    font-style: normal;
-    font-weight: bold;
     font-size: 34px;
     line-height: 33px;
     text-align: center;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
     color: #fff
 }
 
@@ -147,8 +167,9 @@ header {
     justify-content: center;
     width: 100%;
     flex-wrap: wrap;
-    font-family: Gotham Pro;
-    font-style: normal;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
     font-size: 20px;
     line-height: 23px;
     text-align: center;
@@ -158,8 +179,8 @@ header {
 .interest {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; 
-    justify-content: center; 
+    gap: 20px;
+    justify-content: center;
     padding: 20px;
 }
 
@@ -183,7 +204,7 @@ header {
 
 .image-container {
     width: 100%;
-    height: 100%; 
+    height: 100%;
     overflow: hidden;
     border-radius: 10px 10px 0 0;
 }
@@ -197,15 +218,17 @@ header {
 
 .label {
     font-size: 18px;
-    font-weight: bold;
     color: white;
     text-align: center;
     padding: 10px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 .interest-box:hover {
-    background: #4FACFE; 
-    color: white; 
+    background: #4FACFE;
+    color: white;
 }
 
 .interest-box.selected {
@@ -233,52 +256,295 @@ header {
     background-color: #6610f2;
     font-size: 1.25rem;
     color: #ebebeb;
-    font-weight: 500;
     padding: 0.5rem 1.25rem;
-    margin:0 10px;
+    margin: 0 10px;
     border-radius: 9999px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
-.generate-container button:hover {
+.generate-container-button:hover {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);
     color: #ffffff;
 }
+
 .difficulty-selection {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 }
 
 /* Стили для кнопок выбора сложности */
 
 .difficulty-button.easy {
-    background-color: #28a745; 
+    outline: 2px solid #ffffff00;
+    background-color: #28a745;
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.5);
 }
 
 .difficulty-button.medium {
-    background-color: #ffc107; 
+    outline: 2px solid #ffffff00;
+    background-color: #ffc107;
+    box-shadow: 0 4px 6px rgba(255, 193, 7, 0.5);
 }
 
 .difficulty-button.hard {
-    background-color: #dc3545; 
-}
-
-/* Тени для каждой сложности */
-.difficulty-button.easy:hover {
-    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.5); 
-}
-
-.difficulty-button.medium:hover {
-    box-shadow: 0 4px 6px rgba(255, 193, 7, 0.5); 
-}
-
-.difficulty-button.hard:hover {
-    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.5); 
+    outline: 2px solid #ffffff00;
+    background-color: #dc3545;
+    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.5);
 }
 
 .difficulty-button.selected {
-    border: 2px solid #fff; 
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); 
+    outline-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
+
+/* Модальное окно на index2.html */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* visibility: hidden; */
+    z-index: -1;
+    opacity: 0;
+    transition: all .3s ease-out;
+}
+
+
+.modal.open {
+    visibility: visible;
+    z-index: 100;
+    opacity: 1;
+
+}
+
+.modal .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.7;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.modal-window {
+    position: relative;
+    z-index: 101;
+    width: 475px;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, .4);
+    --tw-bg-opacity: 1;
+    background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+    padding: 30px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    border: none;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+.img {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #6610f2, #4FACFE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+
+
+/* Конец модального окна */
+
+.spisok {
+    padding: 0;
+    margin: 50px auto;
+    list-style: none;
+    text-align: center;
+}
+
+.spisok li {
+    display: inline-block;
+    width: 20%;
+    min-width: 200px;
+    max-width: 230px;
+    height: 350px;
+    padding: 80px 20px 40px;
+    position: relative;
+    vertical-align: top;
+    margin: 10px;
+    font-family: 'helvetica', san-serif;
+    min-height: 25vh;
+    background: #262a2b;
+    border: 1px solid #252727;
+    text-align: left;
+}
+
+.spisok li h2 {
+    font-size: 114px;
+    color:#ffffff30;
+    margin: 0;
+    position: absolute;
+    opacity: 0.2;
+    top: 50px;
+    right: 10px;
+    transition: all 0.3s ease-in-out;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+}
+
+.spisok li p {
+    font-size: 16px;
+    line-height: 18px;
+    color: #b7b7b7;
+    margin-top: 5px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+}
+
+.spisok li button {
+    background: transparent;
+    border: 1px solid #b7b7b7;
+    padding: 10px 20px;
+    color: #b7b7b7;
+    border-radius: 3px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(-40px);
+    opacity: 0;
+    cursor: pointer;
+    overflow: hidden;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+}
+
+.spisok li button:before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 120%;
+    background: #b7b7b7;
+    top: 0;
+    opacity: 0;
+    left: -140px;
+    border-radius: 0 20px 20px 0;
+    z-index: -1;
+    transition: all 0.3s ease-in-out;
+
+}
+
+.spisok li:hover button {
+    transform: translateY(5px);
+    opacity: 1;
+}
+
+.spisok li button:hover {
+    color: #262a2b;
+}
+
+.spisok li button:hover:before {
+    left: 0;
+    opacity: 1;
+}
+
+.spisok li:hover h2 {
+    top: 0px;
+    opacity: 0.6;
+}
+
+.spisok li:before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    z-index: -1;
+    background: #fff;
+    transform: skew(2deg, 2deg);
+}
+
+.spisok li:after {
+    content: '';
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.spisok li:nth-child(1):before {
+    background: linear-gradient(to right, #FFAFBD, #C9FFBF);
+}
+
+.spisok li:nth-child(2):before {
+    background: linear-gradient(to right, #ff9472, #f2709c);
+}
+
+.spisok li:nth-child(3):before {
+    background: linear-gradient(to right, #ffc500, #c21500);
+}
+
+.spisok li:nth-child(4):before {
+    background: linear-gradient(to right, #0ABFBC, #FC354C);
+}
+
+.spisok li:nth-child(5):before {
+    background: linear-gradient(to right, #FF6A88, #FF6A88);
+}
+
+.spisok li:nth-child(6):before {
+    background: linear-gradient(to right, #00C6FF, #0072FF);
+}
+
+.spisok li:nth-child(7):before {
+    background: linear-gradient(to right, #FFB75E, #ED8F03);
+}
+
+.spisok li:nth-child(8):before {
+    background: linear-gradient(to right, #FDC830 , #F37335);
+}
+
+.spisok li:nth-child(9):before {
+    background: linear-gradient(to right, #FFC107, #FFA07A);
+}
+
+.spisok li:nth-child(10):before {
+    background: linear-gradient(to right, #8BC34A, #4CAF50);
+}

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
     <title>Document</title>
@@ -18,9 +18,8 @@
                     width="50" /></a>
         </div>
 
-        <h2 class="text-center text-2xl font-semibold text-white mb-6"> Sign up your account</h2>
-        <form action="{% url 'register/submit_form' %}" method="POST" class="space-y-6" onsubmit="return validateForm()">
-            {% csrf_token %}
+        <h2 class="text-center text-2xl text-white mb-6"> Sign up your account</h2>
+        <form id="register_form" class="space-y-6">
             <div> <label class="block text-sm font-medium text-gray-300" for="email"> Email address </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="email" name="email" required="" type="email" /> </div>
@@ -29,30 +28,30 @@
                     id="login" name="login" required="" type="login" /> </div>
             <div> <label class="block text-sm font-medium text-gray-300" for="password"> Password </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
-                    id="password" name="password" required="" type="password" /> </div>
+                    id="password1" name="password" required="" type="password" /> </div>
             <div> <label class="block text-sm font-medium text-gray-300" for="password-again"> Password again</label>
                 <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
-                    id="password-again" name="password-again" required="" type="password"/>
+                    id="password2" name="password-again" required="" type="password"/>
+            </div>
+            <div style="display: none;" id="code_container"> <label class="block text-sm font-medium text-gray-300"> Введите код, который пришел Вам на почту </label> <input
+                class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
+                id="code"/>
             </div>
             <div class="flex items-center">
                 <input
                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-600 rounded bg-gray-700"
-                id="remember_me" name="remember_me" type="checkbox" required="" /> <label
+                id="personalData" name="personalData" type="checkbox" required="" /> <label
                 class="ml-2 block text-sm text-gray-300" for="remember_me"> Согласие на обработку персональных данных </label>
             </div>
             <div> <button
                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     type="submit"> Register </button>
             </div>
-            <div class="flex items-center justify-center flex-col"> 
-                {% if messages %}
-                    {% for message in messages %}
-                        <label class="ml-2 block text-sm text-red-500" for="remember_me">
-                            {{ message }}
-                        </label>
-                    {% endfor %}
-                {% endif %}
+            <div id="message" style="display: none" class="flex items-center justify-center flex-col"> 
+                <label class="ml-2 block text-sm text-red-500" id="response-message">
+                    
+                </label>
             </div>
         </form>
         <div class="mt-6 text-center">
@@ -69,46 +68,116 @@
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
     </div>
     <div class="background"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function validateForm() {
-            const checkbox = document.getElementById('remember_me');
-            const password = document.getElementById('password').value;
-            const passwordAgain = document.getElementById('password-again').value;
-            const messagesDiv = document.querySelector('.flex.items-center.justify-center');
-            
-            
-            messagesDiv.innerHTML = '';
-    
-            let errors = [];
-    
-            
-            if (!checkbox.checked) {
-                errors.push('Пожалуйста, согласитесь на обработку персональных данных.');
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
             }
-    
-            
-            if (password.length < 8) {
-                errors.push('Пароль должен содержать минимум 8 символов.');
-            }
-    
-            
-            if (password !== passwordAgain) {
-                errors.push('Пароли не совпадают.');
-            }
-    
-            
-            if (errors.length > 0) {
-                errors.forEach(error => {
-                    const errorLabel = document.createElement('label');
-                    errorLabel.className = 'ml-2 block text-sm text-red-500';
-                    errorLabel.textContent = error;
-                    messagesDiv.appendChild(errorLabel);
-                });
-                return false; 
-            }
-    
-            return true; 
+            return cookieValue;
         }
+
+        const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
+
+        function registerCodeSubmit(event){
+            event.preventDefault();
+            const responseMessageLabel = document.getElementById('response-message');
+            const emailInput = document.getElementById('email');
+            const loginInput = document.getElementById('login');
+            const password1Input = document.getElementById('password1');
+            const password2Input = document.getElementById('password2');
+            const codeInput = document.getElementById('code');
+
+            const email = emailInput.value;
+            const login = loginInput.value;
+            const password1 = password1Input.value;
+            const password2 = password2Input.value;
+            const code = codeInput.value;
+
+            $.ajax({
+                url: 'submit_form/',
+                method: 'POST',
+                data: {
+                    'email': email,
+                    'login': login,
+                    'password1': password1,
+                    'password2': password2,
+                    'code': code
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    window.location.href = response.redirect_url;
+                },
+                error: function(xhr) {
+                    responseMessageLabel.className = "ml-2 block text-sm text-red-500";
+                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                }
+            });
+        }
+
+        function registerSubmit(event){
+            event.preventDefault();
+            const responseMessageLabel = document.getElementById('response-message');
+            const responseMessageDiv = document.getElementById('message');
+            const emailInput = document.getElementById('email');
+            const loginInput = document.getElementById('login');
+            const password1Input = document.getElementById('password1');
+            const password2Input = document.getElementById('password2');
+
+            const email = emailInput.value;
+            const login = loginInput.value;
+            const password1 = password1Input.value;
+            const password2 = password2Input.value;
+
+            $.ajax({
+                url: 'submit_form/',
+                method: 'POST',
+                data: {
+                    'email': email,
+                    'login': login,
+                    'password1': password1,
+                    'password2': password2
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    const Form = document.getElementById('register_form');
+                    Form.removeEventListener('submit', registerSubmit);
+                    Form.addEventListener('submit', registerCodeSubmit);
+                    document.getElementById('code').required = true;
+                    emailInput.disabled = true;
+                    emailInput.style.opacity = '0.5';
+                    loginInput.disabled = true;
+                    loginInput.style.opacity = '0.5';
+                    password1Input.disabled = true;
+                    password1Input.style.opacity = '0.5';
+                    password2Input.disabled = true;
+                    password2Input.style.opacity = '0.5';
+                    document.getElementById('code_container').style.display = 'block';
+                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                    responseMessageLabel.textContent = response.message;
+                    responseMessageDiv.style.display = 'flex';
+                },
+                error: function(xhr) {
+                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                    responseMessageDiv.style.display = 'flex';
+                }
+            });
+        }
+        
+        document.getElementById('register_form').addEventListener('submit', registerSubmit);
     </script>
 </body>
 

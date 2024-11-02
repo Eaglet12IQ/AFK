@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.urls import reverse
 
 def main(request):
@@ -22,3 +21,9 @@ def events(request):
         return render(request, "events.html")
     else:
         return redirect("login")
+
+def forgot_password(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
+    else:
+        return render(request, "forgot_password.html")

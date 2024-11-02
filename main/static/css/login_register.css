@@ -7,9 +7,13 @@
     /* опционально  */
 }
 
+@font-face {
+    font-family: PixelText;
+    src: url("/static/fonts/determinationrusbylyajka.otf");
+}
+
 body { 
-    font-family: 'Inter', sans-serif; 
-    background-color: #0d0d0d; 
+    background-color: #0d0d0d;
     color: #e5e5e5; 
     height: 100vh; 
     margin: 0; 
@@ -18,6 +22,9 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
 } 
 
 .background {
@@ -30,5 +37,4 @@ body {
     inset: 0;
     position: absolute;
     pointer-events: none;
-    height: calc(100vh + 64px)
 }
