@@ -209,7 +209,20 @@
 </body>
 
 <script>
-    // Открытие модального окна
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+  
+    function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Устанавливаем срок истечения куки (в днях)
+        const expires = `; expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value || ""}${expires}; path=/`;
+    }
+  
+      // Открытие модального окна
     const modalButtons = document.querySelectorAll('#open-modal-btn');
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -238,64 +251,65 @@
         if (event._isClickWithInModal) return;
         event.currentTarget.classList.remove('open');
     });
-
+    
     function selectDifficulty(difficulty) {
-        // Удаляем класс 'selected' у всех кнопок сложности
-        const buttons = document.querySelectorAll('.difficulty-button');
-        buttons.forEach(button => {
-            button.classList.remove('selected');
-        });
+      // Удаляем класс 'selected' у всех кнопок сложности
+      const buttons = document.querySelectorAll('.difficulty-button');
+      buttons.forEach(button => {
+          button.classList.remove('selected');
+      });
 
-        // Добавляем класс 'selected' к выбранной кнопке
-        const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
-        selectedButton.classList.add('selected');
+      // Добавляем класс 'selected' к выбранной кнопке
+      const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
+      selectedButton.classList.add('selected');
+
+      setCookie('difficulty', difficulty, 3650);
     }
 
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
     function selectBox(box) {
-        // Toggle класс selected для выбранного блока
-        box.classList.toggle('selected');
-        const expires = new Date(9999, 11, 31).toUTCString();
-        const interestsCookie = getCookie('interests');
-        if (interestsCookie) {
-            // Если кука существует, парсим ее как JSON
-            myDictFromCookie = JSON.parse(interestsCookie);
-        } else {
-            // Если кука не существует, задаем значение по умолчанию
-            myDictFromCookie = []; // Или любое другое значение по умолчанию
-        }
+      // Toggle класс selected для выбранного блока
+      box.classList.toggle('selected');
 
-        const boxValue = box.getAttribute('data'); // Получаем уникальный id
-        if (myDictFromCookie.includes(boxValue)) {
-            myDictFromCookie = myDictFromCookie.filter(element => element !== boxValue);
-        } else {
-            myDictFromCookie.push(boxValue);
-        }
+      const interestsCookie = getCookie('interests');
+      if (interestsCookie) {
+          // Если кука существует, парсим ее как JSON
+          myDictFromCookie = JSON.parse(interestsCookie);
+      } else {
+          // Если кука не существует, задаем значение по умолчанию
+          myDictFromCookie = []; // Или любое другое значение по умолчанию
+      }
 
-        const myDictFromCookieStr = JSON.stringify(myDictFromCookie);
-        document.cookie = `interests=${myDictFromCookieStr}; expires=new Date(9999, 11, 31).toUTCString(); path=/;`;
+      const boxValue = box.getAttribute('data'); // Получаем уникальный id
+      if (myDictFromCookie.includes(boxValue)) {
+          myDictFromCookie = myDictFromCookie.filter(element => element !== boxValue);
+      } else {
+          myDictFromCookie.push(boxValue);
+      }
+
+      const myDictFromCookieStr = JSON.stringify(myDictFromCookie);
+      setCookie('interests', myDictFromCookieStr, 3650);
     }
-    document.addEventListener('DOMContentLoaded', function () {
-        const interestsCookie = getCookie('interests');
-        let myDictFromCookie = [];
+    document.addEventListener('DOMContentLoaded', function() {
+      const interestsCookie = getCookie('interests');
+      const difficultyCookie = getCookie('difficulty');
+      let myDictFromCookie = [];
 
-        if (interestsCookie) {
-            myDictFromCookie = JSON.parse(interestsCookie);
-        }
+      if (interestsCookie) {
+          myDictFromCookie = JSON.parse(interestsCookie);
+      }
 
-        // Ищем все элементы с классом 'box'
-        const boxes = document.querySelectorAll('.interest-box');
+      // Ищем все элементы с классом 'box'
+      const boxes = document.querySelectorAll('.interest-box');
 
-        boxes.forEach(box => {
-            const boxValue = box.getAttribute('data');
-            if (myDictFromCookie.includes(boxValue)) {
-                box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
-            }
-        });
+      boxes.forEach(box => {
+          const boxValue = box.getAttribute('data');
+          if (myDictFromCookie.includes(boxValue)) {
+              box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
+          }
+      });
+
+      const selectedButton = document.querySelector(`.difficulty-button.${difficultyCookie}`);
+      selectedButton.classList.add('selected');
     });
 </script>
 
