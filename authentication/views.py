@@ -56,7 +56,7 @@ def register_submit(request):
                 return JsonResponse({"message": "Код неверен либо устарел."}, status=400) 
         
 def login_submit(request):
-    if request.GET.get('code'):
+    if request.method == "GET":
         code = request.GET.get('code')
         token_url = 'https://oauth.yandex.ru/token'
         
