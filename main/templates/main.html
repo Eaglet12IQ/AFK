@@ -24,7 +24,16 @@
             <a href="">Other</a>
         </div>
     </div>
+    
     <div class="login">
+        <div class="notification" onclick="toggleNotificationMenu()">
+            <i class="fas fa-bell"></i>
+            <div class="notification-menu" id="notificationMenu">
+                <div class="notification-item">Уведомление 1</div>
+                <div class="notification-item">Уведомление 2</div>
+                <div class="notification-item">Уведомление 3</div>
+            </div>
+        </div>
         {% if user.is_authenticated %}
         {% if user.is_superuser %}
         <a href="{% url 'admin/users' %}"> Admin </a>
@@ -53,5 +62,22 @@
 </div>
 <div class="background"></div>
 </body>
+
+<script>
+    function toggleNotificationMenu() {
+        const menu = document.getElementById('notificationMenu');
+        menu.classList.toggle('active');
+    }
+
+    // Закрытие меню при клике вне его
+    window.onclick = function(event) {
+        if (!event.target.matches('.notification') && !event.target.matches('.notification i')) {
+            const menu = document.getElementById('notificationMenu');
+            if (menu.classList.contains('active')) {
+                menu.classList.remove('active');
+            }
+        }
+    }
+</script>
 
 </html>

@@ -442,7 +442,8 @@ header {
     padding: 10px 20px;
     color: #b7b7b7;
     border-radius: 3px;
-    position: relative;
+    position: relative; 
+    z-index: 1; 
     transition: all 0.3s ease-in-out;
     transform: translateY(-40px);
     opacity: 0;
@@ -507,6 +508,7 @@ header {
     left: 0;
     top: 0;
     background: rgba(255, 255, 255, 0.02);
+    z-index: 0;
 }
 
 .spisok li:nth-child(1):before {
