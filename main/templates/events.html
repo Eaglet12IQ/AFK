@@ -95,87 +95,8 @@
         <div class="slogan-container">
             <h1>Список последних сгенерированных занятий:</h1>
         </div>
-        <ul class="spisok">
-            <li>
-                <h2>01</h2>
-                <p>
-                    Пройдите мастер-класс по йоге на свежем воздухе, чтобы расслабиться и восстановить силы.
-                    Это отличная возможность насладиться природой и улучшить свое самочувствие.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>02</h2>
-                <p>
-                    Посетите местный художественный музей и насладитесь экспозицией современных художников.
-                    Это отличный способ расширить свои горизонты и вдохновиться новыми идеями.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>03</h2>
-                <p>
-                    Участвуйте в кулинарном мастер-классе и научитесь готовить блюда разных кухонь мира.
-                    Это не только полезно, но и весело!
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>04</h2>
-                <p>
-                    Пройдите экскурсию по историческим местам вашего города.
-                    Узнайте больше о его культуре и истории, а также сделайте интересные фотографии.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>05</h2>
-                <p>
-                    Примите участие в волонтерской программе и помогите тем, кто в этом нуждается.
-                    Это замечательный способ внести свой вклад в общество и познакомиться с новыми людьми.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>06</h2>
-                <p>
-                    Запишитесь на курсы по фотографии и научитесь делать потрясающие снимки.
-                    Это поможет вам запечатлеть важные моменты вашей жизни.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>07</h2>
-                <p>
-                    Устраивайте вечеринки настольных игр с друзьями.
-                    Это отличный способ провести время вместе и насладиться дружеской атмосферой.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>08</h2>
-                <p>
-                    Пройдите курс по рисованию или живописи и дайте волю своему творческому потенциалу.
-                    Это поможет вам расслабиться и выразить свои эмоции.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>09</h2>
-                <p>
-                    Участвуйте в спортивных соревнованиях или турнирах.
-                    Это отличный способ поддерживать физическую форму и завести новых друзей.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>10</h2>
-                <p>
-                    Запланируйте выходные на природе: поход в горы или пикник в парке.
-                    Это поможет вам отвлечься от повседневной рутины и насладиться свежим воздухом.
-                </p>
-                <button>Узнать больше</button>
-            </li>
+        <ul class="spisok" id="spisok">
+
         </ul>
     </div>
 
@@ -192,11 +113,13 @@
         <div class="modal-window">
             <h2 class="modal-title">Сгенерированная Идея</h2>
             <div class="idea">
-                <p class="idea-description">Это отличная возможность провести время с друзьями и насладиться атмосферой спортивного события!</p>
+                <p id="description" class="idea-description">Это отличная возможность провести время с друзьями и насладиться атмосферой спортивного события!</p>
             </div>
             <div class="img">
                 <img src="{% static 'images/like.png' %}" alt="Like" width="30%">
-                <img src="{% static 'images/reload.png' %}" alt="Reload" width="90px">
+                <button id="open-modal-btn">
+                    <img src="{% static 'images/reload.png' %}" alt="Reload" width="90px">
+                </button>
                 <img src="{% static 'images/dislike.png' %}" alt="Dislike" width="30%">
             </div>
             <div class="modal-window-close">
@@ -207,8 +130,25 @@
     </div>
 
 </body>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    function getCookieForCsrf(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    const csrftoken = getCookieForCsrf('csrftoken'); // Получаем CSRF токен
+    
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -221,13 +161,65 @@
         const expires = `; expires=${date.toUTCString()}`;
         document.cookie = `${name}=${value || ""}${expires}; path=/`;
     }
+
+    function deleteCookie(name) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
   
       // Открытие модального окна
     const modalButtons = document.querySelectorAll('#open-modal-btn');
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
             let title = button.getAttribute('data-title')
-            document.getElementById("my-modal").classList.add("open");
+            let last_generationsCookie = getCookie('last_generations');
+            if (last_generationsCookie) {
+                // Если кука существует, парсим ее как JSON
+                last_generationsCookie = JSON.parse(last_generationsCookie);
+            } else {
+                // Если кука не существует, задаем значение по умолчанию
+                last_generationsCookie = [];
+            }
+            let interestsCookie = getCookie('interests');
+            if (interestsCookie) {
+                interestsCookie = JSON.parse(interestsCookie);
+            }
+            else{
+                interestsCookie = [];
+            }
+            $.ajax({
+                url: 'generation/',
+                method: 'GET',
+                contentType: 'application/json',
+                data: {
+                    'interests': JSON.stringify(interestsCookie),
+                    'difficulty': getCookie('difficulty'),
+                    'last_generations': JSON.stringify(last_generationsCookie)
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function(response) {
+                    const spisokElement = document.getElementById('spisok');
+
+                    last_generationsCookie.unshift(response.completed_task);
+                    if (last_generationsCookie.length > 10){
+                        last_generationsCookie.pop();
+                        spisokElement.lastElementChild.remove();
+                    }
+                    setCookie('last_generations', JSON.stringify(last_generationsCookie), 3650);
+
+                    for (const [key, description] of Object.entries(response.completed_task)) {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<h2>${key}</h2><p>${description}</p><button>Узнать больше</button>`;
+                        spisokElement.insertBefore(li, spisokElement.firstChild);
+                    }
+
+                    const description_idea = document.getElementById('description');
+                    const taskId = Object.keys(response.completed_task)[0];
+                    description_idea.textContent = response.completed_task[taskId];
+                    document.getElementById("my-modal").classList.add("open");
+                },
+            });
         });
     });
 
@@ -253,17 +245,23 @@
     });
     
     function selectDifficulty(difficulty) {
-      // Удаляем класс 'selected' у всех кнопок сложности
-      const buttons = document.querySelectorAll('.difficulty-button');
-      buttons.forEach(button => {
-          button.classList.remove('selected');
-      });
+        // Удаляем класс 'selected' у всех кнопок сложности
+        const buttons = document.querySelectorAll('.difficulty-button');
+        buttons.forEach(button => {
+            button.classList.remove('selected');
+        });
 
-      // Добавляем класс 'selected' к выбранной кнопке
-      const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
-      selectedButton.classList.add('selected');
+        const difficultyCookie = getCookie('difficulty');
 
-      setCookie('difficulty', difficulty, 3650);
+        if (difficultyCookie == difficulty){
+            deleteCookie("difficulty");
+        }
+        else{
+            // Добавляем класс 'selected' к выбранной кнопке
+            const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
+            selectedButton.classList.add('selected');
+            setCookie('difficulty', difficulty, 3650);
+        }
     }
 
     function selectBox(box) {
@@ -290,26 +288,45 @@
       setCookie('interests', myDictFromCookieStr, 3650);
     }
     document.addEventListener('DOMContentLoaded', function() {
-      const interestsCookie = getCookie('interests');
-      const difficultyCookie = getCookie('difficulty');
-      let myDictFromCookie = [];
+        const interestsCookie = getCookie('interests');
+        const difficultyCookie = getCookie('difficulty');
+        let last_generationsCookie = getCookie('last_generations');
+            if (last_generationsCookie) {
+                // Если кука существует, парсим ее как JSON
+                last_generationsCookie = JSON.parse(last_generationsCookie);
+            } else {
+                // Если кука не существует, задаем значение по умолчанию
+                last_generationsCookie = [];
+            }
+        let myDictFromCookie = [];
 
-      if (interestsCookie) {
-          myDictFromCookie = JSON.parse(interestsCookie);
-      }
+        if (interestsCookie) {
+            myDictFromCookie = JSON.parse(interestsCookie);
+        }
 
-      // Ищем все элементы с классом 'box'
-      const boxes = document.querySelectorAll('.interest-box');
+        // Ищем все элементы с классом 'box'
+        const boxes = document.querySelectorAll('.interest-box');
 
-      boxes.forEach(box => {
-          const boxValue = box.getAttribute('data');
-          if (myDictFromCookie.includes(boxValue)) {
-              box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
-          }
-      });
+        boxes.forEach(box => {
+            const boxValue = box.getAttribute('data');
+            if (myDictFromCookie.includes(boxValue)) {
+                box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
+            }
+        });
 
-      const selectedButton = document.querySelector(`.difficulty-button.${difficultyCookie}`);
-      selectedButton.classList.add('selected');
+        if (difficultyCookie){
+            const selectedButton = document.querySelector(`.difficulty-button.${difficultyCookie}`);
+            selectedButton.classList.add('selected');
+        }
+
+        const spisokElement = document.getElementById('spisok');
+        last_generationsCookie.forEach(item => {
+            for (const [key, description] of Object.entries(item)) {
+                const li = document.createElement('li');
+                li.innerHTML = `<h2>${key}</h2><p>${description}</p><button>Узнать больше</button>`;
+                spisokElement.appendChild(li);
+            }
+        });
     });
 </script>
 
