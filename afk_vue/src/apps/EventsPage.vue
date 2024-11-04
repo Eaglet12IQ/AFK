@@ -7,3 +7,6 @@ export default {
   name: 'EventsPage',
 }
 </script>
+
+
+
