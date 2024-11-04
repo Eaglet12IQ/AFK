@@ -1,20 +1,22 @@
 {% load static %}
 <!DOCTYPE html>
+{% block html %}
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    {% endblock %}
-    <title>{% block title %}Document{% endblock %}</title>
+{% block head %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'src/styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% block styles %}{% endblock %}
+<title>{% block title %}Document{% endblock %}</title>
+{% endblock %}
 </head>
 
 <body>
+    {% block body %}
     <header class="conteiner">
         <div class="logo">
             <a href="{% url 'main' %}"> AFK</a>
@@ -47,9 +49,9 @@
     </div>
     <div class="background"></div>
 
-    {% block content %}
+    {% block content %}{% endblock %}
     {% endblock %}
 
 </body>
-
 </html>
+{% endblock %}
