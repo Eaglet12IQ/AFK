@@ -13,3 +13,6 @@ media/
 
 #npm
 node_modules/
+
+#build
+static/
