@@ -284,7 +284,13 @@ header {
 .difficulty-button.easy {
     outline: 2px solid #ffffff00;
     background-color: #28a745;
-    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.5);
+    /*box-shadow: 0 4px 6px rgba(40, 167, 69, 0.5);*/
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
 }
 
 .difficulty-button.medium {
