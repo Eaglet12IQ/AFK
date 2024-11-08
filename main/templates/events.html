@@ -186,13 +186,20 @@
             else{
                 interestsCookie = [];
             }
+            let difficultyCookie = getCookie('difficulty');
+            if (difficultyCookie) {
+                difficultyCookie = JSON.parse(difficultyCookie);
+            }
+            else{
+                difficultyCookie = [];
+            }
             $.ajax({
                 url: 'generation/',
                 method: 'GET',
                 contentType: 'application/json',
                 data: {
                     'interests': JSON.stringify(interestsCookie),
-                    'difficulty': getCookie('difficulty'),
+                    'difficulty': JSON.stringify(difficultyCookie),
                     'last_generations': JSON.stringify(last_generationsCookie)
                 },
                 headers: {
@@ -245,25 +252,36 @@
     });
     
     function selectDifficulty(difficulty) {
-        // Удаляем класс 'selected' у всех кнопок сложности
-        const buttons = document.querySelectorAll('.difficulty-button');
-        buttons.forEach(button => {
-            button.classList.remove('selected');
-        });
-
+        // Получаем куку с уровнем сложности
         const difficultyCookie = getCookie('difficulty');
-
-        if (difficultyCookie == difficulty){
-            deleteCookie("difficulty");
+        let myDictFromCookie;
+    
+        // Если кука существует, парсим ее как массив; если нет, создаем пустой массив
+        if (difficultyCookie) {
+            myDictFromCookie = JSON.parse(difficultyCookie);
+        } else {
+            myDictFromCookie = [];
         }
-        else{
-            // Добавляем класс 'selected' к выбранной кнопке
-            const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
+    
+        // Ссылка на кнопку для изменения класса
+        const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
+    
+        // Проверяем, есть ли выбранная сложность в куке
+        if (myDictFromCookie.includes(difficulty)) {
+            // Если есть, удаляем класс 'selected' у кнопки и удаляем значение из массива
+            selectedButton.classList.remove('selected');
+            myDictFromCookie = myDictFromCookie.filter(item => item !== difficulty);
+        } else {
+            // Если нет, добавляем класс 'selected' и добавляем сложность в массив
             selectedButton.classList.add('selected');
-            setCookie('difficulty', difficulty, 3650);
+            myDictFromCookie.push(difficulty);
         }
+    
+        // Преобразуем массив обратно в строку JSON и сохраняем в куку
+        const myDictFromCookieStr = JSON.stringify(myDictFromCookie);
+        setCookie('difficulty', myDictFromCookieStr, 3650); 
     }
-
+    
     function selectBox(box) {
       // Toggle класс selected для выбранного блока
       box.classList.toggle('selected');
@@ -289,7 +307,6 @@
     }
     document.addEventListener('DOMContentLoaded', function() {
         const interestsCookie = getCookie('interests');
-        const difficultyCookie = getCookie('difficulty');
         let last_generationsCookie = getCookie('last_generations');
             if (last_generationsCookie) {
                 // Если кука существует, парсим ее как JSON
@@ -298,26 +315,36 @@
                 // Если кука не существует, задаем значение по умолчанию
                 last_generationsCookie = [];
             }
-        let myDictFromCookie = [];
+        let myDictFromCookieInterests = [];
 
         if (interestsCookie) {
-            myDictFromCookie = JSON.parse(interestsCookie);
+            myDictFromCookieInterests = JSON.parse(interestsCookie);
         }
+
+        const difficultyCookie = JSON.parse(getCookie('difficulty') || '[]');
+
+        // Получаем все кнопки с классом .difficulty-button
+        const selectedButtons = document.querySelectorAll('.difficulty-button');
+
+        // Перебираем все кнопки
+        selectedButtons.forEach(button => {
+            // Для каждой кнопки проверяем, содержится ли ее класс в массиве из куки
+            if (difficultyCookie.includes(button.classList[1])) {  // Второй класс в button - это название сложности
+                button.classList.add('selected');  // Если найдено совпадение, добавляем класс
+            } else {
+                button.classList.remove('selected');  // Если не найдено - убираем класс
+            }
+        });
 
         // Ищем все элементы с классом 'box'
         const boxes = document.querySelectorAll('.interest-box');
 
         boxes.forEach(box => {
             const boxValue = box.getAttribute('data');
-            if (myDictFromCookie.includes(boxValue)) {
+            if (myDictFromCookieInterests.includes(boxValue)) {
                 box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
             }
         });
-
-        if (difficultyCookie){
-            const selectedButton = document.querySelector(`.difficulty-button.${difficultyCookie}`);
-            selectedButton.classList.add('selected');
-        }
 
         const spisokElement = document.getElementById('spisok');
         last_generationsCookie.forEach(item => {
