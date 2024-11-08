@@ -286,11 +286,12 @@
     
             $.ajax({
                 url: 'edit/',
-                method: 'POST',
-                data: {
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
                     'edit_id': edit_id,
                     'nickname': nickname,
-                },
+                }),
                 headers: {
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },

@@ -291,9 +291,9 @@
                             <select id="difficulty" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected hidden>Select difficulty</option>
-                                <option value="Легкая">Легкая</option>
-                                <option value="Средняя">Средняя</option>
-                                <option value="Сложная">Сложная</option>
+                                <option value="easy">easy</option>
+                                <option value="medium">medium</option>
+                                <option value="hard">hard</option>
                             </select>
                         </div>
                         <div class="col-span-2">
@@ -376,9 +376,9 @@
                             <select id="difficulty_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected hidden>Select difficulty</option>
-                                <option value="Легкая">Легкая</option>
-                                <option value="Средняя">Средняя</option>
-                                <option value="Сложная">Сложная</option>
+                                <option value="easy">easy</option>
+                                <option value="medium">medium</option>
+                                <option value="hard">hard</option>
                             </select>
                         </div>
                         <div class="col-span-2">
@@ -443,11 +443,12 @@
             $.ajax({
                 url: 'add/',
                 method: 'POST',
-                data: {
+                contentType: 'application/json',
+                data: JSON.stringify({
                     'description': description,
                     'difficulty': difficulty,
                     'interest': interest
-                },
+                }),
                 headers: {
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
@@ -476,13 +477,14 @@
     
             $.ajax({
                 url: 'edit/',
-                method: 'POST',
-                data: {
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
                     'edit_id': edit_id,
                     'description': description,
                     'difficulty': difficulty,
                     'interest': interest
-                },
+                }),
                 headers: {
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
@@ -532,10 +534,11 @@
             function Delete(event) {
                 $.ajax({
                     url: 'delete/',
-                    method: 'POST',
-                    data: {
+                    method: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
                         'delete_id': delete_id,
-                    },
+                    }),
                     headers: {
                         'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                     },

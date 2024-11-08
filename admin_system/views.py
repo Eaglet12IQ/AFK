@@ -4,6 +4,7 @@ from profiles.models import Profile
 from taskGenerator.models import Tasks
 from django.http import JsonResponse
 from django.http import HttpResponse
+import json
 
 def admin_users(request):
     if not request.user.is_superuser:
@@ -16,20 +17,21 @@ def admin_users_add(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        username = request.POST.get('username')
+        data = json.loads(request.body)
+        username = data.get('username')
         if User.objects.filter(username=username).exists():
             return JsonResponse({"message": "Пользователь с таким именем уже существует."}, status=400)
         
-        email = request.POST.get('email')
+        email = data.get('email')
         if User.objects.filter(email=email).exists():
             return JsonResponse({"message": "Пользователь с такой почтой уже существует."}, status=400)
         
-        password = request.POST.get('password')
-        is_superuser = request.POST.get('is_superuser')
-        last_name = request.POST.get('last_name')
-        is_staff = request.POST.get('is_staff')
-        is_active = request.POST.get('is_active')
-        first_name = request.POST.get('first_name')
+        password = data.get('password')
+        is_superuser = data.get('is_superuser')
+        last_name = data.get('last_name')
+        is_staff = data.get('is_staff')
+        is_active = data.get('is_active')
+        first_name = data.get('first_name')
 
         user = User.objects.create_user(username=username, password=password, email=email, is_superuser=is_superuser, last_name=last_name, is_staff=is_staff, is_active=is_active, first_name=first_name)
 
@@ -42,21 +44,22 @@ def admin_users_edit(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        edit_id = request.POST.get('edit_id')
+        data = json.loads(request.body)
+        edit_id = data.get('edit_id')
 
-        username = request.POST.get('username')
+        username = data.get('username')
         if User.objects.filter(username=username).exclude(id=edit_id).exists():
             return JsonResponse({"message": "Пользователь с таким именем уже существует."}, status=400)
         
-        email = request.POST.get('email')
+        email = data.get('email')
         if User.objects.filter(email=email).exclude(id=edit_id).exists():
             return JsonResponse({"message": "Пользователь с такой почтой уже существует."}, status=400)
         
-        is_superuser = request.POST.get('is_superuser')
-        last_name = request.POST.get('last_name')
-        is_staff = request.POST.get('is_staff')
-        is_active = request.POST.get('is_active')
-        first_name = request.POST.get('first_name')
+        is_superuser = data.get('is_superuser')
+        last_name = data.get('last_name')
+        is_staff = data.get('is_staff')
+        is_active = data.get('is_active')
+        first_name = data.get('first_name')
 
         edit_user = User.objects.get(id=edit_id)
 
@@ -76,7 +79,8 @@ def admin_users_delete(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        delete_id = request.POST.get('delete_id')
+        data = json.loads(request.body)
+        delete_id = data.get('delete_id')
 
         User.objects.filter(id=delete_id).delete()
 
@@ -93,9 +97,10 @@ def admin_profiles_edit(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        edit_id = request.POST.get('edit_id')
+        data = json.loads(request.body)
+        edit_id = data.get('edit_id')
 
-        nickname = request.POST.get('nickname')
+        nickname = data.get('nickname')
 
         edit_profile = Profile.objects.get(id=edit_id)
 
@@ -116,9 +121,10 @@ def admin_tasks_add(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        description = request.POST.get('description')
-        difficulty = request.POST.get('difficulty')
-        interest = request.POST.get('interest')
+        data = json.loads(request.body)
+        description = data.get('description')
+        difficulty = data.get('difficulty')
+        interest = data.get('interest')
 
         Tasks.objects.create(description=description, difficulty=difficulty, interest=interest)
 
@@ -128,10 +134,11 @@ def admin_tasks_edit(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        edit_id = request.POST.get('edit_id')
-        description = request.POST.get('description')
-        difficulty = request.POST.get('difficulty')
-        interest = request.POST.get('interest')
+        data = json.loads(request.body)
+        edit_id = data.get('edit_id')
+        description = data.get('description')
+        difficulty = data.get('difficulty')
+        interest = data.get('interest')
 
         edit_task = Tasks.objects.get(id=edit_id)
 
@@ -141,13 +148,14 @@ def admin_tasks_edit(request):
 
         edit_task.save()
 
-        return JsonResponse({"message": "Данные занятия изменены."}, status=200)
+        return JsonResponse({"message": "Информация о занятии изменена."}, status=200)
     
 def admin_tasks_delete(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        delete_id = request.POST.get('delete_id')
+        data = json.loads(request.body)
+        delete_id = data.get('delete_id')
 
         Tasks.objects.filter(id=delete_id).delete()
 
