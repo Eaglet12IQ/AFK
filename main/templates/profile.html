@@ -1,40 +1,12 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <title>Profile</title>
-</head>
+{% block title %}Profile{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
 
-<body>
-<header class="conteiner">
-    <div class="logo">
-        <a href="{% url 'main' %}"> AFK</a>
-    </div>
-    <div class="navbarBorder">
-        <div class="navbar">
-            <a href="{% url 'main' %}">Home</a>
-            <a href="{% url 'events' %}">Events</a>
-            <a href="#">Top</a>
-            <a href="">Other</a>
-        </div>
-    </div>
-    <div class="login">
-        {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-        <a href="{% url 'admin/users' %}"> Admin </a>
-        {% endif %}
-        <a href="{% url 'profile' user.id %}"> Profile </a>
-        {% else %}
-        <a href="{% url 'login' %}"> Sign in </a>
-        {% endif %}
-    </div>
-</header>
+{% block content %}
     <div class="profile-container">
         <div class="profile-header">
             <div class="profile-image">
@@ -111,6 +83,5 @@
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
     </div>
     <div class="background"></div>
-</body>
 
-</html>
+{% endblock %}

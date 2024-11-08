@@ -1,222 +1,187 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/events.css' %}">
-    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <title>Document</title>
-</head>
-
-<body>
-    <header class="conteiner">
-        <div class="logo">
-            <a href="{% url 'main' %}"> AFK</a>
+{% block title %}AFK - Main{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/events.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="slogan">
+        <div class="slogan-container"><span>Выбирайте ваши любимые <span style="
+            background: linear-gradient(90deg, #6610f2, #4FACFE);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;">интересы</span> и
+                находите для себя новые занятия!</span>
         </div>
-        <div class="navbar">
-            <a href="{% url 'main' %}">Home</a>
-            <a href="{% url 'events' %}">Events</a>
-            <a href="#">Top</a>
-            <a href="">Other</a>
-        </div>
-        <div class="login">
-            {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-            <a href="{% url 'admin/users' %}"> Admin </a>
-            {% endif %}
-            <a href="{% url 'profile' user.id %}"> Profile </a>
-            {% else %}
-            <a href="{% url 'login' %}"> Sign in </a>
-            {% endif %}
-        </div>
-    </header>
-    <div class="container">
-        <div class="slogan">
-            <div class="slogan-container"><span>Выбирайте ваши любимые <span style="
-                background: linear-gradient(90deg, #6610f2, #4FACFE);
-                background-clip: text;
-                -webkit-text-fill-color: transparent;
-                margin-bottom: 10px;">интересы</span> и
-                    находите для себя новые занятия!</span>
-            </div>
-            <div class="slogan-container-sub"> Найдите, чем заняться в одиночку, в паре или компании. </div>
-        </div>
+        <div class="slogan-container-sub"> Найдите, чем заняться в одиночку, в паре или компании. </div>
     </div>
-    <div class="interest">
-        <div class="interest-box" data="Sport" onclick="selectBox(this)">
-            <div class="image-container">
-                <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
-                    alt="Sport">
-            </div>
-            <div class="label">Sport</div>
+</div>
+<div class="interest">
+    <div class="interest-box" data="Sport" onclick="selectBox(this)">
+        <div class="image-container">
+            <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
+                alt="Sport">
         </div>
-        <div class="interest-box" data="Creative" onclick="selectBox(this)">
-            <div class="image-container">
-                <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
-                    alt="Creative">
-            </div>
-            <div class="label">Creative</div>
+        <div class="label">Sport</div>
+    </div>
+    <div class="interest-box" data="Creative" onclick="selectBox(this)">
+        <div class="image-container">
+            <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
+                alt="Creative">
         </div>
-        <div class="interest-box" data="Technology" onclick="selectBox(this)">
-            <div class="image-container">
-                <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13"
-                    alt="Technology">
-            </div>
-            <div class="label">Technology</div>
+        <div class="label">Creative</div>
+    </div>
+    <div class="interest-box" data="Technology" onclick="selectBox(this)">
+        <div class="image-container">
+            <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13"
+                alt="Technology">
         </div>
-        <div class="interest-box" data="Travel" onclick="selectBox(this)">
-            <div class="image-container">
-                <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13"
-                    alt="Travel">
-            </div>
-            <div class="label">Travel</div>
+        <div class="label">Technology</div>
+    </div>
+    <div class="interest-box" data="Travel" onclick="selectBox(this)">
+        <div class="image-container">
+            <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13"
+                alt="Travel">
         </div>
-        <div class="interest-box" data="Food" onclick="selectBox(this)">
-            <div class="image-container">
-                <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Food">
-            </div>
-            <div class="label">Food</div>
+        <div class="label">Travel</div>
+    </div>
+    <div class="interest-box" data="Food" onclick="selectBox(this)">
+        <div class="image-container">
+            <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Food">
         </div>
-
+        <div class="label">Food</div>
     </div>
 
-    <div class="generate-container">
-        <div class="difficulty-selection">
-            <button class="difficulty-button easy" onclick="selectDifficulty('easy')">Легкая</button>
-            <button class="difficulty-button medium" onclick="selectDifficulty('medium')">Средняя</button>
-            <button class="difficulty-button hard" onclick="selectDifficulty('hard')">Сложная</button>
+</div>
+
+<div class="generate-container">
+    <div class="difficulty-selection">
+        <button class="difficulty-button easy" onclick="selectDifficulty('easy')">Легкая</button>
+        <button class="difficulty-button medium" onclick="selectDifficulty('medium')">Средняя</button>
+        <button class="difficulty-button hard" onclick="selectDifficulty('hard')">Сложная</button>
+    </div>
+    <button class="generate-container-button" id="open-modal-btn">Сгенерировать занятие</button>
+</div>
+<div class="conteiner">
+    <div class="slogan-container">
+        <h1>Список последних сгенерированных занятий:</h1>
+    </div>
+    <ul class="spisok" id="spisok">
+
+    </ul>
+</div>
+<div class="modal" id="my-modal">
+    <div class="modal-window">
+        <h2 class="modal-title">Сгенерированная Идея</h2>
+        <div class="idea">
+            <p id="description" class="idea-description">Это отличная возможность провести время с друзьями и
+                насладиться атмосферой спортивного события!</p>
         </div>
-        <button class="generate-container-button" id="open-modal-btn">Сгенерировать занятие</button>
-    </div>
-    <div class="conteiner">
-        <div class="slogan-container">
-            <h1>Список последних сгенерированных занятий:</h1>
+        <div class="img">
+            <img src="{% static 'images/like.png' %}" alt="Like" width="30%">
+            <button id="open-modal-btn">
+                <img src="{% static 'images/reload.png' %}" alt="Reload" width="90px">
+            </button>
+            <img src="{% static 'images/dislike.png' %}" alt="Dislike" width="30%">
         </div>
-        <ul class="spisok">
-            <li>
-                <h2>01</h2>
-                <p>
-                    Пройдите мастер-класс по йоге на свежем воздухе, чтобы расслабиться и восстановить силы.
-                    Это отличная возможность насладиться природой и улучшить свое самочувствие.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>02</h2>
-                <p>
-                    Посетите местный художественный музей и насладитесь экспозицией современных художников.
-                    Это отличный способ расширить свои горизонты и вдохновиться новыми идеями.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>03</h2>
-                <p>
-                    Участвуйте в кулинарном мастер-классе и научитесь готовить блюда разных кухонь мира.
-                    Это не только полезно, но и весело!
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>04</h2>
-                <p>
-                    Пройдите экскурсию по историческим местам вашего города.
-                    Узнайте больше о его культуре и истории, а также сделайте интересные фотографии.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>05</h2>
-                <p>
-                    Примите участие в волонтерской программе и помогите тем, кто в этом нуждается.
-                    Это замечательный способ внести свой вклад в общество и познакомиться с новыми людьми.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>06</h2>
-                <p>
-                    Запишитесь на курсы по фотографии и научитесь делать потрясающие снимки.
-                    Это поможет вам запечатлеть важные моменты вашей жизни.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>07</h2>
-                <p>
-                    Устраивайте вечеринки настольных игр с друзьями.
-                    Это отличный способ провести время вместе и насладиться дружеской атмосферой.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>08</h2>
-                <p>
-                    Пройдите курс по рисованию или живописи и дайте волю своему творческому потенциалу.
-                    Это поможет вам расслабиться и выразить свои эмоции.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>09</h2>
-                <p>
-                    Участвуйте в спортивных соревнованиях или турнирах.
-                    Это отличный способ поддерживать физическую форму и завести новых друзей.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-            <li>
-                <h2>10</h2>
-                <p>
-                    Запланируйте выходные на природе: поход в горы или пикник в парке.
-                    Это поможет вам отвлечься от повседневной рутины и насладиться свежим воздухом.
-                </p>
-                <button>Узнать больше</button>
-            </li>
-        </ul>
-    </div>
-
-
-    <div
-        class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
-    </div>
-    <div
-        class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
-    </div>
-    <div class="background"></div>
-
-    <div class="modal" id="my-modal">
-        <div class="modal-window">
-            <h2 class="modal-title">Сгенерированная Идея</h2>
-            <div class="idea">
-                <h3>Сходите на стадион и посмотрите футбольный матч</h3>
-                <p class="idea-description">Это отличная возможность провести время с друзьями и насладиться атмосферой
-                    спортивного события!</p>
-            </div>
-            <div class="img">
-                <img src="{% static 'images/like.png' %}" alt="Like" width="30%">
-                <img src="{% static 'images/reload.png' %}" alt="Dislike" width="90px">
-                <img src="{% static 'images/dislike.png' %}" alt="Dislike" width="30%">
-            </div>
-            <div class="modal-window-close">
-                <button class="btn-close" id="close-modal-btn">X</button>
-            </div>
+        <div class="modal-window-close">
+            <button class="btn-close" id="close-modal-btn">X</button>
         </div>
-        <div class="overlay"></div>
     </div>
-
-</body>
-
+    <div class="overlay"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    function getCookieForCsrf(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookieForCsrf('csrftoken'); // Получаем CSRF токен
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Устанавливаем срок истечения куки (в днях)
+        const expires = `; expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value || ""}${expires}; path=/`;
+    }
+
+    function deleteCookie(name) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
     // Открытие модального окна
     const modalButtons = document.querySelectorAll('#open-modal-btn');
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
             let title = button.getAttribute('data-title')
-            document.getElementById("my-modal").classList.add("open");
+            let last_generationsCookie = getCookie('last_generations');
+            if (last_generationsCookie) {
+                // Если кука существует, парсим ее как JSON
+                last_generationsCookie = JSON.parse(last_generationsCookie);
+            } else {
+                // Если кука не существует, задаем значение по умолчанию
+                last_generationsCookie = [];
+            }
+            let interestsCookie = getCookie('interests');
+            if (interestsCookie) {
+                interestsCookie = JSON.parse(interestsCookie);
+            }
+            else {
+                interestsCookie = [];
+            }
+            $.ajax({
+                url: 'generation/',
+                method: 'GET',
+                contentType: 'application/json',
+                data: {
+                    'interests': JSON.stringify(interestsCookie),
+                    'difficulty': getCookie('difficulty'),
+                    'last_generations': JSON.stringify(last_generationsCookie)
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                success: function (response) {
+                    const spisokElement = document.getElementById('spisok');
+
+                    last_generationsCookie.unshift(response.completed_task);
+                    if (last_generationsCookie.length > 10) {
+                        last_generationsCookie.pop();
+                        spisokElement.lastElementChild.remove();
+                    }
+                    setCookie('last_generations', JSON.stringify(last_generationsCookie), 3650);
+
+                    for (const [key, description] of Object.entries(response.completed_task)) {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<h2>${key}</h2><p>${description}</p><button>Узнать больше</button>`;
+                        spisokElement.insertBefore(li, spisokElement.firstChild);
+                    }
+
+                    const description_idea = document.getElementById('description');
+                    const taskId = Object.keys(response.completed_task)[0];
+                    description_idea.textContent = response.completed_task[taskId];
+                    document.getElementById("my-modal").classList.add("open");
+                },
+            });
         });
     });
 
@@ -248,20 +213,23 @@
             button.classList.remove('selected');
         });
 
-        // Добавляем класс 'selected' к выбранной кнопке
-        const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
-        selectedButton.classList.add('selected');
+        const difficultyCookie = getCookie('difficulty');
+
+        if (difficultyCookie == difficulty) {
+            deleteCookie("difficulty");
+        }
+        else {
+            // Добавляем класс 'selected' к выбранной кнопке
+            const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
+            selectedButton.classList.add('selected');
+            setCookie('difficulty', difficulty, 3650);
+        }
     }
 
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
     function selectBox(box) {
         // Toggle класс selected для выбранного блока
         box.classList.toggle('selected');
-        const expires = new Date(9999, 11, 31).toUTCString();
+
         const interestsCookie = getCookie('interests');
         if (interestsCookie) {
             // Если кука существует, парсим ее как JSON
@@ -279,10 +247,19 @@
         }
 
         const myDictFromCookieStr = JSON.stringify(myDictFromCookie);
-        document.cookie = `interests=${myDictFromCookieStr}; expires=new Date(9999, 11, 31).toUTCString(); path=/;`;
+        setCookie('interests', myDictFromCookieStr, 3650);
     }
     document.addEventListener('DOMContentLoaded', function () {
         const interestsCookie = getCookie('interests');
+        const difficultyCookie = getCookie('difficulty');
+        let last_generationsCookie = getCookie('last_generations');
+        if (last_generationsCookie) {
+            // Если кука существует, парсим ее как JSON
+            last_generationsCookie = JSON.parse(last_generationsCookie);
+        } else {
+            // Если кука не существует, задаем значение по умолчанию
+            last_generationsCookie = [];
+        }
         let myDictFromCookie = [];
 
         if (interestsCookie) {
@@ -298,7 +275,20 @@
                 box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
             }
         });
+
+        if (difficultyCookie) {
+            const selectedButton = document.querySelector(`.difficulty-button.${difficultyCookie}`);
+            selectedButton.classList.add('selected');
+        }
+
+        const spisokElement = document.getElementById('spisok');
+        last_generationsCookie.forEach(item => {
+            for (const [key, description] of Object.entries(item)) {
+                const li = document.createElement('li');
+                li.innerHTML = `<h2>${key}</h2><p>${description}</p><button>Узнать больше</button>`;
+                spisokElement.appendChild(li);
+            }
+        });
     });
 </script>
-
-</html>
+{% endblock %}
