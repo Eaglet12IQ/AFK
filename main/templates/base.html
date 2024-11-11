@@ -23,10 +23,10 @@
         </div>
         <div class="navbarBorder">
             <div class="navbar">
-                <a href="{% url 'main' %}">Home</a>
-                <a href="{% url 'events' %}">Events</a>
-                <a href="#">Top</a>
-                <a href="">Other</a>
+                <a href="{% url 'main' %}">Главная</a>
+                <a href="{% url 'events' %}">Занятия</a>
+                <a href="#">Топ</a>
+                <a href="">Другое</a>
             </div>
         </div>
         <div class="login">
@@ -40,11 +40,11 @@
             </div>
             {% if user.is_authenticated %}
             {% if user.is_superuser %}
-            <a href="{% url 'admin/users' %}"> Admin </a>
+            <a href="{% url 'admin/users' %}"> Админ </a>
             {% endif %}
-            <a href="{% url 'profile' user.id %}"> Profile </a>
+            <a href="{% url 'profile' user.id %}"> Профиль </a>
             {% else %}
-            <a href="{% url 'login' %}"> Sign in </a>
+            <a href="{% url 'login' %}"> Войти </a>
             {% endif %}
         </div>
     </header>
