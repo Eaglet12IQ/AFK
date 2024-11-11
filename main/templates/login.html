@@ -71,7 +71,6 @@
     class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
 </div>
 <div class="background"></div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Функция для получения CSRF токена
     function getCookie(name) {
@@ -103,24 +102,36 @@
         const emailLogin = emailLoginInput.value;
         const password = passwordInput.value;
 
-        $.ajax({
-            url: 'submit_form/',
-            method: 'POST',
-            data: {
+        const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+        const url = new URL('login/submit_form/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+            },
+            body: JSON.stringify({
                 'emailLogin': emailLogin,
                 'password': password,
                 "rememberMe": rememberMe
-            },
-            headers: {
-                'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-            },
-            success: function(response) {
-                window.location.href = response.redirect_url;
-            },
-            error: function(xhr) {
-                responseMessageLabel.textContent = xhr.responseJSON.message;
-                responseMessageDiv.style.display = 'flex';
+            })
+        })
+        .then(response => {
+            if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                return response.json().then(errorData => {
+                    // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                    return Promise.reject(new Error(errorData.message));
+                });
             }
+            return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+        })
+        .then(data => {
+            window.location.href = data.redirect_url;  // Перенаправление
+        })
+        .catch(error => {
+            responseMessageLabel.textContent = error.message;
+            responseMessageDiv.style.display = 'flex';  // Показать сообщение об ошибке
         });
     }
     

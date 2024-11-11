@@ -140,7 +140,6 @@
     </div>
 
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function getCookieForCsrf(name) {
         let cookieValue = null;
@@ -203,39 +202,43 @@
             else{
                 difficultyCookie = [];
             }
-            $.ajax({
-                url: 'generation/',
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('events/generation/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+            url.searchParams.append('interests', JSON.stringify(interestsCookie));
+            url.searchParams.append('difficulty', JSON.stringify(difficultyCookie));
+            url.searchParams.append('last_generations', JSON.stringify(last_generationsCookie));
+
+            fetch(url, {
                 method: 'GET',
-                contentType: 'application/json',
-                data: {
-                    'interests': JSON.stringify(interestsCookie),
-                    'difficulty': JSON.stringify(difficultyCookie),
-                    'last_generations': JSON.stringify(last_generationsCookie)
-                },
                 headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    const spisokElement = document.getElementById('spisok');
-
-                    last_generationsCookie.unshift(response.completed_task);
-                    if (last_generationsCookie.length > 10){
-                        last_generationsCookie.pop();
-                        spisokElement.lastElementChild.remove();
-                    }
-                    setCookie('last_generations', JSON.stringify(last_generationsCookie), 3650);
-
-                    for (const [key, description] of Object.entries(response.completed_task)) {
-                        const li = document.createElement('li');
-                        li.innerHTML = `<h2>${key}</h2><p>${description}</p><button>Узнать больше</button>`;
-                        spisokElement.insertBefore(li, spisokElement.firstChild);
-                    }
-
-                    const description_idea = document.getElementById('description');
-                    const taskId = Object.keys(response.completed_task)[0];
-                    description_idea.textContent = response.completed_task[taskId];
-                    document.getElementById("my-modal").classList.add("open");
-                },
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const spisokElement = document.getElementById('spisok');
+            
+                last_generationsCookie.unshift(data.completed_task);
+                if (last_generationsCookie.length > 10) {
+                    last_generationsCookie.pop();
+                    spisokElement.lastElementChild.remove();
+                }
+                setCookie('last_generations', JSON.stringify(last_generationsCookie), 3650);
+            
+                for (const [key, description] of Object.entries(data.completed_task)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<h2>${key}</h2><p>${description}</p><button>Узнать больше</button>`;
+                    spisokElement.insertBefore(li, spisokElement.firstChild);
+                }
+            
+                const description_idea = document.getElementById('description');
+                const taskId = Object.keys(data.completed_task)[0];
+                description_idea.textContent = data.completed_task[taskId];
+            
+                document.getElementById("my-modal").classList.add("open");
             });
         });
     });

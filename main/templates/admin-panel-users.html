@@ -521,7 +521,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function capitalizeFirstLetter(str) {
             if (!str) return ""; // Проверка на пустую строку
@@ -560,12 +559,17 @@
             is_staff = document.getElementById('is_staff').value;
             is_active = document.getElementById('is_active').value;
             first_name = document.getElementById('first_name').value;
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('admin/users/add/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
     
-            $.ajax({
-                url: 'add/',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
                     'password': password,
                     'is_superuser': is_superuser,
                     'username': username,
@@ -573,20 +577,26 @@
                     'email': email,
                     'is_staff': is_staff,
                     'is_active': is_active,
-                    'first_name': first_name,
-                }),
-                headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    responseMessageLabel.textContent = response.message;
-                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                    responseMessageDiv.style.display = 'flex';
-                },
-                error: function (xhr) {
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
-                    responseMessageDiv.style.display = 'flex';
+                    'first_name': first_name
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                responseMessageLabel.textContent = data.message;
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
             });
         }
 
@@ -604,12 +614,17 @@
             is_staff = capitalizeFirstLetter(document.getElementById('is_staff_edit').value);
             is_active = capitalizeFirstLetter(document.getElementById('is_active_edit').value);
             first_name = document.getElementById('first_name_edit').value;
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('admin/users/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
     
-            $.ajax({
-                url: 'edit/',
-                method: 'PATCH',
-                contentType: 'application/json',
-                data: JSON.stringify({
+            fetch(url, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
                     'edit_id': edit_id,
                     'is_superuser': is_superuser,
                     'username': username,
@@ -618,19 +633,25 @@
                     'is_staff': is_staff,
                     'is_active': is_active,
                     'first_name': first_name,
-                }),
-                headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    responseMessageLabel.textContent = response.message;
-                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                    responseMessageDiv.style.display = 'flex';
-                },
-                error: function (xhr) {
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
-                    responseMessageDiv.style.display = 'flex';
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                responseMessageLabel.textContent = data.message;
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
             });
         }
 
@@ -674,17 +695,19 @@
             delete_id = userData.id;
             
             function Delete(event) {
-                $.ajax({
-                    url: 'delete/',
-                    method: 'DELETE',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        'delete_id': delete_id,
-                    }),
+                const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+                const url = new URL('admin/users/delete/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+                fetch(url, {
+                    method: "DELETE",
                     headers: {
+                        'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                     },
-                });
+                    body: JSON.stringify({
+                        'delete_id': delete_id
+                    })
+                })
             }
 
             window.Delete = Delete;

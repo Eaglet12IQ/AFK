@@ -255,7 +255,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Функция для получения CSRF токена
         function getCookie(name) {
@@ -283,27 +282,38 @@
 
             edit_id = document.getElementById('id_edit').value;
             nickname = document.getElementById('nickname_edit').value;
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('admin/profiles/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
     
-            $.ajax({
-                url: 'edit/',
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    'edit_id': edit_id,
-                    'nickname': nickname,
-                }),
+            fetch(url, {
+                method: "PUT",
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
-                success: function(response) {
-                    responseMessageLabel.textContent = response.message;
-                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                    responseMessageDiv.style.display = 'flex';
-                },
-                error: function (xhr) {
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
-                    responseMessageDiv.style.display = 'flex';
+                body: JSON.stringify({
+                    'edit_id': edit_id,
+                    'nickname': nickname,
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                responseMessageLabel.textContent = data.message;
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
             });
         }
 
