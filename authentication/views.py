@@ -14,11 +14,12 @@ import json
 
 def register_submit(request):
     if request.method == "POST":
-        email = request.POST.get('email').lower()
-        loginStr = request.POST.get('login').lower()
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-        code = request.POST.get('code')
+        data = json.loads(request.body)  # Десериализация JSON
+        email = data.get('email').lower()
+        loginStr = data.get('login').lower()
+        password1 = data.get('password1')
+        password2 = data.get('password2')
+        code = data.get('code')
 
         if code is None:
             if password1 == password2:
@@ -92,9 +93,10 @@ def login_submit(request):
             return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
 
     if request.method == "POST":
-        emailLogin = request.POST.get('emailLogin').lower()
-        password = request.POST.get('password')
-        rememberMe = request.POST.get('rememberMe')
+        data = json.loads(request.body)  # Десериализация JSON
+        emailLogin = data.get('emailLogin').lower()
+        password = data.get('password')
+        rememberMe = data.get('rememberMe')
 
         if len(emailLogin.split("@")) == 2:
             email = emailLogin

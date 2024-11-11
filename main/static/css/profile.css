@@ -75,27 +75,54 @@ header {
     display: flex;
     justify-content: space-around;
     padding: 0.25rem;
-    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+    /*box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);*/
     background-color: rgb(26 27 29 / 90%);
-    border-radius: 9999px;
-    font-family: PixelText, normal;
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: none;
+    /*border-radius: 9999px;*/
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+
+}
+
+.navbarBorder {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.2rem;
+    background-color: rgba(107, 114, 128, 0.5);
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
 }
 
 .navbar a {
     padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    /*border-radius: 9999px;*/
     font-size: 0.875rem;
     line-height: 1.5;
+    font-weight: 500;
     color: #ebebeb;
     transition: all 0.2s ease-in-out;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+
 }
 
 .navbar a:hover {
     padding: 0.25rem 0.75rem;
     background-color: #2f365f;
-    color: #ffffff;
 }
 
 .login {
@@ -107,11 +134,18 @@ header {
 
 .login a {
     padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    /*border-radius: 9999px;*/
     transition: all 0.2s;
     font-family: PixelText, normal;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+
 }
 
 .login a:hover {
@@ -170,18 +204,42 @@ header {
 }
 
 .logout{
-    border-radius: 9999px;
-    /*padding: 10px;*/
-    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
-    background-color: rgb(26 27 29 / 90%);
+    /*border-radius: 9999px;*/
+    /*box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);*/
+    background-color: rgba(107, 114, 128, 0.5);
     transition: 0.3s;
-    padding: 0.25rem;
+    padding: 0.2rem;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
 }
 
 .logout a {
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    display: flex;
+    padding: 0.1rem 0.75rem;
+    /*border-radius: 9999px;*/
     transition: 0.2s;
+    background-color: rgb(26 27 29 / 90%);
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+}
+
+.indentation {
+    padding: 0.25rem;
+    background-color: rgb(26 27 29 / 90%);
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
 }
 
 .logout a:hover {
@@ -232,10 +290,10 @@ header {
     width: 150px;
     height: 250px;
     background: #1B1821;
-    border: 1px solid rgb(99 102 241 / 0.6);
+    /*border: 1px solid rgb(99 102 241 / 0.6);*/
     box-sizing: border-box;
     box-shadow: 0 10px 15px -3px rgb(99 102 241 / 0.6);
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     position: relative;
     display: flex;
     flex-direction: column;
@@ -244,6 +302,27 @@ header {
     overflow: hidden;
     cursor: pointer;
     transition: all 0.3s;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+}
+
+.interest-box-border {
+    background-color: #4FACFE;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+    padding: 0.1rem;
+}
+
+.interest-box-shadow {
+    filter: drop-shadow(10px 15px -3px rgba(99, 102, 241, 0.6));
 }
 
 .image-container {
@@ -298,6 +377,12 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
 }
 
 .task-date {
