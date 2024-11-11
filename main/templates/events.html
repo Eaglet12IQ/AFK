@@ -1,10 +1,8 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}AFK - Занятия{% endblock %}
+{% block styles %}
     <link rel="stylesheet" href="{% static 'css/events.css' %}">
     <link rel="stylesheet" href="{% static 'src/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -61,34 +59,34 @@
                 <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
                     alt="Sport">
             </div>
-            <div class="label">Sport</div>
+            <div class="label">Спорт</div>
         </div>
         <div class="interest-box" data="Creative" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
                     alt="Creative">
             </div>
-            <div class="label">Creative</div>
+            <div class="label">Искусство</div>
         </div>
         <div class="interest-box" data="Technology" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13"
                     alt="Technology">
             </div>
-            <div class="label">Technology</div>
+            <div class="label">Технологии</div>
         </div>
         <div class="interest-box" data="Travel" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13"
                     alt="Travel">
             </div>
-            <div class="label">Travel</div>
+            <div class="label">Путешествия</div>
         </div>
         <div class="interest-box" data="Food" onclick="selectBox(this)">
             <div class="image-container">
                 <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Food">
             </div>
-            <div class="label">Food</div>
+            <div class="label">Еда</div>
         </div>
 
     </div>
@@ -366,5 +364,4 @@
         });
     });
 </script>
-
-</html>
+{% endblock %}

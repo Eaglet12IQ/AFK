@@ -49,7 +49,7 @@
                                 d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
                         </svg>
 
-                        <span class="mx-3">Users</span>
+                        <span class="mx-3">Пользователи</span>
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-100 bg-gray-700 bg-opacity-25"
@@ -61,7 +61,7 @@
                             </path>
                         </svg>
 
-                        <span class="mx-3">Profiles</span>
+                        <span class="mx-3">Профили</span>
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
@@ -73,7 +73,7 @@
                             </path>
                         </svg>
 
-                        <span class="mx-3">Tasks</span>
+                        <span class="mx-3">Занятия</span>
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
@@ -85,7 +85,7 @@
                             </path>
                         </svg>
 
-                        <span class="mx-3">Forms</span>
+                        <span class="mx-3">Другое</span>
                     </a>
                 </nav>
             </div>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="flex items-center">
                         <div class="relative">
-                            <a href="{% url 'main' %}"><button class="bg-gray-700 p-2 rounded-full text-white">Back</button></a>
+                            <a href="{% url 'main' %}"><button class="bg-gray-700 p-2 rounded-full text-white">Назад</button></a>
                         </div>
                     </div>
                 </header>
@@ -138,7 +138,7 @@
 
                                         <div class="mx-5">
                                             <h4 class="text-2xl font-semibold text-gray-700">{{ profiles|length }}</h4>
-                                            <div class="text-gray-500">Profile count</div>
+                                            <div class="text-gray-500">Кол-во профилей</div>
                                         </div>
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900" 
                                                     data-modal-target="crud-modal2" data-profile='{"id": "{{ profile.id }}", "nickname": "{{ profile.nickname }}"}'
-                                                    data-modal-toggle="crud-modal2" onclick="openEditModal(event)">Edit</a>
+                                                    data-modal-toggle="crud-modal2" onclick="openEditModal(event)">Редактировать</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -209,7 +209,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        Edit this profile
+                        Редактировать профиль
                     </h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -219,7 +219,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
-                        <span class="sr-only">Close modal</span>
+                        <span class="sr-only">Закрыть окно</span>
                     </button>
                 </div>
                 <!-- Modal body -->
@@ -242,7 +242,7 @@
                     </div>
                     <button type="submit"
                         class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Edit this profile
+                        Сохранить изменения
                     </button>
                     <div id="message_edit" style="display: none" class="flex items-center justify-center flex-col">
                         <label class="ml-2 block text-sm text-red-500" id="response-message_edit">
