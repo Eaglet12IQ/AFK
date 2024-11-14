@@ -46,7 +46,7 @@ def register_submit(request):
             if code == confirmation_code:
                 cache.delete(email)
                 # Создаем нового пользователя
-                user = User.create_user(username=loginStr, password=password1, email=email)
+                user = User.objects.create_user(username=loginStr, password=password1, email=email)
 
                 # Аутентифицируем пользователя
                 if user is not None:
