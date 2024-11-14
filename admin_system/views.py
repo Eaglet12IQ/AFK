@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from authentication.models import User
 from profiles.models import Profile
 from taskGenerator.models import Tasks
 from django.http import JsonResponse
@@ -28,12 +28,10 @@ def admin_users_add(request):
         
         password = data.get('password')
         is_superuser = data.get('is_superuser')
-        last_name = data.get('last_name')
         is_staff = data.get('is_staff')
         is_active = data.get('is_active')
-        first_name = data.get('first_name')
 
-        user = User.objects.create_user(username=username, password=password, email=email, is_superuser=is_superuser, last_name=last_name, is_staff=is_staff, is_active=is_active, first_name=first_name)
+        user = User.objects.create_user(username=username, password=password, email=email, is_superuser=is_superuser, is_staff=is_staff, is_active=is_active)
 
         # Аутентифицируем пользователя
         if user is not None:
@@ -56,20 +54,16 @@ def admin_users_edit(request):
             return JsonResponse({"message": "Пользователь с такой почтой уже существует."}, status=400)
         
         is_superuser = data.get('is_superuser')
-        last_name = data.get('last_name')
         is_staff = data.get('is_staff')
         is_active = data.get('is_active')
-        first_name = data.get('first_name')
 
         edit_user = User.objects.get(id=edit_id)
 
         edit_user.username = username
         edit_user.email = email
         edit_user.is_superuser = is_superuser
-        edit_user.last_name = last_name
         edit_user.is_staff = is_staff
         edit_user.is_active = is_active
-        edit_user.first_name = first_name
 
         edit_user.save()
 

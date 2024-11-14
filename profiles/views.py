@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
+from authentication.models import User
 from profiles.models import Profile
 
 def profile_view(request, user_id):

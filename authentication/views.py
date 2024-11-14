@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
-from django.contrib.auth.models import User
+from authentication.models import User
 from django.urls import reverse
 from profiles.models import Profile
 from django.http import JsonResponse
@@ -46,7 +46,7 @@ def register_submit(request):
             if code == confirmation_code:
                 cache.delete(email)
                 # Создаем нового пользователя
-                user = User.objects.create_user(username=loginStr, password=password1, email=email)
+                user = User.create_user(username=loginStr, password=password1, email=email)
 
                 # Аутентифицируем пользователя
                 if user is not None:
