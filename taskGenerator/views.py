@@ -3,13 +3,14 @@ from django.http import JsonResponse
 import json
 from taskGenerator.models import Tasks
 import random
+from typing import Dict, Union
 
 def idea_generation(request):
     interests = json.loads(request.GET.get('interests'))
     difficulty = json.loads(request.GET.get('difficulty'))
     last_generations = json.loads(request.GET.get('last_generations'))
 
-    last_generations_id_list = [key for gen in last_generations for key in gen.keys()]
+    last_generations_id_list = [gen['task_id'] for gen in last_generations]
 
     if not interests and not difficulty:
         tasks = Tasks.objects.filter().exclude(id__in=last_generations_id_list)
@@ -22,4 +23,9 @@ def idea_generation(request):
 
     random_task = random.choice(tasks)
 
-    return JsonResponse({"completed_task": {f"{random_task.id}": random_task.description}}, status=200)
+    completed_task: Dict[str, Union[int, str]] = {
+        "task_id": random_task.id,
+        "task_description": random_task.description    
+    }
+
+    return JsonResponse(completed_task, status=200)

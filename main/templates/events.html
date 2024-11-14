@@ -221,22 +221,19 @@
             .then(data => {
                 const spisokElement = document.getElementById('spisok');
             
-                last_generationsCookie.unshift(data.completed_task);
+                last_generationsCookie.unshift(data);
                 if (last_generationsCookie.length > 10) {
                     last_generationsCookie.pop();
                     spisokElement.lastElementChild.remove();
                 }
                 setCookie('last_generations', JSON.stringify(last_generationsCookie), 3650);
             
-                for (const [key, description] of Object.entries(data.completed_task)) {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<h2>${key}</h2><p>${description}</p><button>Узнать больше</button>`;
-                    spisokElement.insertBefore(li, spisokElement.firstChild);
-                }
+                const li = document.createElement('li');
+                li.innerHTML = `<h2>${data["task_id"]}</h2><p>${data["task_description"]}</p><button>Узнать больше</button>`;
+                spisokElement.insertBefore(li, spisokElement.firstChild);
             
                 const description_idea = document.getElementById('description');
-                const taskId = Object.keys(data.completed_task)[0];
-                description_idea.textContent = data.completed_task[taskId];
+                description_idea.textContent = data["task_description"];
             
                 document.getElementById("my-modal").classList.add("open");
             });
@@ -361,11 +358,9 @@
 
         const spisokElement = document.getElementById('spisok');
         last_generationsCookie.forEach(item => {
-            for (const [key, description] of Object.entries(item)) {
-                const li = document.createElement('li');
-                li.innerHTML = `<h2>${key}</h2><p>${description}</p><button>Узнать больше</button>`;
-                spisokElement.appendChild(li);
-            }
+            const li = document.createElement('li');
+            li.innerHTML = `<h2>${item["task_id"]}</h2><p>${item["task_description"]}</p><button>Узнать больше</button>`;
+            spisokElement.appendChild(li);
         });
     });
 </script>
