@@ -96,7 +96,7 @@ def admin_profiles_edit(request):
 
         nickname = data.get('nickname')
 
-        edit_profile = Profile.objects.get(id=edit_id)
+        edit_profile = Profile.objects.get(user_id=edit_id)
 
         edit_profile.nickname = nickname
 
