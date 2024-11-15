@@ -7,8 +7,36 @@
 {% endblock %}
 {% block content %}
 <div class="preview">
-    <p class="title"> AFK </p>
-    <p class="subtitle"> Найди занятие по душе</p>
+    <!-- <p class="title"> -->
+
+        <div class="title animation-handwrite" style="width: 180px;">
+            <svg viewBox="0 0 385 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="st0" d="M77.55 96.2V19.4H39.15V96.2H77.55ZM39.15 115.4V173H0.75V19.4H19.95V0.199997H96.75V19.4H115.95V173H77.55V115.4H39.15ZM231.25 77V96.2H173.65V173H135.25V0.199997H250.45V19.4H173.65V77H231.25ZM308.15 173H269.75V0.199997H308.15V77H327.35V38.6H346.55V0.199997H384.95V38.6H365.75V77H346.55V96.2H365.75V134.6H384.95V173H346.55V134.6H327.35V96.2H308.15V173Z" fill="none"/>
+            </svg>
+        </div>
+
+        <style>
+            .animation-handwrite .st0 {
+                stroke: #dadadc;
+                stroke-width: 8px;
+                stroke-dasharray: 1200;
+                animation: effectText 5s ease-in-out infinite alternate;
+            }
+
+            @keyframes effectText {
+                from {
+                    fill: transparent;
+                    stroke-dashoffset: 1200;
+                }
+                to {
+                    fill: rgb(255, 255, 255);
+                    stroke-dashoffset: 0;
+                }
+            }
+        </style>
+
+    <!-- </p> -->
+    <p class="subtitle"> Find something you like to do</p>
     <div>
         <div>
             <a href="{% url 'events' %}"> Начать </a>
