@@ -24,6 +24,9 @@ from taskGenerator import views as taskGenerator_views
 urlpatterns = [
     path("", main_views.main, name="main"),
     path('profile/<int:user_id>/', profiles_views.profile_view, name='profile'),
+    # тут настройки
+    path('profile/setting', profiles_views.setting, name='setting'),
+    # 
     path("profile/<int:user_id>/logout/", auth_views.profile_logout, name="logout"),
     path('events/', main_views.events, name='events'),
     path('events/generation/', taskGenerator_views.idea_generation, name='events/generation'),

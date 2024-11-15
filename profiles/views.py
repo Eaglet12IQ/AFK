@@ -11,3 +11,6 @@ def profile_view(request, user_id):
         "user_id": user_id,
     }
     return render(request, 'profile.html',  context)
+
+def setting(request):
+    return render(request, 'setting.html')

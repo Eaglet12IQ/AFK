@@ -4,15 +4,15 @@
 <html lang="en">
 
 <head>
-{% block head %}
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="{% static 'css/base.css' %}">
-<link rel="stylesheet" href="{% static 'src/styles.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-{% block styles %}{% endblock %}
-<title>{% block title %}Document{% endblock %}</title>
-{% endblock %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    {% block styles %}{% endblock %}
+    <title>{% block title %}Document{% endblock %}</title>
+    {% endblock %}
 </head>
 
 <body>
@@ -43,6 +43,21 @@
             <a href="{% url 'admin/users' %}"> Админ </a>
             {% endif %}
             <a href="{% url 'profile' user.id %}"> Профиль </a>
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown()">
+                    <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
+                        viewBox="0 0 24 24" width="12">
+                        <path fill="white"
+                            d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
+                        </path>
+                    </svg>
+                </button>
+                <div class="dropdown-content" id="dropdownMenu">
+                    <a class="dropdown-item" href="{% url 'profile' user.id %}">Профиль</a>
+                    <a class="dropdown-item" href="#">Настройки</a>
+                    <a class="dropdown-item" href="{% url 'logout' user.id %}">Выйти</a>
+                </div>
+            </div>
             {% else %}
             <a href="{% url 'login' %}"> Войти </a>
             {% endif %}
@@ -60,13 +75,30 @@
     {% block content %}{% endblock %}
     {% endblock %}
     <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+
         function toggleNotificationMenu() {
             const menu = document.getElementById('notificationMenu');
             menu.classList.toggle('active');
         }
-    
+
         // Закрытие меню при клике вне его
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (!event.target.matches('.notification') && !event.target.matches('.notification i')) {
                 const menu = document.getElementById('notificationMenu');
                 if (menu.classList.contains('active')) {
@@ -75,7 +107,7 @@
             }
         }
     </script>
-    {% block script %}{% endblock %}
+
 </body>
 </html>
 {% endblock %}
