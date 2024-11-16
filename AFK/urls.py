@@ -47,4 +47,5 @@ urlpatterns = [
     path("admin/tasks/add/", admin_system_views.admin_tasks_add, name="admin/tasks/add"),
     path("admin/tasks/edit/", admin_system_views.admin_tasks_edit, name="admin/tasks/edit"),
     path("admin/tasks/delete/", admin_system_views.admin_tasks_delete, name="admin/tasks/delete"),
+    path("top/", main_views.top, name="top"),
 ]

@@ -22,6 +22,9 @@ def events(request):
     else:
         return redirect("login")
 
+def top(request):
+    return render(request, "top.html")
+
 def forgot_password(request):
     if request.user.is_authenticated:
         return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
