@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "taskGenerator"
 ]
 
+AUTH_USER_MODEL = 'authentication.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
