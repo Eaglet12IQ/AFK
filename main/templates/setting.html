@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Setting {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/setting.css' %}">
+{% endblock %}
+{% block content %}
+<div class="preview flex justify-center text-white flex-col">
+    <h1 class="text-2xl font-bold mb-2 w-full flex justify-center" style="
+                color: white;"> Изменение аккаунта
+    </h1>
+
+    <div class="flex items-center">
+        <img alt="Placeholder profile image" class="rounded-full w-24 h-24" height="100"
+            src="https://storage.googleapis.com/a1aa/image/7BjZLfEW3ZyTMiVrw0cUiVWuhGmUF3dneQBfAOYow27xDjinA.jpg"
+            width="100" style="margin-right: 25px;" />
+        <button id="change-button" class="ml-4 bg-gray-200 text-gray-700 px-4 py-2 rounded">
+            Изменить
+        </button>
+    </div>
+    <form class="space-y-4 flex flex-col">
+        <div class="flex" style="margin:30px 0px;">
+            <div class="w-1/2">
+                <label class="block text-sm font-medium " for="first-name">
+                    Никнейм
+                </label>
+                <input
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                    id="first-name" type="text" value="_TheCrist_" />
+            </div>
+        </div>
+        <div class="flex" style="margin-bottom: 30px;">
+            <div class="w-1/2">
+                <label class="block text-sm font-medium " for="email">
+                    Почта
+                </label>
+                <input
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                    id="email" type="text" value="LeoCrist@yandex.ru" />
+            </div>
+        </div>
+        <div id="password-container" class="flex" style="margin-bottom: 30px; display: none;">
+            <div class="">
+                <label class="block text-sm font-medium " for="password">
+                    Введите пароль
+                </label>
+                <input
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                    id="password" type="password" />
+            </div>
+        </div>
+        <div>
+            <button id="change-button" class="w-full flex justify center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"> Сохранить изменения </button>
+        </div>
+    </form>
+</div>
+<!-- js не робит почему-то -->
+<script>
+    document.getElementById('change-button').addEventListener('click', function() {
+        var passwordContainer = document.getElementById('password-container');
+        if (passwordContainer) {
+            passwordContainer.style.display = 'flex'; 
+        } else {
+            console.error('Элемент с id "password-container" не найден.');
+        }
+    });
+</script>
+{% endblock %}

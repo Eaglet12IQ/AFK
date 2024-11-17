@@ -41,6 +41,9 @@ urlpatterns = [
     path("register/submit_form/", auth_views.user_register_submit, name="register/submit_form"),
 
     path("admin/users/", admin_system_views.users_view, name="admin/users"),
+
+    path('profile/setting', profiles_views.setting, name='setting'),
+
     path("admin/users/add/", admin_system_views.admin_users_add, name="admin/users/add"),
     path("admin/users/edit/", admin_system_views.admin_users_edit, name="admin/users/edit"),
     path("admin/users/delete/", admin_system_views.admin_users_delete, name="admin/users/delete"),
@@ -52,4 +55,3 @@ urlpatterns = [
     path("admin/tasks/add/", admin_system_views.admin_tasks_add, name="admin/tasks/add"),
     path("admin/tasks/edit/", admin_system_views.admin_tasks_edit, name="admin/tasks/edit"),
     path("admin/tasks/delete/", admin_system_views.admin_tasks_delete, name="admin/tasks/delete"),
-]

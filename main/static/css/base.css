@@ -177,3 +177,37 @@ header {
 .login a:hover {
     background-color: #2f365f;
 }
+
+/* Dropdown Button */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: rgb(26, 27, 29);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 200px;
+}
+
+.dropdown-content a {
+    color: #ebebeb;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #2f365f;
+}
+
+.dropdown.active .dropdown-content {
+    display: block;
+}
