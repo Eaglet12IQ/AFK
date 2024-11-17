@@ -170,9 +170,6 @@
                                                     Username</th>
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                    Last_name</th>
-                                                <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                                     Email</th>
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
@@ -183,9 +180,6 @@
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                                     Data_Joined</th>
-                                                <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                    first_name</th>
                                                 <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
                                                 <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
                                             </tr>
@@ -212,10 +206,6 @@
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>{{ user.last_name }}</span>
-                                                </td>
-                                                <td
-                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.email }}</span>
                                                 </td>
                                                 <td
@@ -231,13 +221,9 @@
                                                     <span>{{ user.date_joined }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>{{ user.first_name }}</span>
-                                                </td>
-                                                <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                                                        data-modal-target="edit-modal" data-user='{"id": "{{ user.id }}", "first_name": "{{ user.first_name }}", "last_name": "{{ user.last_name }}", "username": "{{ user.username }}", "email": "{{ user.email }}", "is_superuser": {{ user.is_superuser|yesno:"true,false" }}, "is_staff": {{ user.is_staff|yesno:"true,false" }}, "is_active": {{ user.is_active|yesno:"true,false" }}}'
+                                                        data-modal-target="edit-modal" data-user='{"id": "{{ user.id }}", "username": "{{ user.username }}", "email": "{{ user.email }}", "is_superuser": {{ user.is_superuser|yesno:"true,false" }}, "is_staff": {{ user.is_staff|yesno:"true,false" }}, "is_active": {{ user.is_active|yesno:"true,false" }}}'
                                                         data-modal-toggle="edit-modal" onclick="openEditModal(event)">Редактировать</a>
                                                 </td>
                                                 <td
@@ -343,13 +329,6 @@
                                 placeholder="Username" required="">
                         </div>
                         <div class="col-span-2">
-                            <label for="Last_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input type="text" name="last_name" id="last_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Last Name">
-                        </div>
-                        <div class="col-span-2">
                             <label for="Email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                             <input type="email" name="email" id="email"
@@ -375,13 +354,6 @@
                                 <option value="True">Yes</option>
                                 <option value="False">No</option>
                             </select>
-                        </div>
-                        <div class="col-span-2">
-                            <label for="first_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                            <input type="text" name="first_name" id="first_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="First Name">
                         </div>
                     </div>
                     <button type="submit"
@@ -456,13 +428,6 @@
                                 placeholder="Username">
                         </div>
                         <div class="col-span-2">
-                            <label for="Last_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input type="text" name="last_name" id="last_name_edit"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Last Name">
-                        </div>
-                        <div class="col-span-2">
                             <label for="Email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                             <input type="email" name="email" id="email_edit"
@@ -489,13 +454,6 @@
                                 <option value="false">No</option>
                             </select>
                         </div>
-                        <div class="col-span-2">
-                            <label for="first_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                            <input type="text" name="first_name" id="first_name_edit"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="First Name">
-                        </div>
                     </div>
                     <button type="submit"
                         class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -517,7 +475,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function capitalizeFirstLetter(str) {
             if (!str) return ""; // Проверка на пустую строку
@@ -551,38 +508,45 @@
             password = document.getElementById('password').value;
             is_superuser = document.getElementById('is_superuser').value;
             username = document.getElementById('username').value;
-            last_name = document.getElementById('last_name').value;
             email = document.getElementById('email').value;
             is_staff = document.getElementById('is_staff').value;
             is_active = document.getElementById('is_active').value;
-            first_name = document.getElementById('first_name').value;
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('admin/users/add/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
     
-            $.ajax({
-                url: 'add/',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
                     'password': password,
                     'is_superuser': is_superuser,
                     'username': username,
-                    'last_name': last_name,
                     'email': email,
                     'is_staff': is_staff,
-                    'is_active': is_active,
-                    'first_name': first_name,
-                }),
-                headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    responseMessageLabel.textContent = response.message;
-                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                    responseMessageDiv.style.display = 'flex';
-                },
-                error: function (xhr) {
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
-                    responseMessageDiv.style.display = 'flex';
+                    'is_active': is_active
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                responseMessageLabel.textContent = data.message;
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
             });
         }
 
@@ -595,38 +559,45 @@
             edit_id = document.getElementById('id_edit').value;
             is_superuser = capitalizeFirstLetter(document.getElementById('is_superuser_edit').value);
             username = document.getElementById('username_edit').value;
-            last_name = document.getElementById('last_name_edit').value;
             email = document.getElementById('email_edit').value;
             is_staff = capitalizeFirstLetter(document.getElementById('is_staff_edit').value);
             is_active = capitalizeFirstLetter(document.getElementById('is_active_edit').value);
-            first_name = document.getElementById('first_name_edit').value;
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('admin/users/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
     
-            $.ajax({
-                url: 'edit/',
-                method: 'PATCH',
-                contentType: 'application/json',
-                data: JSON.stringify({
+            fetch(url, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
                     'edit_id': edit_id,
                     'is_superuser': is_superuser,
                     'username': username,
-                    'last_name': last_name,
                     'email': email,
                     'is_staff': is_staff,
-                    'is_active': is_active,
-                    'first_name': first_name,
-                }),
-                headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    responseMessageLabel.textContent = response.message;
-                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                    responseMessageDiv.style.display = 'flex';
-                },
-                error: function (xhr) {
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
-                    responseMessageDiv.style.display = 'flex';
+                    'is_active': is_active
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                responseMessageLabel.textContent = data.message;
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
             });
         }
 
@@ -644,20 +615,16 @@
             const edit_idInput = document.getElementById('id_edit');
             const is_superuserInput = document.getElementById('is_superuser_edit');
             const usernameInput = document.getElementById('username_edit');
-            const last_nameInput = document.getElementById('last_name_edit');
             const emailInput = document.getElementById('email_edit');
             const is_staffInput = document.getElementById('is_staff_edit');
             const is_activeInput = document.getElementById('is_active_edit');
-            const first_nameInput = document.getElementById('first_name_edit');
             
             edit_idInput.value = userData.id;
             is_superuserInput.value = userData.is_superuser;
             usernameInput.value = userData.username;
-            last_nameInput.value = userData.last_name;
             emailInput.value = userData.email;
             is_staffInput.value = userData.is_staff;
             is_activeInput.value = userData.is_active;
-            first_nameInput.value = userData.first_name;
         }
 
         function openDeleteModal(event) {
@@ -670,17 +637,19 @@
             delete_id = userData.id;
             
             function Delete(event) {
-                $.ajax({
-                    url: 'delete/',
-                    method: 'DELETE',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        'delete_id': delete_id,
-                    }),
+                const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+                const url = new URL('admin/users/delete/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+                fetch(url, {
+                    method: "DELETE",
                     headers: {
+                        'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                     },
-                });
+                    body: JSON.stringify({
+                        'delete_id': delete_id
+                    })
+                })
             }
 
             window.Delete = Delete;
