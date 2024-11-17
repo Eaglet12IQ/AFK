@@ -39,7 +39,6 @@
     font-size: 1.25rem;
     color: #ebebeb;
     padding: 0.5rem 1.25rem;
-    /*border-radius: 9999px;*/
     animation: slide-in-bottom 4s;
     font-family: PixelText, normal;
     -webkit-font-smoothing: none;
@@ -51,16 +50,8 @@
     border: rgba(255, 255, 255, 0.5) 10px solid;
 }
 
-/*.preview a:hover {*/
-/*    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);*/
-/*    box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);*/
-/*    color: rgba(0, 0, 0, 0.5)fff;*/
-/*}*/
-
 .preview div:hover a:hover {
     filter: brightness(125%);
-    /*text-shadow: 2px 0 rgba(0, 0, 0, 0.5), -2px 0 rgba(0, 0, 0, 0.5), 0 2px rgba(0, 0, 0, 0.5), 0 -2px rgba(0, 0, 0, 0.5),*/
-    /*1px 1px rgba(0, 0, 0, 0.5), -1px -1px rgba(0, 0, 0, 0.5), 1px -1px rgba(0, 0, 0, 0.5), -1px 1px rgba(0, 0, 0, 0.5);*/
 }
 
 .preview div div {
@@ -78,6 +69,26 @@
     filter: drop-shadow(0 0 10px rgba(102, 16, 242, 0.5));
     animation: button_border_animation step-end infinite 3s;
     transition: 0.5s;
+}
+
+.animation-handwrite .st0 {
+    stroke: #dadadc;
+    stroke-width: 8px;
+    stroke-dasharray: 1200;
+    animation: effectText 5s ease-in-out infinite alternate;
+}
+
+/* Анимации */
+
+@keyframes effectText {
+    from {
+        fill: transparent;
+        stroke-dashoffset: 1200;
+    }
+    to {
+        fill: rgb(255, 255, 255);
+        stroke-dashoffset: 0;
+    }
 }
 
 @keyframes slide-in-top {
