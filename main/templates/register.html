@@ -18,18 +18,18 @@
                     width="50" /></a>
         </div>
 
-        <h2 class="text-center text-2xl text-white mb-6"> Sign up your account</h2>
+        <h2 class="text-center text-2xl text-white mb-6"> Регистрация </h2>
         <form id="register_form" class="space-y-6">
-            <div> <label class="block text-sm font-medium text-gray-300" for="email"> Email address </label> <input
+            <div> <label class="block text-sm font-medium text-gray-300" for="email"> Почта </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="email" name="email" required="" type="email" /> </div>
-            <div> <label class="block text-sm font-medium text-gray-300" for="login"> Login </label> <input
+            <div> <label class="block text-sm font-medium text-gray-300" for="login"> Логин </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="login" name="login" required="" type="login" /> </div>
-            <div> <label class="block text-sm font-medium text-gray-300" for="password"> Password </label> <input
+            <div> <label class="block text-sm font-medium text-gray-300" for="password"> Пароль </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="password1" name="password" required="" type="password" /> </div>
-            <div> <label class="block text-sm font-medium text-gray-300" for="password-again"> Password again</label>
+            <div> <label class="block text-sm font-medium text-gray-300" for="password-again"> Повтор пароля</label>
                 <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"
                     id="password2" name="password-again" required="" type="password"/>
@@ -46,7 +46,7 @@
             </div>
             <div> <button
                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    type="submit"> Register </button>
+                    type="submit"> Зарегестрироваться </button>
             </div>
             <div id="message" style="display: none" class="flex items-center justify-center flex-col"> 
                 <label class="ml-2 block text-sm text-red-500" id="response-message">
@@ -55,8 +55,8 @@
             </div>
         </form>
         <div class="mt-6 text-center">
-            <p class="text-sm text-gray-400"> Have a account? <a
-                    class="font-medium text-indigo-500 hover:text-indigo-400" href="{% url 'login' %}"> Tap to sign in
+            <p class="text-sm text-gray-400"> Уже есть аккаунт? <a
+                    class="font-medium text-indigo-500 hover:text-indigo-400" href="{% url 'login' %}"> Нажми, чтобы войти
                 </a> </p>
         </div>
     </div>
@@ -68,7 +68,6 @@
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
     </div>
     <div class="background"></div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Функция для получения CSRF токена
         function getCookie(name) {
@@ -103,26 +102,37 @@
             const password2 = password2Input.value;
             const code = codeInput.value;
 
-            $.ajax({
-                url: 'submit_form/',
-                method: 'POST',
-                data: {
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('register/submit_form/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
                     'email': email,
                     'login': login,
                     'password1': password1,
                     'password2': password2,
                     'code': code
-                },
-                headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    window.location.href = response.redirect_url;
-                },
-                error: function(xhr) {
-                    responseMessageLabel.className = "ml-2 block text-sm text-red-500";
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                window.location.href = data.redirect_url;
+            })
+            .catch(error => {
+                responseMessageLabel.className = "ml-2 block text-sm text-red-500";
+                responseMessageLabel.textContent = error.message;
             });
         }
 
@@ -140,40 +150,51 @@
             const password1 = password1Input.value;
             const password2 = password2Input.value;
 
-            $.ajax({
-                url: 'submit_form/',
-                method: 'POST',
-                data: {
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('register/submit_form/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
                     'email': email,
                     'login': login,
                     'password1': password1,
                     'password2': password2
-                },
-                headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    const Form = document.getElementById('register_form');
-                    Form.removeEventListener('submit', registerSubmit);
-                    Form.addEventListener('submit', registerCodeSubmit);
-                    document.getElementById('code').required = true;
-                    emailInput.disabled = true;
-                    emailInput.style.opacity = '0.5';
-                    loginInput.disabled = true;
-                    loginInput.style.opacity = '0.5';
-                    password1Input.disabled = true;
-                    password1Input.style.opacity = '0.5';
-                    password2Input.disabled = true;
-                    password2Input.style.opacity = '0.5';
-                    document.getElementById('code_container').style.display = 'block';
-                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                    responseMessageLabel.textContent = response.message;
-                    responseMessageDiv.style.display = 'flex';
-                },
-                error: function(xhr) {
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
-                    responseMessageDiv.style.display = 'flex';
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                const Form = document.getElementById('register_form');
+                Form.removeEventListener('submit', registerSubmit);
+                Form.addEventListener('submit', registerCodeSubmit);
+                document.getElementById('code').required = true;
+                emailInput.disabled = true;
+                emailInput.style.opacity = '0.5';
+                loginInput.disabled = true;
+                loginInput.style.opacity = '0.5';
+                password1Input.disabled = true;
+                password1Input.style.opacity = '0.5';
+                password2Input.disabled = true;
+                password2Input.style.opacity = '0.5';
+                document.getElementById('code_container').style.display = 'block';
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageLabel.textContent = data.message;
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
             });
         }
         

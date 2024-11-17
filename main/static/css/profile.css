@@ -36,7 +36,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    /*border-bottom: 1px solid rgb(99 102 241 / 0.6);*/
 }
 
 .profile-image {
@@ -69,8 +68,6 @@
 }
 
 .logout{
-    /*border-radius: 9999px;*/
-    /*box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);*/
     background-color: rgba(107, 114, 128, 0.5);
     transition: 0.3s;
     padding: 0.2rem;
@@ -85,9 +82,7 @@
 .logout a {
     display: flex;
     padding: 0.1rem 0.75rem;
-    /*border-radius: 9999px;*/
     transition: 0.2s;
-    /*background-color: rgb(26 27 29 / 90%);*/
     clip-path: polygon(
             0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
             calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
