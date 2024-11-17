@@ -4,8 +4,132 @@
 {% block title %}Top{% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/top.css' %}">
+<style>
+    .tabs { display: flex; border-bottom: 2px solid #e5e7eb; margin-bottom: 1rem; }
+    .tab { padding: 0.5rem 1rem; cursor: pointer; border-bottom: 2px solid transparent; }
+    .tab.active { border-color: #3b82f6; font-weight: bold; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+</style>
 {% endblock %}
 
 {% block content %}
-<p>Test</p>
+
+<article class="container">
+
+    <section class="section-title">
+        <h1>Рейтинг</h1>
+    </section>
+    
+    <div class="tabs">
+        <div class="tab active" data-target="overall-rating">Общий рейтинг</div>
+        <div class="tab" data-target="category-rating">Рейтинг по категориям</div>
+    </div>
+    
+    <section id="overall-rating" class="tab-content active">
+        <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr class="dark:text-white">
+                        <th scope="col" class="px-6 py-3">
+                            Пользователь
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Место
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            Пользователь 1
+                        </th>
+                        <td class="px-6 py-4 dark:text-white">
+                            1
+                        </td>
+                    </tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            Пользователь 2
+                        </th>
+                        <td class="px-6 py-4 dark:text-white">
+                            2
+                        </td>
+                    </tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            Пользователь 3
+                        </th>
+                        <td class="px-6 py-4 dark:text-white">
+                            3
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <section id="category-rating" class="tab-content">
+        <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Категория
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Пользователь
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Место
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td class="px-6 py-4">
+                            Категория 1
+                        </td>
+                        <td class="px-6 py-4">
+                            Пользователь 1
+                        </td>
+                        <td class="px-6 py-4">
+                            1
+                        </td>
+                    </tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td class="px-6 py-4">
+                            Категория 2
+                        </td>
+                        <td class="px-6 py-4">
+                            Пользователь 2
+                        </td>
+                        <td class="px-6 py-4">
+                            2
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</article>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.target).classList.add('active');
+            });
+        });
+    });
+</script>
+
 {% endblock %}

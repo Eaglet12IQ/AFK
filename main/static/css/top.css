@@ -1,0 +1,17 @@
+.container {
+    font-family: PixelText;
+    -webkit-font-smoothing: none;
+    font-size: 20px;
+    color: #e5e7eb;
+
+    margin: 50px auto;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.section-title {
+    margin: 0 auto;
+    font-size: 34px;
+}
