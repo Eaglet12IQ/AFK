@@ -70,7 +70,11 @@
         <h1>Список последних сгенерированных занятий:</h1>
     </div>
     <ul class="spisok" id="spisok">
-
+        {% for completedTask in completedTasks %}
+        <li>
+            <h2>{{completedTask.task.id}}</h2><p>{{completedTask.task.description}}</p><button>Узнать больше</button>`;
+        </li>
+        {% endfor %}
     </ul>
 </div>
 
@@ -135,14 +139,6 @@
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
             let title = button.getAttribute('data-title')
-            let last_generationsCookie = getCookie('last_generations');
-            if (last_generationsCookie) {
-                // Если кука существует, парсим ее как JSON
-                last_generationsCookie = JSON.parse(last_generationsCookie);
-            } else {
-                // Если кука не существует, задаем значение по умолчанию
-                last_generationsCookie = [];
-            }
             let interestsCookie = getCookie('interests');
             if (interestsCookie) {
                 interestsCookie = JSON.parse(interestsCookie);
@@ -163,7 +159,6 @@
 
             url.searchParams.append('interests', JSON.stringify(interestsCookie));
             url.searchParams.append('difficulty', JSON.stringify(difficultyCookie));
-            url.searchParams.append('last_generations', JSON.stringify(last_generationsCookie));
 
             fetch(url, {
                 method: 'GET',
@@ -176,12 +171,9 @@
             .then(data => {
                 const spisokElement = document.getElementById('spisok');
             
-                last_generationsCookie.unshift(data);
-                if (last_generationsCookie.length > 10) {
-                    last_generationsCookie.pop();
+                if (data["tasks_count"] > 10) {
                     spisokElement.lastElementChild.remove();
                 }
-                setCookie('last_generations', JSON.stringify(last_generationsCookie), 3650);
             
                 const li = document.createElement('li');
                 li.innerHTML = `<h2>${data["task_id"]}</h2><p>${data["task_description"]}</p><button>Узнать больше</button>`;
@@ -272,14 +264,6 @@
     }
     document.addEventListener('DOMContentLoaded', function () {
         const interestsCookie = getCookie('interests');
-        let last_generationsCookie = getCookie('last_generations');
-        if (last_generationsCookie) {
-            // Если кука существует, парсим ее как JSON
-            last_generationsCookie = JSON.parse(last_generationsCookie);
-        } else {
-            // Если кука не существует, задаем значение по умолчанию
-            last_generationsCookie = [];
-        }
         let myDictFromCookieInterests = [];
 
         if (interestsCookie) {
@@ -309,13 +293,6 @@
             if (myDictFromCookieInterests.includes(boxValue)) {
                 box.classList.add('selected'); // Добавляем класс, если идентификатор есть в куке
             }
-        });
-
-        const spisokElement = document.getElementById('spisok');
-        last_generationsCookie.forEach(item => {
-            const li = document.createElement('li');
-            li.innerHTML = `<h2>${item["task_id"]}</h2><p>${item["task_description"]}</p><button>Узнать больше</button>`;
-            spisokElement.appendChild(li);
         });
     });
 </script>
