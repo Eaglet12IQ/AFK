@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "profiles",
     "authentication",
     "admin_system",
-    "taskGenerator"
+    "taskGenerator",
+    "notification"
 ]
 
 AUTH_USER_MODEL = 'authentication.User'
