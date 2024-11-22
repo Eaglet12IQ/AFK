@@ -242,10 +242,10 @@ header {
     width: 150px;
     height: 250px;
     background: #1B1821;
-    border: 1px solid #4FACFE;
+    /*border: 1px solid rgb(99 102 241 / 0.6);*/
     box-sizing: border-box;
-    box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);
-    border-radius: 10px;
+    box-shadow: 0 10px 15px -3px rgb(99 102 241 / 0.6);
+    /*border-radius: 10px;*/
     position: relative;
     display: flex;
     flex-direction: column;
@@ -254,6 +254,27 @@ header {
     overflow: hidden;
     cursor: pointer;
     transition: all 0.3s;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+}
+
+.interest-box-border {
+    background-color: #4FACFE;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+    padding: 0.1rem;
+}
+
+.interest-box-shadow {
+    filter: drop-shadow(0px 5px 40px rgba(99, 102, 241, 0.6))
 }
 
 .image-container {
@@ -312,15 +333,43 @@ header {
     color: #ebebeb;
     padding: 0.5rem 1.25rem;
     margin: 0 10px;
-    border-radius: 9999px;
+    /*border-radius: 9999px;*/
     font-family: PixelText, normal;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+}
+
+.generate-shadow {
+    filter: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.generate-shadow {
+    filter: drop-shadow(0px 5px 40px rgba(102, 16, 242, 0.5));
+    transition: all 0.2s ease-in-out;
+}
+
+.difficulty-button-border {
+    background-color: rgba(107, 114, 128, 0.5);
+    transition: 0.3s;
+    padding: 0.2rem;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
 }
 
 .generate-container-button:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);
+    /*box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);*/
+    /*box-shadow: 0 10px 15px -3px rgba(102, 16, 242, 0.5);*/
     color: #ffffff;
 }
 
@@ -331,6 +380,7 @@ header {
     font-family: PixelText, normal;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
+    gap: 14px;
 }
 
 /* Стили для кнопок выбора сложности */
@@ -338,19 +388,34 @@ header {
 .difficulty-button.easy {
     outline: 2px solid #ffffff00;
     background-color: #28a745;
-    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.5);
+    margin: 3px;
+    /*box-shadow: 0 4px 6px rgba(40, 167, 69, 0.5);*/
+}
+
+.easy-shadow {
+    filter: drop-shadow(0 4px 6px rgba(40, 167, 69, 0.5))
 }
 
 .difficulty-button.medium {
     outline: 2px solid #ffffff00;
     background-color: #ffc107;
-    box-shadow: 0 4px 6px rgba(255, 193, 7, 0.5);
+    margin: 3px;
+    /*box-shadow: 0 4px 6px rgba(255, 193, 7, 0.5);*/
+}
+
+.medium-shadow {
+    filter: drop-shadow(0 4px 6px rgba(255, 193, 7, 0.5))
 }
 
 .difficulty-button.hard {
     outline: 2px solid #ffffff00;
     background-color: #dc3545;
-    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.5);
+    margin: 3px;
+    /*box-shadow: 0 4px 6px rgba(220, 53, 69, 0.5);*/
+}
+
+.hard-shadow {
+    filter: drop-shadow(0 4px 6px rgba(220, 53, 69, 0.5))
 }
 
 .difficulty-button.selected {
@@ -358,6 +423,19 @@ header {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
+.selectedEffect {
+    background-color: white;
+    clip-path: polygon(
+            0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+}
+
+.selectedShadow {
+    filter: drop-shadow(0 4px 6px rgba(255, 255, 255, 0.5))
+}
 
 /* Модальное окно на index2.html */
 .modal {
