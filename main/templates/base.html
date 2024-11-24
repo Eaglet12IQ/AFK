@@ -42,7 +42,6 @@
             {% if user.is_superuser %}
             <a href="{% url 'admin/users' %}"> Админ </a>
             {% endif %}
-            <a href="{% url 'profile' user.id %}"> Профиль </a>
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown()">
                     <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"

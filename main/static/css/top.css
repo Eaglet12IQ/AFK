@@ -1,17 +1,90 @@
 .container {
-    font-family: PixelText;
+    font-family: 'PixelText', sans-serif;
     -webkit-font-smoothing: none;
-    font-size: 20px;
-    color: #e5e7eb;
-
+    font-size: 18px;
     margin: 50px auto;
-    
+    max-width: 1280px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
 }
 
-.section-title {
-    margin: 0 auto;
-    font-size: 34px;
+.section-title h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #fff; /* Белый цвет для заголовков */
+}
+
+/* Вкладки */
+.tabs {
+    display: flex;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #2d2d2d; /* Темная линия */
+}
+
+.tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: #e5e7eb;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+.tab:hover {
+    border-color: #575757; /* Голубая подсветка при наведении */
+    /* font-weight: bold; */
+}
+
+.tab.active {
+    border-bottom-color: #fff; /* Белая линия для активной вкладки */
+    /* font-weight: bold; */
+}
+
+.tab-content {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    background-color: #1f1f1f; /* Темный фон для контента */
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Таблица */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    background-color: #1e1e1e; /* Темный фон для таблицы */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #8c8b8b; /* Темный фон для заголовков */
+}
+
+tr:nth-child(even) {
+    background-color: #2a2a2a;
+}
+
+tr:nth-child(odd) {
+    background-color: #2a2a2a;
+}
+
+.top-3-places {
+    position: absolute;
+    top: 20px;
+    left: -35px;
+    width: 40px;
+    z-index: 10;
 }
