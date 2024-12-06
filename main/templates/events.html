@@ -16,54 +16,88 @@
                 margin-bottom: 10px;">интересы</span> и
                 находите для себя новые занятия!</span>
         </div>
-        <div class="slogan-container-sub"> Найдите, чем заняться в одиночку, в паре или компании. </div>
+        <div class="slogan-container-sub"> Найдите, чем заняться в одиночку, в паре или компании.</div>
     </div>
 </div>
 <div class="interest">
-    <div class="interest-box" data="Sport" onclick="selectBox(this)">
-        <div class="image-container">
-            <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
-                alt="Sport">
+    <div class="interest-box-shadow">
+        <div class="interest-box-border">
+            <div class="interest-box" data="Sport" onclick="selectBox(this)">
+                <div class="image-container">
+                    <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
+                         alt="Sport">
+                </div>
+                <div class="label">Спорт</div>
+            </div>
         </div>
-        <div class="label">Спорт</div>
     </div>
-    <div class="interest-box" data="Creative" onclick="selectBox(this)">
-        <div class="image-container">
-            <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
-                alt="Creative">
+    <div class="interest-box-shadow">
+        <div class="interest-box-border">
+            <div class="interest-box" data="Creative" onclick="selectBox(this)">
+                <div class="image-container">
+                    <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
+                         alt="Creative">
+                </div>
+                <div class="label">Искусство</div>
+            </div>
         </div>
-        <div class="label">Искусство</div>
     </div>
-    <div class="interest-box" data="Technology" onclick="selectBox(this)">
-        <div class="image-container">
-            <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13"
-                alt="Technology">
+    <div class="interest-box-shadow">
+        <div class="interest-box-border">
+            <div class="interest-box" data="Technology" onclick="selectBox(this)">
+                <div class="image-container">
+                    <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13"
+                         alt="Technology">
+                </div>
+                <div class="label">Технологии</div>
+            </div>
         </div>
-        <div class="label">Технологии</div>
     </div>
-    <div class="interest-box" data="Travel" onclick="selectBox(this)">
-        <div class="image-container">
-            <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13"
-                alt="Travel">
+    <div class="interest-box-shadow">
+        <div class="interest-box-border">
+            <div class="interest-box" data="Travel" onclick="selectBox(this)">
+                <div class="image-container">
+                    <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13"
+                         alt="Travel">
+                </div>
+                <div class="label">Путешествия</div>
+            </div>
         </div>
-        <div class="label">Путешествия</div>
     </div>
-    <div class="interest-box" data="Food" onclick="selectBox(this)">
-        <div class="image-container">
-            <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Food">
+    <div class="interest-box-shadow">
+        <div class="interest-box-border">
+            <div class="interest-box" data="Food" onclick="selectBox(this)">
+                <div class="image-container">
+                    <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Food">
+                </div>
+                <div class="label">Еда</div>
+            </div>
         </div>
-        <div class="label">Еда</div>
     </div>
 
 </div>
 
 <div class="generate-container">
     <div class="difficulty-selection">
-        <button class="difficulty-button easy" onclick="selectDifficulty('easy')">Легкая</button>
-        <button class="difficulty-button medium" onclick="selectDifficulty('medium')">Средняя</button>
-        <button class="difficulty-button hard" onclick="selectDifficulty('hard')">Сложная</button>
+        <div id="easy-selected-shadow">
+            <div class="easy-shadow" id="easy-shadow">
+                <button class="difficulty-button easy" onclick="selectDifficulty('easy')">Легкая</button>
+            </div>
+        </div>
+        <div id="medium-selected-shadow">
+            <div class="medium-shadow" id="medium-shadow">
+                <button class="difficulty-button medium" onclick="selectDifficulty('medium')">Средняя</button>
+            </div>
+        </div>
+        <div id="hard-selected-shadow">
+            <div class="hard-shadow" id="hard-shadow">
+                <button class="difficulty-button hard" onclick="selectDifficulty('hard')">Сложная</button>
+            </div>
+        </div>
     </div>
-    <button class="generate-container-button" id="open-modal-btn">Сгенерировать занятие</button>
+    <div class="generate-shadow">
+        <button class="generate-container-button" id="open-modal-btn">Сгенерировать занятие</button>
+    </div>
 </div>
 <div class="conteiner">
     <div class="slogan-container">
@@ -223,14 +257,21 @@
         // Ссылка на кнопку для изменения класса
         const selectedButton = document.querySelector(`.difficulty-button.${difficulty}`);
 
+        const selectedButtonEffect = document.querySelector(`.${difficulty}-shadow`);
+
+        const selectedButtonShadow = document.querySelector(`#${difficulty}-selected-shadow`);
         // Проверяем, есть ли выбранная сложность в куке
         if (myDictFromCookie.includes(difficulty)) {
             // Если есть, удаляем класс 'selected' у кнопки и удаляем значение из массива
+            selectedButtonShadow.classList.remove('selectedShadow');
             selectedButton.classList.remove('selected');
+            selectedButtonEffect.classList.remove('selectedEffect');
             myDictFromCookie = myDictFromCookie.filter(item => item !== difficulty);
         } else {
             // Если нет, добавляем класс 'selected' и добавляем сложность в массив
+            selectedButtonShadow.classList.add('selectedShadow');
             selectedButton.classList.add('selected');
+            selectedButtonEffect.classList.add('selectedEffect');
             myDictFromCookie.push(difficulty);
         }
 
