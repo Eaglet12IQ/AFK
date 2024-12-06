@@ -5,7 +5,180 @@
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/top.css' %}">
 {% endblock %}
-
 {% block content %}
-<p>Test</p>
+
+<article class="container">
+
+    <section>
+        <div class="title text-center">Рейтинг</div>
+        <div class="tabs">
+            <div class="tab active" data-target="overall-rating">Общий</div>
+            <div class="tab" data-target="category-rating">По категориям</div>
+        </div>   
+    </section>
+    
+    <section id="overall-rating" class="tab-content active">
+        <div class="top-3-places flex items-end">
+            <!-- Второе место -->
+            <div class="flip-container" style="animation: glow-silver 3.5s infinite;">
+                <div class="flip-card-inner">
+                    <!-- Передняя сторона -->
+                    <div class="front-side second-place pixeled-frame text-center">
+                        <img class="pixeled-frame" src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg" alt="Аватар профиля пользователя">
+                        <p class="mt-2">Пользователь 2</p>
+                    </div>
+                    <!-- Задняя сторона -->
+                    <div class="back-side second-place pixeled-frame text-center">
+                        <p class="subtitle">Информация<br>о пользователе</p>
+                        <ul class="list-outside">
+                            <li>Заданий выполенено:<br>- 18 -</li>
+                            <li>Любимая категория:<br>- Спорт -</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Первое место -->
+            <div class="flip-container" style="animation: glow-gold 3.5s infinite;">
+                <div class="flip-card-inner">
+                    <!-- Передняя сторона -->
+                    <div class="front-side first-place pixeled-frame text-center">
+                        <img class="pixeled-frame" src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg" alt="Аватар профиля пользователя">
+                        <p class="mt-2">Пользователь 2</p>
+                    </div>
+                    <!-- Задняя сторона -->
+                    <div class="back-side first-place pixeled-frame text-center">
+                        <p class="subtitle">Информация<br>о пользователе</p>
+                        <ul class="list-outside">
+                            <li>Заданий выполенено:<br>- 10 -</li>
+                            <li>Любимая категория:<br>- Путешествия -</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Третье место -->
+            <div class="flip-container" style="animation: glow-bronze 3.5s infinite;">
+                <div class="flip-card-inner">
+                    <!-- Передняя сторона -->
+                    <div class="front-side third-place pixeled-frame text-center">
+                        <img class="pixeled-frame" src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg" alt="Аватар профиля пользователя">
+                        <p class="mt-2">Пользователь 2</p>
+                    </div>
+                    <!-- Задняя сторона -->
+                    <div class="back-side third-place pixeled-frame text-center">
+                        <p class="subtitle">Информация<br>о пользователе</p>
+                        <ul class="list-outside">
+                            <li>Заданий выполенено:<br>- 8 -</li>
+                            <li>Любимая категория:<br>- Еда -</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- <div style="animation: glow-gold 3.5s infinite;">
+                <div class="first-place pixeled-frame text-center">
+                    <img class="pixeled-frame" src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg" alt="Аватар профиля пользователя">
+                    <p class="mt-2">Пользователь 1</p>
+                </div>
+            </div>
+            <div style="animation: glow-bronze 3.5s infinite;">
+                <div class="third-place pixeled-frame text-center">
+                    <img class="pixeled-frame" src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg" alt="Аватар профиля пользователя">
+                    <p class="mt-2">Пользователь 3</p>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="table-shadow relative overflow-x-auto">
+            <table class="w-full text-center pixeled-frame">
+                <thead>
+                    <tr class="dark:text-white">
+                        <th scope="col" class="px-6 py-3">
+                            Место
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Пользователь
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="px-6 py-4 dark:text-white">4</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 4</td>
+                    </tr>
+                    <tr class="border-b dark:border-gray-700">
+                        <td class="px-6 py-4 dark:text-white">5</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 5</td>
+                    </tr>
+                    <tr class="border-b dark:border-gray-700">
+                        <td class="px-6 py-4 dark:text-white">6</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 5</td>
+                    </tr> 
+                    <tr>
+                        <td class="px-6 py-4 dark:text-white">7</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 6</td>
+                    </tr>
+                </tbody>
+            </table>                
+        </div>
+    </section>
+
+    
+    <section id="category-rating" class="tab-content">
+        <div class="table-shadow relative overflow-x-auto">
+            <table class="w-full text-center pixeled-frame">
+                <thead>
+                    <tr class="dark:text-white">
+                        <th scope="col" class="px-6 py-3">
+                            Категория
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Пользователь
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="px-6 py-4 dark:text-white">Спорт</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 1</td>
+                    </tr>
+                    <tr class="border-b dark:border-gray-700">
+                        <td class="px-6 py-4 dark:text-white">Искусство</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 2</td>
+                    </tr>
+                    <tr class="border-b dark:border-gray-700">
+                        <td class="px-6 py-4 dark:text-white">Технологии</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 3</td>
+                    </tr> 
+                    <tr class="border-b dark:border-gray-700">
+                        <td class="px-6 py-4 dark:text-white">Путешествия</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 4</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 dark:text-white">Еда</td>
+                        <td class="px-6 py-4 dark:text-white">Пользователь 5</td>
+                    </tr>
+                </tbody>
+            </table>                
+        </div>
+    </section>
+</article>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.target).classList.add('active');
+            });
+        });
+    });
+</script>
+
 {% endblock %}

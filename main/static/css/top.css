@@ -1,0 +1,196 @@
+/* Основные стили для контейнера */
+.container {
+    font-family: 'PixelText', sans-serif;
+    font-size: 18px;
+    margin: 50px auto;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+}
+
+/* Заголовок */
+.title {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Вкладки */
+.tabs {
+    display: flex;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #2d2d2d; /* Темная линия */
+}
+
+.tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+.tab:hover {
+    border-color: #575757;
+}
+
+.tab.active {
+    border-bottom-color: #fff;
+}
+
+/* Контент вкладок */
+.tab-content {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.pixeled-frame {
+    clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px, calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px, 100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px));
+}
+
+/* Таблица */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    background-color: #1e1e1e; /* Темный фон таблицы */
+    overflow: hidden;
+}
+
+.table-shadow {
+    filter: drop-shadow(0px 5px 40px rgba(104, 104, 107, 0.6));
+}
+
+/* Заголовок таблицы */
+th {
+    background-color: #8c8b8b;
+    padding: 12px;
+    text-align: center;
+}
+
+tr {
+    background-color: #2a2a2a;
+}
+
+/* Топ-3 места */
+.top-3-places {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 50px;
+    color: #fff;
+}
+
+.first-place {
+    position: relative;
+    bottom: 20px;
+    background-color: #E3CE77;
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.second-place {
+    background-color: #ABAEC8;
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.third-place {
+    background-color: #BE7A5B;
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+img {
+    max-width: 265px;
+}
+
+.flip-container {
+    perspective: 1000px; /* Создаёт глубину для 3D вращения */
+    width: 296px; /* Укажите ширину карточки */
+    height: 323px; /* Укажите высоту карточки */
+}
+
+.flip-card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out; /* Плавный переход при вращении */
+    transform-style: preserve-3d; /* Для 3D эффекта */
+}
+
+.flip-container:hover .flip-card-inner {
+    transform: rotateY(180deg); /* Вращение по вертикальной оси */
+}
+
+.front-side, .back-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Скрывает обратную сторону */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.back-side {
+    transform: rotateY(180deg); /* Повернуть заднюю сторону */
+    /* background-color: #ABAEC8;  */
+}
+
+/* Анимация для первого места */
+@keyframes glow-gold {
+    0% {
+        filter: drop-shadow(0 0 10px #E3CE77) drop-shadow(0 0 20px #E3CE77);
+    }
+    50% {
+        filter: drop-shadow(0 0 20px #F1D085) drop-shadow(0 0 40px #E3CE77);
+    }
+    100% {
+        filter: drop-shadow(0 0 10px #E3CE77) drop-shadow(0 0 20px #E3CE77);
+    }
+}
+
+/* Анимация для второго места */
+@keyframes glow-silver {
+    0% {
+        filter: drop-shadow(0 0 10px #ABAEC8) drop-shadow(0 0 20px #ABAEC8);
+    }
+    50% {
+        filter: drop-shadow(0 0 20px #C0C6E0) drop-shadow(0 0 40px #ABAEC8);
+    }
+    100% {
+        filter: drop-shadow(0 0 10px #ABAEC8) drop-shadow(0 0 20px #ABAEC8);
+    }
+}
+
+/* Анимация для третьего места */
+@keyframes glow-bronze {
+    0% {
+        filter: drop-shadow(0 0 10px #BE7A5B) drop-shadow(0 0 20px #BE7A5B);
+    }
+    50% {
+        filter: drop-shadow(0 0 20px #D49274) drop-shadow(0 0 40px #BE7A5B);
+    }
+    100% {
+        filter: drop-shadow(0 0 10px #BE7A5B) drop-shadow(0 0 20px #BE7A5B);
+    }
+}
+
+

@@ -63,29 +63,47 @@ header {
 
 .notification-menu {
     display: none;
-    position: absolute;
+    /*position: absolute;*/
     right: 0;
     background-color: rgb(26 27 29 / 90%);
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: PixelText;
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 5px;*/
+    /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
     z-index: 1000;
     width: 200px;
+    clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+    calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px));
 }
 
-.notification-menu.active {
+.notification.active .notification-menu {
+    display: block;
+    animation: dropdown 0.5s;
+}
+.notification.active .dropdown-content-border {
+    display: block;
+    animation: dropdown 0.5s;
+}
+
+.notification.closed .notification-menu {
+    animation: dropdownClose 0.5s reverse;
+    display: block;
+}
+.notification.closed .dropdown-content-border {
+    animation: dropdownClose 0.5s reverse;
     display: block;
 }
 
 .notification-item {
     padding: 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 0.2rem solid rgba(107, 114, 128, 0.5);
 }
 
 .notification-item:last-child {
     border-bottom: none;
 }
-
 
 .conteiner {
     max-width: 1280px;
@@ -183,18 +201,34 @@ header {
 .dropdown {
     position: relative;
     display: inline-block;
+    padding: 4px 12px;
 }
 
 .dropdown-content {
     display: none;
-    position: absolute;
-    right: 0;
-    background-color: rgb(26, 27, 29);
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: rgb(26 27 29 / 90%);
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 5px;*/
+    /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
     z-index: 1000;
     min-width: 200px;
+    clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+    calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px));
+}
+
+.dropdown-content-border {
+    display: none;
+    z-index: 999;
+    position: absolute;
+    right: 0;
+    padding: 0.2rem;
+    background-color: rgba(107, 114, 128, 0.5);
+    clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+    calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px));
 }
 
 .dropdown-content a {
@@ -208,6 +242,44 @@ header {
     background-color: #2f365f;
 }
 
-.dropdown.active .dropdown-content {
+.dropdown.active .dropdown-content-border .dropdown-content {
     display: block;
+    animation: dropdown 0.5s;
+}
+
+.dropdown.active .dropdown-content-border {
+    display: block;
+    animation: dropdown 0.5s;
+}
+
+.dropdown.closed .dropdown-content-border .dropdown-content {
+    display: block;
+    animation: dropdownClose 0.5s reverse;
+}
+
+.dropdown.closed .dropdown-content-border {
+    display: block;
+    animation: dropdownClose 0.5s reverse;
+}
+
+@keyframes dropdown {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+@keyframes dropdownClose {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0px);
+    }
 }

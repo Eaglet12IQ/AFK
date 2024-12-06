@@ -77,11 +77,71 @@ Profile
             <ul class="task-list">
                 {% for completedTask in completedTasks %}
                 <li class="task-item">
-                    Задание {{completedTask.task.id}} - {{completedTask.task.description}} <span class="task-date"> <a href="#">{{completedTask.confirmed}}</a>{{completedTask.confirmed}} - {{completedTask.completed_when}}</span>
+                    Задание {{completedTask.task.id}} - {{completedTask.task.description}} <span class="task-date"> <a href="javascript:void(0);" onclick="openModal()" style="color: aqua;">Подтверждено: {{completedTask.confirmed}}</a>
+                        - {{completedTask.completed_when}}</span>
                 </li>
                 {% endfor %}
             </ul>
-        </div>
+        </div>    
     </div>
 </div>
+<div class="modal-container" id="confirmation-modal">
+    <div class="modal-content">
+        <h3>Подтвердите выполнение задания</h3>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="upload-image">Загрузите изображение подтверждения:</label>
+            <input type="file" name="confirmation_image" id="upload-image" accept="image/*" required />
+            
+            <label for="image-description">Добавьте описание:</label>
+            <textarea name="image_description" id="image-description" placeholder="Напишите описание к загруженному изображению..." required></textarea>
+            
+            <div class="modal-buttons">
+                <button type="submit">Подтвердить</button>
+                <button type="button" class="modal-close">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("confirmation-modal");
+    const closeModalButtons = document.querySelectorAll(".modal-close");
+    const taskLinks = document.querySelectorAll(".task-date a");
+
+    // Открыть модальное окно
+    taskLinks.forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            modal.classList.add("active");
+        });
+    });
+
+    // Закрыть модальное окно (по кнопке "Отмена")
+    closeModalButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            modal.classList.remove("active");
+        });
+    });
+
+    // Закрыть модальное окно (по клику вне области окна)
+    modal.addEventListener("click", function (e) {
+        if (e.target === modal) {
+            modal.classList.remove("active");
+        }
+    });
+
+    // Закрыть модальное окно (по нажатию Esc)
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.classList.contains("active")) {
+            modal.classList.remove("active");
+        }
+    });
+});
+
+
+</script>
+
 {% endblock %}
