@@ -6,7 +6,7 @@ from taskGenerator.models import completedTask
 def profile_view(request, user_id):
     profile = get_object_or_404(Profile, user_id=user_id)
     user = get_object_or_404(User, id=user_id)
-    completedTasks = completedTask.objects.filter(user=request.user)
+    completedTasks = completedTask.objects.filter(user=user_id)
     context = {
         "nickname": profile.nickname,
         "date_joined": user.date_joined,
@@ -15,5 +15,5 @@ def profile_view(request, user_id):
     }
     return render(request, 'profile.html',  context)
 
-def setting(request):
+def settings_view(request, user_id):
     return render(request, 'setting.html')

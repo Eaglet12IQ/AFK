@@ -26,6 +26,7 @@ urlpatterns = [
 
     path('profile/<int:user_id>/', profiles_views.profile_view, name='profile'),
     path("profile/<int:user_id>/logout/", auth_views.user_profile_logout, name="logout"),
+    path('profile/<int:user_id>/settings', profiles_views.settings_view, name='settings'),
 
     path('events/', taskGenerator_views.events_view, name='events'),
     path('events/generation/', taskGenerator_views.tasks_idea_generation, name='events/generation'),
@@ -41,8 +42,6 @@ urlpatterns = [
     path("register/submit_form/", auth_views.user_register_submit, name="register/submit_form"),
 
     path("admin/users/", admin_system_views.users_view, name="admin/users"),
-
-    path('profile/setting', profiles_views.setting, name='setting'),
 
     path("admin/users/add/", admin_system_views.admin_users_add, name="admin/users/add"),
     path("admin/users/edit/", admin_system_views.admin_users_edit, name="admin/users/edit"),
