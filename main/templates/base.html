@@ -16,93 +16,120 @@
 </head>
 
 <body>
-    {% block body %}
-    <header class="conteiner">
-        <div class="logo">
-            <a href="{% url 'main' %}"> AFK</a>
+{% block body %}
+<header class="conteiner">
+    <div class="logo">
+        <a href="{% url 'main' %}"> AFK</a>
+    </div>
+    <div class="navbarBorder">
+        <div class="navbar">
+            <a href="{% url 'main' %}">Главная</a>
+            <a href="{% url 'events' %}">Занятия</a>
+            <a href="{% url 'top' %}">Топ</a>
+            <a href="">Другое</a>
         </div>
-        <div class="navbarBorder">
-            <div class="navbar">
-                <a href="{% url 'main' %}">Главная</a>
-                <a href="{% url 'events' %}">Занятия</a>
-                <a href="{% url 'top' %}">Топ</a>
-                <a href="">Другое</a>
-            </div>
-        </div>
-        <div class="login">
-            <div class="notification" onclick="toggleNotificationMenu()">
-                <i class="fas fa-bell"></i>
+    </div>
+    <div class="login">
+        <div class="notification" onclick="toggleNotificationMenu()">
+            <i class="fas fa-bell"></i>
+            <div class="dropdown-content-border">
                 <div class="notification-menu" id="notificationMenu">
                     <div class="notification-item">Уведомление 1</div>
                     <div class="notification-item">Уведомление 2</div>
                     <div class="notification-item">Уведомление 3</div>
                 </div>
             </div>
-            {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-            <a href="{% url 'admin/users' %}"> Админ </a>
-            {% endif %}
-            <a href="{% url 'profile' user.id %}"> Профиль </a>
-            <div class="dropdown">
-                <button class="dropbtn" onclick="toggleDropdown()">
-                    <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
-                        viewBox="0 0 24 24" width="12">
-                        <path fill="white"
-                            d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
-                        </path>
-                    </svg>
-                </button>
+        </div>
+        {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+        <a href="{% url 'admin/users' %}"> Админ </a>
+        {% endif %}
+        <a href="{% url 'profile' user.id %}"> Профиль </a>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="toggleDropdown()">
+                <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
+                     viewBox="0 0 24 24" width="12">
+                    <path fill="white"
+                          d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
+                    </path>
+                </svg>
+            </button>
+            <div class="dropdown-content-border" id="dropdown">
                 <div class="dropdown-content" id="dropdownMenu">
                     <a class="dropdown-item" href="{% url 'profile' user.id %}">Профиль</a>
                     <a class="dropdown-item" href="{% url 'settings' user.id %}">Настройки</a>
                     <a class="dropdown-item" href="{% url 'logout' user.id %}">Выйти</a>
                 </div>
             </div>
-            {% else %}
-            <a href="{% url 'login' %}"> Войти </a>
-            {% endif %}
         </div>
-    </header>
+        {% else %}
+        <a href="{% url 'login' %}"> Войти </a>
+        {% endif %}
+    </div>
+</header>
 
-    <div
+<div
         class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
-    </div>
-    <div
+</div>
+<div
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
-    </div>
-    <div class="background"></div>
+</div>
+<div class="background"></div>
 
-    {% block content %}{% endblock %}
-    {% endblock %}
-    <script>
-        function toggleDropdown() {
-            const dropdown = document.querySelector('.dropdown');
+{% block content %}{% endblock %}
+{% endblock %}
+<script>
+    function toggleDropdown() {
+        const dropdown = document.querySelector('.dropdown');
+        if (dropdown.classList.contains('active')) {
+            dropdown.classList.add('closed');
+            dropdown.addEventListener("animationend", function handleAnimationEnd(event) {
+                dropdown.classList.remove("active");
+                dropdown.classList.remove('closed');
+                dropdown.removeEventListener("animationend", handleAnimationEnd);
+            });
+        }
+        else {
             dropdown.classList.toggle('active');
         }
+    }
 
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                const dropdowns = document.getElementsByClassName("dropdown-content");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    if (openDropdown.style.display === "block") {
-                        openDropdown.style.display = "none";
-                    }
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            const dropdowns = document.getElementById("dropdown");
+            for (let i = 0; i < dropdowns.length; i++) {
+                const openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.animation = "dropdown 1s reverse";
+                    openDropdown.addEventListener("animationend", function handleAnimationEnd(event) {
+                        openDropdown.classList.remove("active");
+                        openDropdown.removeEventListener("animationend", handleAnimationEnd);
+                    });
                 }
             }
         }
+    }
 
-        function toggleNotificationMenu() {
-            const menu = document.getElementById('notificationMenu');
+    function toggleNotificationMenu() {
+        const menu = document.querySelector('.notification');
+        if (menu.classList.contains('active')) {
+            menu.classList.toggle('active');
+            menu.classList.add('closed');
+            menu.addEventListener("animationend", function handleAnimationEnd(event) {
+                menu.classList.remove("closed");
+                menu.removeEventListener("animationend", handleAnimationEnd);
+            });
+        } else {
             menu.classList.toggle('active');
         }
+    }
 
         // Закрытие меню при клике вне его
         window.onclick = function (event) {
             if (!event.target.matches('.notification') && !event.target.matches('.notification i')) {
                 const menu = document.getElementById('notificationMenu');
                 if (menu.classList.contains('active')) {
-                    menu.classList.remove('active');
+                    toggleNotificationMenu();
                 }
             }
         }
