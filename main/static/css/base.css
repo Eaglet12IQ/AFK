@@ -201,6 +201,7 @@ header {
 .dropdown {
     position: relative;
     display: inline-block;
+    padding: 4px 12px;
 }
 
 .dropdown-content {
