@@ -20,6 +20,8 @@ from authentication import views as auth_views
 from profiles import views as profiles_views
 from admin_system import views as admin_system_views
 from taskGenerator import views as taskGenerator_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("", main_views.main, name="main"),
@@ -27,6 +29,7 @@ urlpatterns = [
     path('profile/<int:user_id>/', profiles_views.profile_view, name='profile'),
     path("profile/<int:user_id>/logout/", auth_views.user_profile_logout, name="logout"),
     path('profile/<int:user_id>/settings', profiles_views.settings_view, name='settings'),
+    path('profile/<int:user_id>/settings/change', profiles_views.profile_settings_change, name='settings_change'),
 
     path('events/', taskGenerator_views.events_view, name='events'),
     path('events/generation/', taskGenerator_views.tasks_idea_generation, name='events/generation'),
@@ -56,4 +59,4 @@ urlpatterns = [
     path("admin/tasks/delete/", admin_system_views.admin_tasks_delete, name="admin/tasks/delete"),
 
     path("top/", main_views.top, name="top"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

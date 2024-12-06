@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Setting {% endblock %}
+{% block title %} Settings {% endblock %}
 {% block styles %}
-<link rel="stylesheet" href="{% static 'css/setting.css' %}">
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
 {% endblock %}
 {% block content %}
 <div class="preview flex justify-center text-white flex-col">
@@ -14,7 +14,7 @@
             <input type="file" id="profile-image-input" class="hidden" accept="image/*">
             <img id="profile-image-preview" alt="Placeholder profile image"
                 class="rounded-img-input"
-                src="https://storage.googleapis.com/a1aa/image/7BjZLfEW3ZyTMiVrw0cUiVWuhGmUF3dneQBfAOYow27xDjinA.jpg" />
+                src="{{ MEDIA_URL }}{{ profile_picture }}" />
         </label>   
     </div>
     <form class="space-y-4 flex flex-col">
@@ -25,7 +25,7 @@
                 </label>
                 <input
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
-                    id="first-name" type="text" value="_TheCrist_" />
+                    id="first-name" type="text" value="{{ nickname }}" />
             </div>
         </div>
         <div class="flex" style="margin-bottom: 30px;">
@@ -35,7 +35,7 @@
                 </label>
                 <input
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
-                    id="email" type="text" value="LeoCrist@yandex.ru" />
+                    id="email" type="text" value="{{ email }}" />
             </div>
         </div>
         <div id="password-container" class="flex" style="margin-bottom: 30px; display: none;">
@@ -57,8 +57,26 @@
 </div>
 
 <script>
-    const originalFirstName = '_TheCrist_';
-    const originalEmail = 'LeoCrist@yandex.ru';
+    // Функция для получения CSRF токена
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
+
+    const originalFirstName = document.querySelector("#first-name").value;
+    const originalEmail = document.querySelector("#email").value;
     
     const profileImageInput = document.getElementById('profile-image-input');
     const profileImagePreview = document.getElementById('profile-image-preview');
@@ -102,15 +120,48 @@
         }
     }
     
-    document.getElementById('save-changes-button').addEventListener('click', function (e) {
-        e.preventDefault();
-        const passwordInput = document.getElementById('password').value.trim();
-        if (!passwordInput) {
-            alert('Введите пароль для подтверждения изменений!');
-            return;
-        }
-        alert('Изменения успешно сохранены!');
-    });
+    function change(event) {
+        event.preventDefault();
+
+        const password = document.getElementById('password').value;
+        const nickname = document.getElementById('first-name').value;
+        const email = document.getElementById('email').value;
+        const profile_picture = document.getElementById('profile-image-input').files[0];
+
+        const baseUrl = window.location.origin;
+        const changeUrl = "{% url 'settings_change' user.id %}";
+    
+        // Combine base URL with the relative path to get the full URL
+        const url = new URL(changeUrl, baseUrl);
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+            },
+            body: JSON.stringify({
+                'password': password,
+                'nickname': nickname,
+                "email": email,
+                "profile_picture": profile_picture
+            })
+        })
+        .then(response => {
+            if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                return response.json().then(errorData => {
+                    // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                    return Promise.reject(new Error(errorData.message));
+                });
+            }
+            return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+        })
+        .then(data => {
+            window.location.href = data.redirect_url;  // Перенаправление
+        })
+    }
+
+    document.getElementById('save-changes-button').addEventListener('click', change);
     
 </script>
 {% endblock %}
