@@ -77,7 +77,7 @@ Profile
             <ul class="task-list">
                 {% for completedTask in completedTasks %}
                 <li class="task-item">
-                    Задание {{completedTask.task.id}} - {{completedTask.task.description}} <span class="task-date"> {{completedTask.confirmed}} - {{completedTask.completed_when}}</span>
+                    Задание {{completedTask.task.id}} - {{completedTask.task.description}} <span class="task-date"> <a href="#">{{completedTask.confirmed}}</a>{{completedTask.confirmed}} - {{completedTask.completed_when}}</span>
                 </li>
                 {% endfor %}
             </ul>
