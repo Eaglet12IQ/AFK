@@ -81,59 +81,68 @@
 <script>
     function toggleDropdown() {
         const dropdown = document.querySelector('.dropdown');
+        const notificationMenu = document.querySelector('.notification');
+
+        // Закрываем уведомления, если они открыты
+        if (notificationMenu.classList.contains('active')) {
+            toggleNotificationMenu(false);
+        }
+
         if (dropdown.classList.contains('active')) {
             dropdown.classList.add('closed');
-            dropdown.addEventListener("animationend", function handleAnimationEnd(event) {
+            dropdown.addEventListener("animationend", function handleAnimationEnd() {
                 dropdown.classList.remove("active");
                 dropdown.classList.remove('closed');
                 dropdown.removeEventListener("animationend", handleAnimationEnd);
             });
-        }
-        else {
-            dropdown.classList.toggle('active');
-        }
-    }
-
-    window.onclick = function (event) {
-        if (!event.target.matches('.dropbtn')) {
-            const dropdowns = document.getElementById("dropdown");
-            for (let i = 0; i < dropdowns.length; i++) {
-                const openDropdown = dropdowns[i];
-                if (openDropdown.style.display === "block") {
-                    openDropdown.style.animation = "dropdown 1s reverse";
-                    openDropdown.addEventListener("animationend", function handleAnimationEnd(event) {
-                        openDropdown.classList.remove("active");
-                        openDropdown.removeEventListener("animationend", handleAnimationEnd);
-                    });
-                }
-            }
+        } else {
+            dropdown.classList.add('active');
         }
     }
 
-    function toggleNotificationMenu() {
+    function toggleNotificationMenu(forceClose = null) {
         const menu = document.querySelector('.notification');
+        const dropdown = document.querySelector('.dropdown');
+
+        // Закрываем выпадающее меню профиля, если оно открыто
+        if (dropdown.classList.contains('active')) {
+            toggleDropdown();
+        }
+
+        if (forceClose === true) {
+            menu.classList.remove('active');
+            return;
+        }
+
         if (menu.classList.contains('active')) {
-            menu.classList.toggle('active');
+            menu.classList.remove('active');
             menu.classList.add('closed');
-            menu.addEventListener("animationend", function handleAnimationEnd(event) {
-                menu.classList.remove("closed");
+            menu.addEventListener("animationend", function handleAnimationEnd() {
+                menu.classList.remove('closed');
                 menu.removeEventListener("animationend", handleAnimationEnd);
             });
         } else {
-            menu.classList.toggle('active');
+            menu.classList.add('active');
         }
     }
 
-        // Закрытие меню при клике вне его
-        window.onclick = function (event) {
-            if (!event.target.matches('.notification') && !event.target.matches('.notification i')) {
-                const menu = document.getElementById('notificationMenu');
-                if (menu.classList.contains('active')) {
-                    toggleNotificationMenu();
-                }
-            }
+    // Закрытие меню при клике вне его
+    window.onclick = function (event) {
+        const dropdown = document.querySelector('.dropdown');
+        const notificationMenu = document.querySelector('.notification');
+        const isNotificationClick = event.target.matches('.notification, .notification i');
+        const isDropdownClick = event.target.matches('.dropbtn, .dropbtn *');
+
+        if (!isDropdownClick && dropdown.classList.contains('active')) {
+            toggleDropdown();
         }
-    </script>
+
+        if (!isNotificationClick && notificationMenu.classList.contains('active')) {
+            toggleNotificationMenu();
+        }
+    };
+</script>
+
 
 </body>
 </html>
