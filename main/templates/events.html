@@ -320,12 +320,17 @@
         const selectedButtons = document.querySelectorAll('.difficulty-button');
 
         // Перебираем все кнопки
-        selectedButtons.forEach(button => {
-            // Для каждой кнопки проверяем, содержится ли ее класс в массиве из куки
-            if (difficultyCookie.includes(button.classList[1])) {  // Второй класс в button - это название сложности
+        selectedButtons.forEach(button => { // Для каждой кнопки проверяем, содержится ли ее класс в массиве из куки
+            const selectedButtonEffect = document.querySelector(`.${button.classList[1]}-shadow`);
+            const selectedButtonShadow = document.querySelector(`#${button.classList[1]}-selected-shadow`);
+            if (difficultyCookie.includes(button.classList[1])) { // Второй класс в button - это название сложности
                 button.classList.add('selected');  // Если найдено совпадение, добавляем класс
+                selectedButtonShadow.classList.add('selectedShadow');
+                selectedButtonEffect.classList.add('selectedEffect');
             } else {
                 button.classList.remove('selected');  // Если не найдено - убираем класс
+                selectedButtonShadow.classList.remove('selectedShadow');
+                selectedButtonEffect.classList.remove('selectedEffect');
             }
         });
 
