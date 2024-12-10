@@ -182,7 +182,7 @@
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900" 
-                                                    data-modal-target="crud-modal2" data-profile='{"id": "{{ profile.user_id }}", "nickname": "{{ profile.nickname }}"}'
+                                                    data-modal-target="crud-modal2" data-profile='{"id": "{{ profile.user_id }}", "nickname": "{{ profile.nickname }}", "profile_picture": "{{ profile.profile_picture }}"}'
                                                     data-modal-toggle="crud-modal2" onclick="openEditModal(event)">Редактировать</a>
                                                 </td>
                                             </tr>
@@ -289,6 +289,7 @@
 
             edit_id = document.getElementById('id_edit').value;
             nickname = document.getElementById('nickname_edit').value;
+            profile_picture = document.getElementById('profile_picture_edit').value;
 
             const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
             const url = new URL('admin/profiles/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
@@ -302,6 +303,7 @@
                 body: JSON.stringify({
                     'edit_id': edit_id,
                     'nickname': nickname,
+                    'profile_picture': profile_picture,
                 })
             })
             .then(response => {
@@ -336,9 +338,11 @@
             // Найдём элемент модального окна и вставим данные
             const edit_idInput = document.getElementById('id_edit');
             const nicknameInput = document.getElementById('nickname_edit');
+            const profile_pictureInput = document.getElementById('profile_picture_edit');
             
             edit_idInput.value = profileData.id;
             nicknameInput.value = profileData.nickname;
+            profile_pictureInput.value = profileData.profile_picture
         }
     </script>
 </body>
