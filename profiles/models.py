@@ -12,22 +12,30 @@ class Profile(models.Model):
     profile_picture = models.ImageField(default='default_picture.jpg')
 
     def settings_change(request):
-        data = json.loads(request.body)
-        password = data.get('password')
-        email = data.get('email')
-        nickname = data.get('nickname')
-        profile_picture = data.get('profile_picture')
+        if request.method == 'POST':
+            password = request.POST.get('password')
+            email = request.POST.get('email')
+            nickname = request.POST.get('nickname')
+            profile_picture = request.FILES.get('profile_picture')
 
-        user = User.objects.get(id=request.user.id)
-        profile = Profile.objects.get(user_id=user)
+            user = User.objects.get(id=request.user.id)
+            profile = Profile.objects.get(user_id=user)
 
-        if authenticate(username=user.username, password=password):
-            user.email = email
-            profile.nickname = nickname
+            if authenticate(username=user.username, password=password):
+                user.email = email
+                profile.nickname = nickname
 
-            user.save()
-            profile.save()
+                if profile_picture:
+                    # Удаляем старую картинку, если нужно
+                    if profile.profile_picture and profile.profile_picture.name != 'default_picture.jpg':
+                        profile.profile_picture.delete()
 
-            return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': request.user.id})}, status=200)
-        else:
-            return JsonResponse({"message": "Неверный пароль."}, status=400)
+                    # Сохраняем новую картинку
+                    profile.profile_picture = profile_picture
+
+                user.save()
+                profile.save()
+
+                return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': request.user.id})}, status=200)
+            else:
+                return JsonResponse({"message": "Неверный пароль."}, status=400)
