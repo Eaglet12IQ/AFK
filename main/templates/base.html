@@ -16,134 +16,186 @@
 </head>
 
 <body>
-{% block body %}
-<header class="conteiner">
-    <div class="logo">
-        <a href="{% url 'main' %}"> AFK</a>
-    </div>
-    <div class="navbarBorder">
-        <div class="navbar">
-            <a href="{% url 'main' %}">Главная</a>
-            <a href="{% url 'events' %}">Занятия</a>
-            <a href="{% url 'top' %}">Топ</a>
-            <a href="">Другое</a>
+    {% block body %}
+    <header class="conteiner">
+        <div class="logo">
+            <a href="{% url 'main' %}">AFK</a>
         </div>
-    </div>
-    <div class="login">
-        <div class="notification" onclick="toggleNotificationMenu()">
-            <i class="fas fa-bell"></i>
-            <div class="dropdown-content-border">
-                <div class="notification-menu" id="notificationMenu">
-                    <div class="notification-item">Уведомление 1</div>
-                    <div class="notification-item">Уведомление 2</div>
-                    <div class="notification-item">Уведомление 3</div>
-                </div>
-            </div>
-        </div>
-        {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-        <a href="{% url 'admin/users' %}"> Админ </a>
-        {% endif %}
-        <a href="{% url 'profile' user.id %}"> Профиль </a>
-        <div class="dropdown">
-            <button class="dropbtn" onclick="toggleDropdown()">
-                <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
-                     viewBox="0 0 24 24" width="12">
-                    <path fill="white"
-                          d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
-                    </path>
-                </svg>
-            </button>
-            <div class="dropdown-content-border" id="dropdown">
-                <div class="dropdown-content" id="dropdownMenu">
-                    <a class="dropdown-item" href="{% url 'settings' user.id %}">Настройки</a>
-                    <a href="{% url 'admin/users' %}"> Админ </a>
-                    <a class="dropdown-item" href="{% url 'logout' user.id %}">Выйти</a>
-                </div>
-            </div>
-        </div>
-        {% else %}
-        <a href="{% url 'login' %}"> Войти </a>
-        {% endif %}
-    </div>
-</header>
 
-<div
+        <!-- Полноращмерный навбар -->
+        <div class="navbar-full navbarBorder">
+            <div class="navbar">
+                <a href="{% url 'main' %}">Главная</a>
+                <a href="{% url 'events' %}">Занятия</a>
+                <a href="{% url 'top' %}">Топ</a>
+                <a href="">Другое</a>
+            </div>
+        </div>
+
+        <!-- Мобильный навбар -->
+        <div class="navbar-mobile navbarBorder">
+            <div class="navbar">
+
+                <!-- Главная -->
+                <a href="{% url 'main' %}">
+                    <div class="nav-icons">
+                        <svg viewBox="0 0 585 585" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M536.25 268.125V243.75H511.875V219.375H487.5V195H463.125V170.625H438.75V146.25H414.375V121.875H390V97.5H365.625V73.125H341.25V48.75H316.875V24.375H268.125V48.75H243.75V73.125H219.375V97.5H195V121.875H170.625V146.25H146.25V170.625H121.875V195H97.5V219.375H73.125V243.75H48.75V268.125H24.375V292.5H97.5V536.25H121.875V560.625H219.375V390H365.625V560.625H463.125V536.25H487.5V292.5H560.625V268.125H536.25ZM463.125 268.125H438.75V511.875H414.375V365.625H390V341.25H195V365.625H170.625V511.875H146.25V268.125H121.875V243.75H146.25V219.375H170.625V195H195V170.625H219.375V146.25H243.75V121.875H268.125V97.5H316.875V121.875H341.25V146.25H365.625V170.625H390V195H414.375V219.375H438.75V243.75H463.125V268.125Z" fill="#EBEBEB"/>
+                        </svg>                            
+                    </div>
+                </a>
+
+                <!-- Занятия -->
+                <a href="{% url 'events' %}">
+                    <div class="nav-icons">
+                        <svg viewBox="0 0 585 585" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M463.125 219.375V243.75H438.75V268.125H414.375V292.5H390V316.875H365.625V341.25H341.25V365.625H316.875V390H292.5V414.375H243.75V390H219.375V365.625H195V341.25H170.625V316.875H146.25V292.5H121.875V268.125H146.25V243.75H170.625V219.375H195V243.75H219.375V268.125H243.75V292.5H292.5V268.125H316.875V243.75H341.25V219.375H365.625V195H390V170.625H414.375V195H438.75V219.375H463.125Z" fill="#EBEBEB"/>
+                            <path d="M536.25 48.75V24.375H48.75V48.75H24.375V536.25H48.75V560.625H536.25V536.25H560.625V48.75H536.25ZM511.875 511.875H73.125V73.125H511.875V511.875Z" fill="#EBEBEB"/>
+                        </svg>                            
+                    </div>
+                </a>
+
+                <!-- Топ -->
+                <a href="{% url 'top' %}">
+                    <div class="nav-icons">
+                        <svg viewBox="0 0 609 609" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M558.25 177.625V152.25H507.5V177.625H482.125V228.375H507.5V253.75H482.125V279.125H456.75V304.5H406V279.125H380.625V228.375H355.25V177.625H329.875V152.25H355.25V101.5H329.875V76.125H279.125V101.5H253.75V152.25H279.125V177.625H253.75V228.375H228.375V279.125H203V304.5H152.25V279.125H126.875V253.75H101.5V228.375H126.875V177.625H101.5V152.25H50.75V177.625H25.375V228.375H50.75V253.75H76.125V355.25H101.5V431.375H126.875V482.125H152.25V532.875H456.75V482.125H482.125V431.375H507.5V355.25H532.875V253.75H558.25V228.375H583.625V177.625H558.25ZM456.75 355.25V431.375H431.375V482.125H177.625V431.375H152.25V355.25H126.875V329.875H152.25V355.25H203V329.875H228.375V304.5H253.75V279.125H279.125V228.375H329.875V279.125H355.25V304.5H380.625V329.875H406V355.25H456.75V329.875H482.125V355.25H456.75Z" fill="#EBEBEB"/>
+                        </svg>
+                    </div>
+                </a>
+                
+                <!-- Профиль / Авторизация -->
+                {% if user.is_authenticated %}
+                <a href="{% url 'profile' user.id %}">
+                {% else %}
+                <a href="{% url 'login' %}">
+                {% endif %}
+                    <div class="nav-icons">
+                        <svg viewBox="0 0 609 609" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M431.375 126.875V76.125H406V50.75H355.25V25.375H253.75V50.75H203V76.125H177.625V126.875H152.25V228.375H177.625V279.125H203V304.5H253.75V329.875H355.25V304.5H406V279.125H431.375V228.375H456.75V126.875H431.375ZM380.625 228.375V253.75H355.25V279.125H253.75V253.75H228.375V228.375H203V126.875H228.375V101.5H253.75V76.125H355.25V101.5H380.625V126.875H406V228.375H380.625Z" fill="#EBEBEB"/>
+                            <path d="M532.875 482.125V456.75H507.5V431.375H482.125V406H431.375V380.625H177.625V406H126.875V431.375H101.5V456.75H76.125V482.125H50.75V558.25H76.125V583.625H532.875V558.25H558.25V482.125H532.875ZM126.875 482.125V456.75H177.625V431.375H431.375V456.75H482.125V482.125H507.5V532.875H101.5V482.125H126.875Z" fill="#EBEBEB"/>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="login">
+            <div class="notification" onclick="toggleNotificationMenu()">
+                <i class="fas fa-bell"></i>
+                <div class="dropdown-content-border">
+                    <div class="notification-menu" id="notificationMenu">
+                        <div class="notification-item">Уведомление 1</div>
+                        <div class="notification-item">Уведомление 2</div>
+                        <div class="notification-item">Уведомление 3</div>
+                    </div>
+                </div>
+            </div>
+            {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+            <a class="admin-text" href="{% url 'admin/users' %}"> Админ </a>
+            {% endif %}
+            <a class="profile-text" href="{% url 'profile' user.id %}"> Профиль </a>
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown()">
+                    <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
+                        viewBox="0 0 24 24" width="12">
+                        <path fill="white"
+                            d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
+                        </path>
+                    </svg>
+                </button>
+                <div class="dropdown-content-border" id="dropdown">
+                    <div class="dropdown-content" id="dropdownMenu">
+                        <a class="dropdown-item" href="{% url 'settings' user.id %}">Настройки</a>
+                        <a href="{% url 'admin/users' %}"> Админ </a>
+                        <a class="dropdown-item" href="{% url 'logout' user.id %}">Выйти</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <a href="{% url 'login' %}"> Войти </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div
         class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
-</div>
-<div
+    </div>
+    <div
         class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
-</div>
-<div class="background"></div>
+    </div>
+    <div class="background"></div>
 
-{% block content %}{% endblock %}
-{% endblock %}
-<script>
-    function toggleDropdown() {
-        const dropdown = document.querySelector('.dropdown');
-        const notificationMenu = document.querySelector('.notification');
+    {% block content %}{% endblock %}
+    {% endblock %}
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            const notificationMenu = document.querySelector('.notification');
 
-        // Закрываем уведомления, если они открыты
-        if (notificationMenu.classList.contains('active')) {
-            toggleNotificationMenu(false);
+            // Закрываем уведомления, если они открыты
+            if (notificationMenu.classList.contains('active')) {
+                toggleNotificationMenu(false);
+            }
+
+            if (dropdown.classList.contains('active')) {
+                dropdown.classList.add('closed');
+                dropdown.addEventListener("animationend", function handleAnimationEnd() {
+                    dropdown.classList.remove("active");
+                    dropdown.classList.remove('closed');
+                    dropdown.removeEventListener("animationend", handleAnimationEnd);
+                });
+            } else {
+                dropdown.classList.add('active');
+            }
         }
 
-        if (dropdown.classList.contains('active')) {
-            dropdown.classList.add('closed');
-            dropdown.addEventListener("animationend", function handleAnimationEnd() {
-                dropdown.classList.remove("active");
-                dropdown.classList.remove('closed');
-                dropdown.removeEventListener("animationend", handleAnimationEnd);
-            });
-        } else {
-            dropdown.classList.add('active');
-        }
-    }
+        function toggleNotificationMenu(forceClose = null) {
+            const menu = document.querySelector('.notification');
+            const dropdown = document.querySelector('.dropdown');
 
-    function toggleNotificationMenu(forceClose = null) {
-        const menu = document.querySelector('.notification');
-        const dropdown = document.querySelector('.dropdown');
+            // Закрываем выпадающее меню профиля, если оно открыто
+            if (dropdown.classList.contains('active')) {
+                toggleDropdown();
+            }
 
-        // Закрываем выпадающее меню профиля, если оно открыто
-        if (dropdown.classList.contains('active')) {
-            toggleDropdown();
-        }
+            if (forceClose === true) {
+                menu.classList.remove('active');
+                return;
+            }
 
-        if (forceClose === true) {
-            menu.classList.remove('active');
-            return;
-        }
-
-        if (menu.classList.contains('active')) {
-            menu.classList.remove('active');
-            menu.classList.add('closed');
-            menu.addEventListener("animationend", function handleAnimationEnd() {
-                menu.classList.remove('closed');
-                menu.removeEventListener("animationend", handleAnimationEnd);
-            });
-        } else {
-            menu.classList.add('active');
-        }
-    }
-
-    // Закрытие меню при клике вне его
-    window.onclick = function (event) {
-        const dropdown = document.querySelector('.dropdown');
-        const notificationMenu = document.querySelector('.notification');
-        const isNotificationClick = event.target.matches('.notification, .notification i');
-        const isDropdownClick = event.target.matches('.dropbtn, .dropbtn *');
-
-        if (!isDropdownClick && dropdown.classList.contains('active')) {
-            toggleDropdown();
+            if (menu.classList.contains('active')) {
+                menu.classList.remove('active');
+                menu.classList.add('closed');
+                menu.addEventListener("animationend", function handleAnimationEnd() {
+                    menu.classList.remove('closed');
+                    menu.removeEventListener("animationend", handleAnimationEnd);
+                });
+            } else {
+                menu.classList.add('active');
+            }
         }
 
-        if (!isNotificationClick && notificationMenu.classList.contains('active')) {
-            toggleNotificationMenu();
-        }
-    };
-</script>
+        // Закрытие меню при клике вне его
+        window.onclick = function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            const notificationMenu = document.querySelector('.notification');
+            const isNotificationClick = event.target.matches('.notification, .notification i');
+            const isDropdownClick = event.target.matches('.dropbtn, .dropbtn *');
+
+            if (!isDropdownClick && dropdown.classList.contains('active')) {
+                toggleDropdown();
+            }
+
+            if (!isNotificationClick && notificationMenu.classList.contains('active')) {
+                toggleNotificationMenu();
+            }
+        };
+    </script>
 
 
 </body>
+
 </html>
 {% endblock %}
