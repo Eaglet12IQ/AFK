@@ -163,12 +163,40 @@ header {
             calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
             100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
             10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px));
-
 }
 
 .navbar a:hover {
     padding: 0.25rem 0.75rem;
     background-color: #2f365f;
+}
+
+.navbar-mobile {
+    display: none;
+}
+
+.nav-icons {
+    width: 50px;
+    height: 50px;
+    fill: #ebebeb;
+}
+
+@media (width < 768px) {
+    .navbar-mobile {
+        display: block;
+    }   
+    .navbar-full,
+    .logo,
+    .admin-text,
+    .notification,
+    .profile-text,
+    .dropdown
+    {
+        display: none;
+    }
+
+    .login {
+        display: none !important;
+    }
 }
 
 .login {
@@ -200,7 +228,7 @@ header {
 
 .dropdown {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
     padding: 4px 12px;
 }
 
