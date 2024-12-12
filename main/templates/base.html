@@ -81,6 +81,7 @@
         </div>
 
         <div class="login">
+            {% if user.is_authenticated %}
             <div class="notification" onclick="toggleNotificationMenu()">
                 <i class="fas fa-bell"></i>
                 <div class="dropdown-content-border">
@@ -91,6 +92,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% if user.is_authenticated %}
             {% if user.is_superuser %}
             <a class="admin-text" href="{% url 'admin/users' %}"> Админ </a>
