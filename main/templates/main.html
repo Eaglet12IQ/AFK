@@ -9,31 +9,34 @@
 <div class="preview">
     <!-- <p class="title"> -->
 
-        <div class="title animation-handwrite" style="width: 180px;">
-            <svg viewBox="0 0 385 173" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path class="st0" d="M77.55 96.2V19.4H39.15V96.2H77.55ZM39.15 115.4V173H0.75V19.4H19.95V0.199997H96.75V19.4H115.95V173H77.55V115.4H39.15ZM231.25 77V96.2H173.65V173H135.25V0.199997H250.45V19.4H173.65V77H231.25ZM308.15 173H269.75V0.199997H308.15V77H327.35V38.6H346.55V0.199997H384.95V38.6H365.75V77H346.55V96.2H365.75V134.6H384.95V173H346.55V134.6H327.35V96.2H308.15V173Z" fill="none"/>
-            </svg>
-        </div>
+    <div class="title animation-handwrite" style="width: 180px;">
+        <svg viewBox="0 0 385 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="st0"
+                d="M77.55 96.2V19.4H39.15V96.2H77.55ZM39.15 115.4V173H0.75V19.4H19.95V0.199997H96.75V19.4H115.95V173H77.55V115.4H39.15ZM231.25 77V96.2H173.65V173H135.25V0.199997H250.45V19.4H173.65V77H231.25ZM308.15 173H269.75V0.199997H308.15V77H327.35V38.6H346.55V0.199997H384.95V38.6H365.75V77H346.55V96.2H365.75V134.6H384.95V173H346.55V134.6H327.35V96.2H308.15V173Z"
+                fill="none" />
+        </svg>
+    </div>
 
-        <style>
-            .animation-handwrite .st0 {
-                stroke: #dadadc;
-                stroke-width: 8px;
-                stroke-dasharray: 1200;
-                animation: effectText 5s ease-in-out infinite alternate;
+    <style>
+        .animation-handwrite .st0 {
+            stroke: #dadadc;
+            stroke-width: 8px;
+            stroke-dasharray: 1200;
+            animation: effectText 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes effectText {
+            from {
+                fill: transparent;
+                stroke-dashoffset: 1200;
             }
 
-            @keyframes effectText {
-                from {
-                    fill: transparent;
-                    stroke-dashoffset: 1200;
-                }
-                to {
-                    fill: rgb(255, 255, 255);
-                    stroke-dashoffset: 0;
-                }
+            to {
+                fill: rgb(255, 255, 255);
+                stroke-dashoffset: 0;
             }
-        </style>
+        }
+    </style>
 
     <!-- </p> -->
     <p class="subtitle">Найди занятие по душе</p>
@@ -43,4 +46,72 @@
         </div>
     </div>
 </div>
+<div class="about conteiner">
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h1>Индивидуальный подход</h1>
+            <p>Наш сервис учитывает интересы каждого пользователя, чтобы предложить наиболее подходящие занятия.</p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-magic"></i>
+            </div>
+            <h1>Автоматическая генерация</h1>
+            <p>Занятия создаются автоматически, экономя ваше время и делая процесс максимально удобным.</p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <h1>Творческие идеи</h1>
+            <p>Получайте уникальные и креативные занятия, которые помогут вам развить свои навыки и провести время с
+                пользой.</p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <h1>Гибкость и удобство</h1>
+            <p>Вы можете выбрать занятия на любое удобное время </p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h1>Поддержка интересов</h1>
+            <p>Мы учитываем ваши увлечения и хобби, чтобы каждое занятие доставляло радость и вдохновение.</p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <h1>Сообщество единомышленников</h1>
+            <p>Делитесь своими успехами и находите друзей с похожими интересами через нашу платформу.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("mousemove", function (e) {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        document.documentElement.style.setProperty("--cursor-x", `${x}px`);
+        document.documentElement.style.setProperty("--cursor-y", `${y}px`);
+    });
+</script>
+
 {% endblock %}
