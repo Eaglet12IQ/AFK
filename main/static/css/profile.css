@@ -61,12 +61,20 @@
     font-size: 24px;
     margin-bottom: 10px;
     color: #ffffff; /* Цвет заголовка */
+    text-align: center;
 }
 
 .profile-info p {
     font-size: 18px;
-    color: #cccccc; 
+    color: #cccccc;
+    text-align: center; 
 }
+
+/* @media(max-width: 450px){
+    .profile-info p{
+        max-width: ;
+    }
+} */
 
 .logout{
     background-color: rgba(107, 114, 128, 0.5);
@@ -129,7 +137,9 @@
 }
 
 .profile-interests {
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
 }
 
 .profile-interests h2{
@@ -138,6 +148,14 @@
     font-family: PixelText, normal;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+@media(max-width: 450px){
+    .profile-interests h2{
+        font-size: 24px;
+    }
 }
 
 .interests-list {
@@ -145,6 +163,12 @@
     flex-wrap: wrap;
     justify-content: center;
     gap:20px;
+}
+
+@media(max-width: 450px){
+    .interests-list{
+        flex-wrap: nowrap;
+    }
 }
 
 .interest-box {
@@ -217,9 +241,16 @@
 }
 
 .events h2 {
-    font-size: 24px;
+    font-size: 30px;
     margin-bottom: 10px;
     color: #ffffff; /* Цвет заголовка */
+    text-align: center;
+}
+
+@media(max-width: 450px){
+    .events h2{
+        font-size: 24px;
+    }
 }
 
 .task-list {
