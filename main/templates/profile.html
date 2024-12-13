@@ -19,7 +19,7 @@ Profile
             <div class="profile-info">
                 <h2>{{ nickname }}</h2>
                 <p>
-                    Участник с: <span>{{ date_joined }}</span>
+                    Участник с:<br><span>{{ date_joined }}</span>
                 </p>
             </div>
             {% if user.id == user_id %}
@@ -98,25 +98,35 @@ Profile
         </div>           
     </div>
 </div>
-<div class="modal-container" id="confirmation-modal">
-    <div class="modal-content">
-        <h3>Подтвердите выполнение задания</h3>
-        <form id="confirmation_form" method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" name="user_id" value="{{ user.id }}">
-            <input type="hidden" name="task_id" value=""> <!-- Значение будет установлено через JS -->
-        
-            <label for="upload">Загрузите подтверждение:</label>
-            <input type="file" name="confirmation" id="upload" required />
-        
-            <label for="description">Добавьте описание:</label>
-            <textarea name="description" id="description" placeholder="Напишите описание к подтверждению..." required></textarea>
-        
-            <div class="modal-buttons">
-                <button type="submit">Подтвердить</button>
-                <button type="button" class="modal-close">Отмена</button>
+<div class="modal" id="confirmation-modal">
+    <div class="overlay"></div>
+    <div class="modal-window-shadow">
+        <div class="modal-window-border">
+            <div class="modal-window">
+                <h3>Подтвердите выполнение задания</h3>
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="hidden" name="task_id" value=""> <!-- Значение будет установлено через JS -->
+                  
+                    <div class="upload-image">
+                        <label for="upload-image">Загрузите подтверждение:</label>
+                    <input type="file" name="confirmation" id="upload" required />
+                    </div>
+                    <div class="image-description">
+                        <label for="image-description">Добавьте описание:</label>
+                        <textarea name="description" id="description" placeholder="Напишите описание к подтверждению..." required></textarea>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="submit">Подтвердить</button>
+                        <button type="button" class="modal-close">Отмена</button>
+                    </div>
+                </form>
+                <div class="modal-window-close">
+                    <button class="btn-close" id="close-modal-btn">X</button>
+                </div>
             </div>
-        </form>        
+        </div>
     </div>
 </div>
 
@@ -133,13 +143,13 @@ function openModal(taskId) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("confirmation-modal");
-    const closeModalButtons = document.querySelectorAll(".modal-close");
+    const closeModalButtons = document.querySelectorAll(".modal-window-close");
     const taskLinks = document.querySelectorAll(".task-date a");
 
     // Закрыть модальное окно (по кнопке "Отмена")
     closeModalButtons.forEach(button => {
         button.addEventListener("click", function () {
-            modal.classList.remove("active");
+            modal.classList.remove("open");
         });
     });
 

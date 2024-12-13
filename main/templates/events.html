@@ -28,7 +28,7 @@
                     <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
                         alt="Sport">
                 </div>
-                <div class="label">Спорт</div>
+                <div class="label"><p>Спорт</p></div>
             </div>
         </div>
     </div>
@@ -100,6 +100,7 @@
         <button class="generate-container-button" id="open-modal-btn">Сгенерировать занятие</button>
     </div>
 </div>
+
 <div class="conteiner">
     <div class="slogan-container">
         <h1>Список последних сгенерированных занятий:</h1>
@@ -108,7 +109,7 @@
         {% for completedTask in completedTasks %}
         <li>
             <h2>{{completedTask.task.id}}</h2>
-            <p>{{completedTask.task.description}}</p><button>Узнать больше</button>`;
+            <p>{{completedTask.task.description}}</p><button>Узнать больше</button>
         </li>
         {% endfor %}
     </ul>
@@ -117,21 +118,24 @@
 <div class="background"></div>
 
 <div class="modal" id="my-modal">
-    <div class="modal-window">
-        <h2 class="modal-title">Сгенерированная Идея</h2>
-        <div class="idea">
-            <p id="description" class="idea-description">Это отличная возможность провести время с друзьями и
-                насладиться атмосферой спортивного события!</p>
-        </div>
-        <div class="img">
-            <img src="{% static 'images/like.png' %}" alt="Like" width="30%">
-            <button id="open-modal-btn">
-                <img src="{% static 'images/reload.png' %}" alt="Reload" width="90px">
-            </button>
-            <img src="{% static 'images/dislike.png' %}" alt="Dislike" width="30%">
-        </div>
-        <div class="modal-window-close">
-            <button class="btn-close" id="close-modal-btn">X</button>
+    <div class="modal-window-shadow">
+        <div class="modal-window-border">
+            <div class="modal-window">
+                <h2 class="modal-title">Сгенерированная Идея</h2>
+                <div class="idea">
+                    <p id="description" class="idea-description">Это отличная возможность провести время с друзьями и насладиться атмосферой спортивного события!</p>
+                </div>
+                <div class="img">
+                    <!-- <img src="{% static 'images/Pixel-Like_Button.png' %}" alt="Like" width="115px"> -->
+                    <button id="open-modal-btn">
+                        <img src="{% static 'images/Pixel-Reload-Button_New.png' %}" alt="Reload" width="80px">
+                    </button>
+                    <!-- <img src="{% static 'images/dislike.png' %}" alt="Dislike" width="30%"> -->
+                </div>
+                <div class="modal-window-close">
+                    <button class="btn-close" id="close-modal-btn">X</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -320,12 +324,17 @@
         const selectedButtons = document.querySelectorAll('.difficulty-button');
 
         // Перебираем все кнопки
-        selectedButtons.forEach(button => {
-            // Для каждой кнопки проверяем, содержится ли ее класс в массиве из куки
-            if (difficultyCookie.includes(button.classList[1])) {  // Второй класс в button - это название сложности
+        selectedButtons.forEach(button => { // Для каждой кнопки проверяем, содержится ли ее класс в массиве из куки
+            const selectedButtonEffect = document.querySelector(`.${button.classList[1]}-shadow`);
+            const selectedButtonShadow = document.querySelector(`#${button.classList[1]}-selected-shadow`);
+            if (difficultyCookie.includes(button.classList[1])) { // Второй класс в button - это название сложности
                 button.classList.add('selected');  // Если найдено совпадение, добавляем класс
+                selectedButtonShadow.classList.add('selectedShadow');
+                selectedButtonEffect.classList.add('selectedEffect');
             } else {
                 button.classList.remove('selected');  // Если не найдено - убираем класс
+                selectedButtonShadow.classList.remove('selectedShadow');
+                selectedButtonEffect.classList.remove('selectedEffect');
             }
         });
 

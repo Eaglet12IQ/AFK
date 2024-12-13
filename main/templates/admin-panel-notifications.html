@@ -52,7 +52,7 @@
                         <span class="mx-3">Пользователи</span>
                     </a>
 
-                    <a class="flex items-center px-6 py-2 mt-4 text-gray-100 bg-gray-700 bg-opacity-25"
+                    <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
                         href="{% url 'admin/profiles' %}">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -76,8 +76,8 @@
                         <span class="mx-3">Занятия</span>
                     </a>
 
-                    <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="{% url 'admin/notifications' %}">
+                    <a class="flex items-center px-6 py-2 mt-4 text-gray-100 bg-gray-700 bg-opacity-25"
+                        href="{% url 'admin/tasks' %}">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -85,7 +85,7 @@
                             </path>
                         </svg>
 
-                        <span class="mx-3">Другое</span>
+                        <span class="mx-3">Уведомления</span>
                     </a>
                 </nav>
             </div>
@@ -137,53 +137,71 @@
                                         </div>
 
                                         <div class="mx-5">
-                                            <h4 class="text-2xl font-semibold text-gray-700">{{ profiles|length }}</h4>
-                                            <div class="text-gray-500">Кол-во профилей</div>
+                                            <h4 class="text-2xl font-semibold text-gray-700">{{ tasks|length }}</h4>
+                                            <div class="text-gray-500">Кол-во занятий</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="relative mx-4 lg:mx-0">
+                            <button class="bg-gray-700 p-2 rounded-full text-white" data-modal-target="crud-modal" data-modal-toggle="crud-modal">Отправить</button>
+                        </div>
+
                         <div class="flex flex-col mt-8">
                             <div class="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                                 <div
-                                    class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg overflow-y-auto">
+                                    class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg overflow-y-auto" style="max-height: 50vh;">
                                     <table class="min-w-full">
                                         <thead>
                                             <tr>
                                                 <th
-                                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                user_id</th>
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0" style="position: sticky;">
+                                                    Id</th>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                    nickname</th>
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0" style="position: sticky;">
+                                                    Описание</th>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                    profile_picture</th>
-                                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0" style="position: sticky;">
+                                                    Время отправления</th>
+                                                <th
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0" style="position: sticky;">
+                                                    ID пользователя</th>
+                                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 position: sticky top-0" style="position: sticky;"></th>
+                                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 position: sticky top-0" style="position: sticky;"></th>
                                             </tr>
                                         </thead>
 
-                                        {% for profile in profiles %}
+                                        {% for notification in notifications %}
                                         <tbody class="bg-white">
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>{{ profile.user_id }}</span>
+                                                    <span>{{ notification.id }}</span>
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>{{ profile.nickname }}</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>{{ profile.profile_picture }}</span>
+                                                    <span>{{ notification.description }}</span>
                                                 </td>
 
+                                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                    <span>{{ notification.sent_when }}</span>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                    <span>{{ notification.user_id }}</span>
+                                                </td>
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900" 
-                                                    data-modal-target="crud-modal2" data-profile='{"id": "{{ profile.user_id }}", "nickname": "{{ profile.nickname }}", "profile_picture": "{{ profile.profile_picture }}"}'
+                                                    data-modal-target="crud-modal2" data-notification='{"id": "{{ notification.id }}", "description": "{{ notification.description }}"}'
                                                     data-modal-toggle="crud-modal2" onclick="openEditModal(event)">Редактировать</a>
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
+                                                    <a href="#" class="text-red-500 hover:text-red-600"
+                                                        data-modal-target="popup-modal" data-notification=""='{"id": "{{ notification.id }}"}'
+                                                        data-modal-toggle="popup-modal" onclick="openDeleteModal(event)">Удалить</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -198,6 +216,104 @@
         </div>
     </div>
 
+    <!-- Modal window for delete -->
+    <div id="popup-modal" tabindex="-1"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button"
+                    class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="popup-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Закрыть окно</span>
+                </button>
+                <div class="p-4 md:p-5 text-center">
+                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Вы уверены, что хотите удалить это уведомление?</h3>
+                    <button onclick="Delete(notification)" data-modal-hide="popup-modal" type="button"
+                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                        Да, уверен
+                    </button>
+                    <button data-modal-hide="popup-modal" type="button"
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Нет, отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  -->
+    <!-- Modal window for add -->
+
+    <!-- Main modal -->
+    <div id="crud-modal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Создать новое уведомление
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-toggle="crud-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Закрыть окно</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <form id="add_form" class="p-4 md:p-5">
+                    <div class="grid gap-4 mb-4 grid-cols-2">
+                        <div class="col-span-2">
+                            <label for="name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание</label>
+                            <input type="text" name="description" id="description"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="Описание" required="">
+                        </div>
+                        <div class="col-span-2">
+                            <label for="name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID пользователя</label>
+                            <input type="text" name="id_user" id="id_user"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="ID пользователя" required="">
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        Отправить новое уведомление
+                    </button>
+                    <div class="label">
+                        <label for="" class="text-white">Если вы хотите отправить уведомление всем, то в ID пользователя укажите "all"</label>
+                    </div>
+                    </div>
+                    <div id="message" style="display: none" class="flex items-center justify-center flex-col">
+                        <label class="ml-2 block text-sm text-red-500" id="response-message">
+                            
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- Modal window for edit -->
 
     <!-- Main modal -->
@@ -209,7 +325,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        Редактировать профиль
+                        Изменить уведомление
                     </h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -226,30 +342,23 @@
                 <form id="edit_form" class="p-4 md:p-5">
                     <div class="grid gap-4 mb-4 grid-cols-2">
                         <div class="col-span-2">
-                            <label for="ID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                User_ID</label>
-                            <input type="text" name="id" id="id_edit" disabled style="opacity: 0.5"
+                            <label for="name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
+                            <input type="text" name="id_edit" id="id_edit" disabled style="opacity: 0.5"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="User_ID">
+                                >
                         </div>
                         <div class="col-span-2">
                             <label for="name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nickname</label>
-                            <input type="text" name="Nickname" id="nickname_edit"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание</label>
+                            <input type="text" name="description_edit" id="description_edit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Nickname" value = "Новый пользователь">
-                        </div>   
-                        <div class="col-span-2">
-                            <label for="profile_picture"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile_picture</label>
-                            <input type="text" name="profile_picture" id="profile_picture_edit"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="profile_picture" value = "">
-                        </div>   
+                                placeholder="Описание">
+                        </div>
                     </div>
                     <button type="submit"
                         class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Сохранить изменения
+                        Редактировать занятие
                     </button>
                     <div id="message_edit" style="display: none" class="flex items-center justify-center flex-col">
                         <label class="ml-2 block text-sm text-red-500" id="response-message_edit">
@@ -263,7 +372,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script>
-        // Функция для получения CSRF токена
+    // Функция для получения CSRF токена
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -278,32 +387,30 @@
             }
             return cookieValue;
         }
-        
+
         const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
 
-        function handleEditSubmit(event){
+        function handleAddSubmit(event){
             event.preventDefault();
 
-            const responseMessageLabel = document.getElementById('response-message_edit');
-            const responseMessageDiv = document.getElementById('message_edit');
+            const responseMessageLabel = document.getElementById('response-message');
+            const responseMessageDiv = document.getElementById('message');
 
-            edit_id = document.getElementById('id_edit').value;
-            nickname = document.getElementById('nickname_edit').value;
-            profile_picture = document.getElementById('profile_picture_edit').value;
+            description = document.getElementById('description').value;
+            id_user = document.getElementById('id_user').value;
 
             const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
-            const url = new URL('admin/profiles/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+            const url = new URL('admin/notifications/add/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
     
             fetch(url, {
-                method: "PUT",
+                method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
                 body: JSON.stringify({
-                    'edit_id': edit_id,
-                    'nickname': nickname,
-                    'profile_picture': profile_picture,
+                    'description': description,
+                    'id_user': id_user,
                 })
             })
             .then(response => {
@@ -326,6 +433,50 @@
             });
         }
 
+        function handleEditSubmit(event){
+            event.preventDefault();
+
+            const responseMessageLabel = document.getElementById('response-message_edit');
+            const responseMessageDiv = document.getElementById('message_edit');
+
+            edit_id = document.getElementById('id_edit').value;
+            description = document.getElementById('description_edit').value;
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('admin/notifications/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+            fetch(url, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
+                    'edit_id': edit_id,
+                    'description': description,
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
+                }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                responseMessageLabel.textContent = data.message;
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
+            });
+        }
+
+        document.getElementById('add_form').addEventListener('submit', handleAddSubmit);
         document.getElementById('edit_form').addEventListener('submit', handleEditSubmit);
 
         function openEditModal(event) {
@@ -333,16 +484,43 @@
             event.preventDefault();
         
             // Получим значение data-user
-            const profileData = JSON.parse(event.currentTarget.dataset.profile);
+            const notificationData = JSON.parse(event.currentTarget.dataset.notification);
         
             // Найдём элемент модального окна и вставим данные
             const edit_idInput = document.getElementById('id_edit');
-            const nicknameInput = document.getElementById('nickname_edit');
-            const profile_pictureInput = document.getElementById('profile_picture_edit');
+            const descriptionInput = document.getElementById('description_edit');
+
             
-            edit_idInput.value = profileData.id;
-            nicknameInput.value = profileData.nickname;
-            profile_pictureInput.value = profileData.profile_picture
+            edit_idInput.value = notificationData.id;
+            descriptionInput.value = notificationData.description;
+        }
+
+        function openDeleteModal(event) {
+            // Остановим поведение по умолчанию
+            event.preventDefault();
+        
+            // Получим значение data-user
+            const notificationData = JSON.parse(event.currentTarget.dataset.notification);
+            
+            delete_id = notificationData.id;
+            
+            function Delete(event) {
+                const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+                const url = new URL('admin/notifications/delete/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+                fetch(url, {
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                    },
+                    body: JSON.stringify({
+                        'delete_id': delete_id
+                    })
+                });
+            }
+
+            window.Delete = Delete;
         }
     </script>
 </body>

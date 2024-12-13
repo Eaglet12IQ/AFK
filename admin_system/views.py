@@ -3,6 +3,7 @@ from authentication.models import User
 from profiles.models import Profile
 from taskGenerator.models import Tasks
 from admin_system.models import Admin
+from notification.models import Notification
 
 def users_view(request):
     if not request.user.is_superuser:
@@ -66,3 +67,28 @@ def admin_tasks_delete(request):
         return redirect("main")
     else:
         return Admin.tasks_delete(request)
+    
+def notifications_view(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        notifications = Notification.objects.all()
+        return render(request, "admin-panel-notifications.html",{'notifications': notifications})
+    
+def admin_notifications_add(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        return Notification.notifications_add(request) 
+    
+def admin_notifications_edit(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        return Notification.notifications_edit(request)
+    
+def admin_notifications_delete(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        return Notification.notifications_delete(request)
