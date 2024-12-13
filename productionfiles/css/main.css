@@ -1,0 +1,229 @@
+.preview {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    z-index: 1; 
+    overflow: hidden;
+}
+
+.preview .title {
+    font-size: 9rem;
+    font-weight: 900;
+    z-index: 10;
+    color: white;
+    animation: slide-in-top 4s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+}
+
+.preview .subtitle {
+    color: hsla(0, 0%, 100%, .75);
+    font-size: 1.5rem;
+    margin-bottom: 5rem;
+    z-index: 10;
+    animation: slide-in-top 4s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+}
+
+.preview a {
+    z-index: 10;
+    transition: filter 0.3s linear;
+    background-color: #6610f2;
+    font-size: 1.25rem;
+    color: #ebebeb;
+    padding: 0.5rem 1.25rem;
+    animation: slide-in-bottom 4s;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    clip-path: polygon(0px 10px, 10px 10px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 10px), 0px calc(100% - 10px));
+    border: rgba(255, 255, 255, 0.5) 10px solid;
+}
+
+.preview div:hover a:hover {
+    filter: brightness(125%);
+}
+
+.preview div div {
+    background-color: rgba(118, 39, 248, 0.5);
+    padding: 20px 6px;
+    clip-path: polygon(0px 10px, 10px 10px, 10px 0px,
+            calc(100% - 10px) 0px, calc(100% - 10px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 10px), 0px calc(100% - 10px));
+    animation: button_animation step-end infinite 3s, slide-in-bottom 4s;
+    transition: 0.5s;
+}
+
+.preview div {
+    filter: drop-shadow(0 0 10px rgba(102, 16, 242, 0.5));
+    animation: button_border_animation step-end infinite 3s;
+    transition: 0.5s;
+}
+
+.animation-handwrite .st0 {
+    stroke: #dadadc;
+    stroke-width: 8px;
+    stroke-dasharray: 1200;
+    animation: effectText 5s ease-in-out infinite alternate;
+}
+
+.about {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.cardBorder{
+display: flex;
+justify-content: space-around;
+padding: 0.2rem;
+background-color: rgba(107, 114, 128, 0.5);
+clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+        calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+        100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+        10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px))
+
+}
+.card {
+    position: relative;
+    height: 300px;
+    width: 400px;
+    background-color: rgb(26 27 29 / 90%);
+    color: white;
+    padding: 20px;
+    clip-path: polygon(
+        0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
+        calc(100% - 10px) 0px, calc(100% - 10px) 5px,
+        calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+        100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px),
+        calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px),
+        calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 5px),
+        5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
+    );
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card h1{
+    margin: 10px 0px;
+    z-index: 2;
+}
+
+.card p{
+    color: rgb(255, 255, 255,0.5);
+    z-index: 2;
+}
+
+.icon i {
+    font-size: 32px; 
+    z-index: 2;
+}
+
+.cardBorder:before {
+    content: "";
+    position: fixed;
+    width: 300px; 
+    height: 300px; 
+    background-color: rgba(255, 255, 255, 0.919);
+    filter: blur(25px); 
+    border: 3px solid rgba(255, 255, 255, 0.953); 
+    border-radius: 50%; 
+    pointer-events: none;
+    z-index: 0;
+}
+
+.cardBorder:before {
+    left: var(--cursor-x);
+    top: var(--cursor-y);
+    transform: translate(-50%, -50%);
+}
+
+
+/* Анимации */
+
+@keyframes effectText {
+    from {
+        fill: transparent;
+        stroke-dashoffset: 1200;
+    }
+    to {
+        fill: rgb(255, 255, 255);
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes slide-in-top {
+    0% {
+        translate: 0 -150vh;
+        scale: 200% 200%;
+    }
+
+    65% {
+        translate: 0 3vh;
+        scale: 90% 90%;
+    }
+
+    100% {
+        translate: 0 0;
+        scale: 100% 100%;
+    }
+}
+
+@keyframes slide-in-bottom {
+    0% {
+        translate: 0 150vh;
+        scale: 200% 200%;
+    }
+
+    65% {
+        translate: 0 -3vh;
+        scale: 90% 90%;
+    }
+
+    100% {
+        translate: 0 0;
+        scale: 100% 100%;
+    }
+}
+
+@keyframes button_animation {
+    0% {
+        padding: 20px 6px;
+    }
+
+    50% {
+        padding: 26px 12px;
+    }
+
+    100% {
+        padding: 26px 12px;
+    }
+}
+
+@keyframes button_border_animation {
+    0% {
+        padding: 26px 6px;
+    }
+
+    50% {
+        padding: 20px 12px;
+    }
+
+    100% {
+        padding: 20px 12px;
+    }
+}
