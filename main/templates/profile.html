@@ -9,11 +9,12 @@ Profile
 {% endblock %}
 
 {% block content %}
+
 <div class="profile-container-container">
     <div class="profile-container">
         <div class="profile-header">
             <div class="profile-image">
-                <img src="{{ MEDIA_URL }}{{ profile_picture }}"
+                <img src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg"
                     alt="Profile Image" />
             </div>
             <div class="profile-info">
@@ -104,7 +105,7 @@ Profile
         <div class="modal-window-border">
             <div class="modal-window">
                 <h3>Подтвердите выполнение задания</h3>
-                <form method="POST" action="" enctype="multipart/form-data">
+                <form id = "confirmation_form" method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" name="user_id" value="{{ user.id }}">
                     <input type="hidden" name="task_id" value=""> <!-- Значение будет установлено через JS -->
@@ -134,7 +135,7 @@ Profile
 <script>
 function openModal(taskId) {
     const modal = document.getElementById("confirmation-modal");
-    modal.classList.add("active");
+    modal.classList.add("open");
 
     // Найти скрытое поле task_id в форме и установить его значение
     const taskIdInput = document.querySelector("#confirmation_form input[name='task_id']");
@@ -156,14 +157,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Закрыть модальное окно (по клику вне области окна)
     modal.addEventListener("click", function (e) {
         if (e.target === modal) {
-            modal.classList.remove("active");
+            modal.classList.remove("open");
         }
     });
 
     // Закрыть модальное окно (по нажатию Esc)
     document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && modal.classList.contains("active")) {
-            modal.classList.remove("active");
+        if (e.key === "Escape" && modal.classList.contains("open")) {
+            modal.classList.remove("open");
         }
     });
 });
