@@ -4,6 +4,7 @@ from profiles.models import Profile
 from taskGenerator.models import Tasks
 from admin_system.models import Admin
 from notification.models import Notification
+from taskGenerator.models import confirmationTask
 
 def users_view(request):
     if not request.user.is_superuser:
@@ -92,3 +93,10 @@ def admin_notifications_delete(request):
         return redirect("main")
     else:
         return Notification.notifications_delete(request)
+    
+def confirmation_view(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        confirmation = confirmationTask.objects.all()
+        return render(request, "admin-panel-confirmation.html",{'confirmation': confirmation})
