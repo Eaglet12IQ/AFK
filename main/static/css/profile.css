@@ -461,4 +461,8 @@
     background-color: #5f2f2f;
 }
 
-
+@media (max-width: 450px) {
+    .modal-window {
+      max-width: 25rem;
+    }
+}
