@@ -7,15 +7,22 @@ def profile_view(request, user_id):
     profile = get_object_or_404(Profile, user_id=user_id)
     user = get_object_or_404(User, id=user_id)
     completedTasks = completedTask.objects.filter(user=user_id)
+
+    # Преобразуем дату выполнения задач
+    formatted_completedTasks = []
+    for task in completedTasks:
+        task.completed_when = task.completed_when.strftime('%d %B %Y')  # Форматируем дату
+        formatted_completedTasks.append(task)
+
     context = {
         "nickname": profile.nickname,
-        "date_joined": user.date_joined,
+        "date_joined": user.date_joined.strftime('%d %B %Y'),  # Форматируем дату регистрации
         "user_id": user_id,
-        "completedTasks": completedTasks,
+        "completedTasks": formatted_completedTasks,  # Передаем отформатированные задачи
         "profile_picture": profile.profile_picture,
         "completedTask_count": completedTasks.filter(confirmed="Yes").count(),
     }
-    return render(request, 'profile.html',  context)
+    return render(request, 'profile.html', context)
 
 def settings_view(request, user_id):
     profile = get_object_or_404(Profile, user_id=user_id)
