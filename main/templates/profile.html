@@ -13,7 +13,7 @@ Profile
     <div class="profile-container">
         <div class="profile-header">
             <div class="profile-image">
-                <img src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg"
+                <img src="{{ MEDIA_URL }}{{ profile_picture }}"
                     alt="Profile Image" />
             </div>
             <div class="profile-info">
@@ -34,7 +34,7 @@ Profile
         <div class="profile-stats">
             <div class="stat">
                 <h3>Выполнено заданий</h3>
-                <p>5</p>
+                <p>{{ completedTask_count }}</p>
             </div>
             <div class="stat">
                 <h3>Интересы</h3>
@@ -77,12 +77,25 @@ Profile
             <ul class="task-list">
                 {% for completedTask in completedTasks %}
                 <li class="task-item">
-                    Задание {{completedTask.task.id}} - {{completedTask.task.description}} <span class="task-date"> <a href="javascript:void(0);" onclick="openModal()" style="color: aqua;">Подтверждено: {{completedTask.confirmed}}</a>
-                        - {{completedTask.completed_when}}</span>
+                    Задание {{completedTask.task.id}} - {{completedTask.task.description}} 
+                    <span class="task-date"> 
+                        {% if user.id == user_id %}
+                        <a href="javascript:void(0);" 
+                        onclick="openModal({{ completedTask.task.id }})" 
+                        style="color: aqua;">
+                        Подтверждено: {{ completedTask.confirmed }}
+                        </a>
+                        {% else %}
+                        <span style="color: gray; cursor: not-allowed;">
+                            Подтверждено: {{ completedTask.confirmed }}
+                        </span>
+                        {% endif %}
+                        - {{completedTask.completed_when}}
+                    </span>
                 </li>
                 {% endfor %}
             </ul>
-        </div>    
+        </div>           
     </div>
 </div>
 <div class="modal" id="confirmation-modal">
@@ -93,13 +106,16 @@ Profile
                 <h3>Подтвердите выполнение задания</h3>
                 <form method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="hidden" name="task_id" value=""> <!-- Значение будет установлено через JS -->
+                  
                     <div class="upload-image">
-                        <label for="upload-image">Загрузите изображение подтверждения:</label>
-                    <input type="file" name="confirmation_image" id="upload-image" accept="image/png, image/mp4, image/jpeg" required />
+                        <label for="upload-image">Загрузите подтверждение:</label>
+                    <input type="file" name="confirmation" id="upload" required />
                     </div>
                     <div class="image-description">
                         <label for="image-description">Добавьте описание:</label>
-                        <textarea name="image_description" id="image-description" placeholder="Напишите описание к загруженному изображению..." required></textarea>
+                        <textarea name="description" id="description" placeholder="Напишите описание к подтверждению..." required></textarea>
                     </div>
                     <div class="modal-buttons">
                         <button type="submit">Подтвердить</button>
@@ -116,18 +132,19 @@ Profile
 
 
 <script>
+function openModal(taskId) {
+    const modal = document.getElementById("confirmation-modal");
+    modal.classList.add("active");
+
+    // Найти скрытое поле task_id в форме и установить его значение
+    const taskIdInput = document.querySelector("#confirmation_form input[name='task_id']");
+    taskIdInput.value = taskId;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("confirmation-modal");
     const closeModalButtons = document.querySelectorAll(".modal-window-close");
     const taskLinks = document.querySelectorAll(".task-date a");
-
-    // Открыть модальное окно
-    taskLinks.forEach(link => {
-        link.addEventListener("click", function (e) {
-            e.preventDefault();
-            modal.classList.add("open");
-        });
-    });
 
     // Закрыть модальное окно (по кнопке "Отмена")
     closeModalButtons.forEach(button => {
@@ -149,6 +166,60 @@ document.addEventListener("DOMContentLoaded", function () {
             modal.classList.remove("active");
         }
     });
+});
+
+// Функция для получения CSRF токена
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
+
+document.getElementById('confirmation_form').addEventListener('submit', function (event) {
+    event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+    const modal = document.getElementById("confirmation-modal");
+    const form = event.target;
+    const formData = new FormData(form); // Создаем объект FormData из формы
+
+    const baseUrl = window.location.origin;
+    const changeUrl = "{% url 'confirmation_task' user.id %}";
+    const url = new URL(changeUrl, baseUrl);
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            'X-CSRFToken': csrftoken // Добавляем CSRF токен в заголовки
+        },
+        body: formData // Передаем FormData как тело запроса
+    })
+        .then(response => {
+            if (!response.ok) { // Проверяем, что запрос успешен
+                return response.json().then(errorData => {
+                    return Promise.reject(new Error(errorData.message));
+                });
+            }
+            return response.json(); // Парсим успешный ответ
+        })
+        .then(data => {
+            alert("Подтверждение успешно отправлено!");
+            modal.classList.remove("active"); // Закрываем модальное окно
+            window.location.reload(); // Перезагружаем страницу
+        })
+        .catch(error => {
+            alert("Ошибка отправки подтверждения: " + error.message);
+        });
 });
 
 

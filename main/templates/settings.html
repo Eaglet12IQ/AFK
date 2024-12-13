@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Settings {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock %}
+{% block content %}
+<div class="preview flex justify-center text-white flex-col">
+    <h1 class="text-2xl font-bold mb-2 w-full flex justify-center" style="color: white;">Изменение аккаунта</h1>
+
+    <div class="flex items-center gap-3">
+        <label for="profile-image-input" class="cursor-pointer flex items-center">
+            <input type="file" id="profile-image-input" class="hidden" accept="image/*">
+            <img id="profile-image-preview" alt="Placeholder profile image"
+                class="rounded-img-input"
+                src="{{ MEDIA_URL }}{{ profile_picture }}" />
+        </label>
+    </div>
+    <form class="space-y-4 flex flex-col">
+        <div class="flex" style="margin:30px 0px;">
+            <div class="w-1/2">
+                <label class="block text-sm font-medium " for="first-name">
+                    Никнейм
+                </label>
+                <input
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                    id="first-name" type="text" value="{{ nickname }}" />
+            </div>
+        </div>
+        <div class="flex" style="margin-bottom: 30px;">
+            <div class="w-1/2">
+                <label class="block text-sm font-medium " for="email">
+                    Почта
+                </label>
+                <input
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                    id="email" type="text" value="{{ email }}" />
+            </div>
+        </div>
+        <div id="password-container" class="flex" style="margin-bottom: 30px; display: none;">
+            <div class="">
+                <label class="block text-sm font-medium " for="password">
+                    Введите пароль
+                </label>
+                <input
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                    id="password" type="password" placeholder="Введите пароль для подтверждения" />
+            </div>
+        </div>
+        <div>
+            <button id="save-changes-button"
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled>
+                Сохранить изменения
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const csrftoken = document.cookie.split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+
+    const originalFirstName = document.querySelector("#first-name").value;
+    const originalEmail = document.querySelector("#email").value;
+    const profileImageInput = document.getElementById('profile-image-input');
+    const profileImagePreview = document.getElementById('profile-image-preview');
+    const passwordContainer = document.getElementById('password-container');
+    const firstNameInput = document.getElementById('first-name');
+    const emailInput = document.getElementById('email');
+    const saveChangesButton = document.getElementById('save-changes-button');
+
+    // Проверка изменений
+    function checkForChanges() {
+        const currentFirstName = firstNameInput.value.trim();
+        const currentEmail = emailInput.value.trim();
+        const profileImageChanged = profileImageInput.files.length > 0;
+
+        const hasChanges = currentFirstName !== originalFirstName ||
+            currentEmail !== originalEmail ||
+            profileImageChanged;
+
+        saveChangesButton.disabled = !hasChanges;
+    }
+
+    // Показывать поле ввода пароля при изменении
+    function showPasswordField() {
+        if (passwordContainer.style.display === 'none') {
+            passwordContainer.style.display = 'flex';
+        }
+    }
+
+    // Установка обработчиков событий
+    [firstNameInput, emailInput, profileImageInput].forEach(input => {
+        input.addEventListener('input', () => {
+            checkForChanges();
+            showPasswordField();
+        });
+    });
+
+    profileImageInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                profileImagePreview.src = e.target.result;
+                showPasswordField();
+                checkForChanges();
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Отправка данных
+    function change(event) {
+        event.preventDefault();
+
+        const password = document.getElementById('password').value;
+        const nickname = document.getElementById('first-name').value;
+        const email = document.getElementById('email').value;
+        const profile_picture = document.getElementById('profile-image-input').files[0];
+
+        const formData = new FormData();
+        formData.append('password', password);
+        formData.append('nickname', nickname);
+        formData.append('email', email);
+        if (profile_picture) {
+            formData.append('profile_picture', profile_picture);
+        }
+
+        const baseUrl = window.location.origin;
+        const changeUrl = "{% url 'settings_change' user.id %}";
+        const url = new URL(changeUrl, baseUrl);
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        return Promise.reject(new Error(errorData.message));
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                window.location.href = data.redirect_url;
+            });
+    }
+
+    document.getElementById('save-changes-button').addEventListener('click', change);
+
+    // Первичная проверка при загрузке страницы
+    checkForChanges();
+</script>
+{% endblock %}
