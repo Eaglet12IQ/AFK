@@ -30,6 +30,7 @@ urlpatterns = [
     path("profile/<int:user_id>/logout/", auth_views.user_profile_logout, name="logout"),
     path('profile/<int:user_id>/settings', profiles_views.settings_view, name='settings'),
     path('profile/<int:user_id>/settings/change', profiles_views.profile_settings_change, name='settings_change'),
+    path('profile/<int:user_id>/confirmation_task/', taskGenerator_views.confirmationTask_confirmation_task, name='confirmation_task'),
 
     path('events/', taskGenerator_views.events_view, name='events'),
     path('events/generation/', taskGenerator_views.tasks_idea_generation, name='events/generation'),

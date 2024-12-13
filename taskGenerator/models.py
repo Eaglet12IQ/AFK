@@ -4,6 +4,7 @@ import json
 import random
 from typing import Dict, Union
 from authentication.models import User
+from django.urls import reverse
 
 class Tasks(models.Model):
     description = models.TextField(max_length=100)
@@ -28,7 +29,7 @@ class Tasks(models.Model):
 
         random_task = random.choice(tasks)
 
-        completedTask.objects.create(task=random_task, user=request.user, confirmed=False)
+        completedTask.objects.create(task=random_task, user=request.user)
 
         completed_task: Dict[str, Union[int, str]] = {
             "task_id": random_task.id,
@@ -42,4 +43,30 @@ class completedTask(models.Model):
     task = models.ForeignKey(Tasks, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     completed_when = models.DateTimeField(blank=True, null=True)
-    confirmed = models.BooleanField()
+    confirmed = models.CharField(max_length=10, default='No')
+
+class confirmationTask(models.Model):
+    task = models.ForeignKey(Tasks, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    file = models.ImageField(blank=True, null=True)
+    description = models.TextField(max_length=100)
+
+    def confirmation_task(request):
+        task_id = request.POST.get('task_id')
+        user_id = request.POST.get('user_id')
+        confirmation_file = request.FILES.get('confirmation')
+        description = request.POST.get('description')
+
+        task = Tasks.objects.get(id=task_id)
+        completed_task = completedTask.objects.get(task=task_id)
+        user = User.objects.get(id=user_id)
+
+        confirmationTask.objects.create(task=task, user=user, file=confirmation_file, description=description)
+        completed_task.confirmed = "Pending"
+
+        completed_task.save()
+
+        return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': user_id})}, status=200)
+
+
+

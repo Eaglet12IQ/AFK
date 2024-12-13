@@ -12,7 +12,8 @@ def profile_view(request, user_id):
         "date_joined": user.date_joined,
         "user_id": user_id,
         "completedTasks": completedTasks,
-        "profile_picture": profile.profile_picture
+        "profile_picture": profile.profile_picture,
+        "completedTask_count": completedTasks.filter(confirmed="Yes").count(),
     }
     return render(request, 'profile.html',  context)
 
