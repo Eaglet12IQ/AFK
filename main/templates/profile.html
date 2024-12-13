@@ -9,27 +9,135 @@ Profile
 {% endblock %}
 
 {% block content %}
+
 <div class="profile-container-container">
     <div class="profile-container">
-        <div class="profile-header">
-            <div class="profile-image">
-                <img src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg"
-                    alt="Profile Image" />
-            </div>
-            <div class="profile-info">
-                <h2>{{ nickname }}</h2>
-                <p>
-                    Участник с:<br><span>{{ date_joined }}</span>
-                </p>
-            </div>
-            {% if user.id == user_id %}
-            <div class="logout">
-                <div class="indentation">
-                    <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
+
+        <div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex-1 logout logout-mobile-ver container">
+                    <div class="indentation text-center">
+                        <a href="{% url 'settings' user.id %}"><button>Настройки</button></a>
+                    </div>
                 </div>
+
+                <div class="flex-1 logout logout-mobile-ver container">
+                    <div class="indentation text-center">
+                        <button class="dropbtn" onclick="toggleDropdown()">
+                           Уведомления
+                            <!-- <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
+                                viewBox="0 0 24 24" width="12">
+                                <path fill="white"
+                                    d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
+                                </path>
+                            </svg> -->
+                        </button>
+                    </div>
+                </div>
+
+                {% if user.id == user_id %}
+                <div class="flex-1 logout logout-mobile-ver container">
+                    <div class="indentation text-center">
+                        <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if user.is_superuser %}
+                <div class="flex-1 logout logout-mobile-ver container">
+                    <div class="indentation text-center">
+                        <a href="{% url 'admin/users' %}"><button>Админ</button></a>
+                    </div>
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
+
+            <script>
+                function toggleDropdown() {
+                    const dropdown = document.querySelector('.dropdown');
+                    const notificationMenu = document.querySelector('.notification');
+        
+                    // Закрываем уведомления, если они открыты
+                    if (notificationMenu.classList.contains('active')) {
+                        toggleNotificationMenu(false);
+                    }
+        
+                    if (dropdown.classList.contains('active')) {
+                        dropdown.classList.add('closed');
+                        dropdown.addEventListener("animationend", function handleAnimationEnd() {
+                            dropdown.classList.remove("active");
+                            dropdown.classList.remove('closed');
+                            dropdown.removeEventListener("animationend", handleAnimationEnd);
+                        });
+                    } else {
+                        dropdown.classList.add('active');
+                    }
+                }
+        
+                function toggleNotificationMenu(forceClose = null) {
+                    const menu = document.querySelector('.notification');
+                    const dropdown = document.querySelector('.dropdown');
+        
+                    // Закрываем выпадающее меню профиля, если оно открыто
+                    if (dropdown.classList.contains('active')) {
+                        toggleDropdown();
+                    }
+        
+                    if (forceClose === true) {
+                        menu.classList.remove('active');
+                        return;
+                    }
+        
+                    if (menu.classList.contains('active')) {
+                        menu.classList.remove('active');
+                        menu.classList.add('closed');
+                        menu.addEventListener("animationend", function handleAnimationEnd() {
+                            menu.classList.remove('closed');
+                            menu.removeEventListener("animationend", handleAnimationEnd);
+                        });
+                    } else {
+                        menu.classList.add('active');
+                    }
+                }
+        
+                // Закрытие меню при клике вне его
+                window.onclick = function (event) {
+                    const dropdown = document.querySelector('.dropdown');
+                    const notificationMenu = document.querySelector('.notification');
+                    const isNotificationClick = event.target.matches('.notification, .notification i');
+                    const isDropdownClick = event.target.matches('.dropbtn, .dropbtn *');
+        
+                    if (!isDropdownClick && dropdown.classList.contains('active')) {
+                        toggleDropdown();
+                    }
+        
+                    if (!isNotificationClick && notificationMenu.classList.contains('active')) {
+                        toggleNotificationMenu();
+                    }
+                };
+            </script>
+
+            <div class="profile-header">
+                <div class="profile-image">
+                    <img src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg"
+                        alt="Profile Image" />
+                </div>
+                <div class="profile-info">
+                    <h2>{{ nickname }}</h2>
+                    <p>
+                        Участник с:<br><span>{{ date_joined }}</span>
+                    </p>
+                </div>
+                {% if user.id == user_id %}
+                <div class="logout logout-full-ver">
+                    <div class="indentation">
+                        <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
         </div>
+
         <hr />
         <div class="profile-stats">
             <div class="stat">

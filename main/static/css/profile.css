@@ -2,7 +2,7 @@
     max-width: 1280px;
     /*margin: 50px auto;*/
     padding: 20px;
-    padding-top: 0;
+    /* padding-top: 0; */
     /*border-radius: 10px;*/
     color:white;
     box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
@@ -89,7 +89,7 @@
 }
 
 .logout a {
-    display: flex;
+    /* display: flex; */
     padding: 0.1rem 0.75rem;
     transition: 0.2s;
     clip-path: polygon(
@@ -114,6 +114,28 @@
 .logout a:hover {
     transition: 0.2s;
     background-color: #5f2f2f;
+}
+
+.logout-mobile-ver {
+    display: none;
+    /* width: 83px; */
+    /* margin-left: auto; */
+    /* margin-top: 20px; */
+
+    color: #fff;
+    font-size: 16px;
+    font-family: PixelText, normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+}
+
+@media (width <= 768px) {
+    .logout-full-ver {
+        display: none;
+    }
+    .logout-mobile-ver {
+        display: block;
+    }
 }
 
 .profile-stats {
