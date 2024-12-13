@@ -133,12 +133,12 @@ clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
     z-index: 2;
 }
 
-.cardBorder:hover:before {
+.cardBorder:before {
     content: "";
     position: fixed;
     width: 300px; 
     height: 300px; 
-    background-color: rgba(255, 255, 255, 0.919); 
+    background-color: rgba(255, 255, 255, 0.919);
     filter: blur(25px); 
     border: 3px solid rgba(255, 255, 255, 0.953); 
     border-radius: 50%; 
@@ -146,7 +146,7 @@ clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
     z-index: 0;
 }
 
-.cardBorder:hover:before {
+.cardBorder:before {
     left: var(--cursor-x);
     top: var(--cursor-y);
     transform: translate(-50%, -50%);
