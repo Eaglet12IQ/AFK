@@ -77,7 +77,7 @@
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="#">
+                        href="{% url 'admin/notifications' %}">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -158,6 +158,9 @@
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                                     nickname</th>
+                                                <th
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    profile_picture</th>
                                                 <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
                                             </tr>
                                         </thead>
@@ -172,11 +175,14 @@
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ profile.nickname }}</span>
                                                 </td>
+                                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                    <span>{{ profile.profile_picture }}</span>
+                                                </td>
 
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900" 
-                                                    data-modal-target="crud-modal2" data-profile='{"id": "{{ profile.user_id }}", "nickname": "{{ profile.nickname }}"}'
+                                                    data-modal-target="crud-modal2" data-profile='{"id": "{{ profile.user_id }}", "nickname": "{{ profile.nickname }}", "profile_picture": "{{ profile.profile_picture }}"}'
                                                     data-modal-toggle="crud-modal2" onclick="openEditModal(event)">Редактировать</a>
                                                 </td>
                                             </tr>
@@ -233,6 +239,13 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Nickname" value = "Новый пользователь">
                         </div>   
+                        <div class="col-span-2">
+                            <label for="profile_picture"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile_picture</label>
+                            <input type="text" name="profile_picture" id="profile_picture_edit"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="profile_picture" value = "">
+                        </div>   
                     </div>
                     <button type="submit"
                         class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -276,6 +289,7 @@
 
             edit_id = document.getElementById('id_edit').value;
             nickname = document.getElementById('nickname_edit').value;
+            profile_picture = document.getElementById('profile_picture_edit').value;
 
             const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
             const url = new URL('admin/profiles/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
@@ -289,6 +303,7 @@
                 body: JSON.stringify({
                     'edit_id': edit_id,
                     'nickname': nickname,
+                    'profile_picture': profile_picture,
                 })
             })
             .then(response => {
@@ -323,9 +338,11 @@
             // Найдём элемент модального окна и вставим данные
             const edit_idInput = document.getElementById('id_edit');
             const nicknameInput = document.getElementById('nickname_edit');
+            const profile_pictureInput = document.getElementById('profile_picture_edit');
             
             edit_idInput.value = profileData.id;
             nicknameInput.value = profileData.nickname;
+            profile_pictureInput.value = profileData.profile_picture
         }
     </script>
 </body>

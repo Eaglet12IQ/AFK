@@ -72,9 +72,12 @@ class Admin(models.Model):
 
         nickname = data.get('nickname')
 
+        profile_picture = data.get('profile_picture')
+
         edit_profile = Profile.objects.get(user_id=edit_id)
 
         edit_profile.nickname = nickname
+        edit_profile.profile_picture = profile_picture
 
         edit_profile.save()
 

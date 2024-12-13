@@ -20,6 +20,8 @@ from authentication import views as auth_views
 from profiles import views as profiles_views
 from admin_system import views as admin_system_views
 from taskGenerator import views as taskGenerator_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("", main_views.main, name="main"),
@@ -27,6 +29,8 @@ urlpatterns = [
     path('profile/<int:user_id>/', profiles_views.profile_view, name='profile'),
     path("profile/<int:user_id>/logout/", auth_views.user_profile_logout, name="logout"),
     path('profile/<int:user_id>/settings', profiles_views.settings_view, name='settings'),
+    path('profile/<int:user_id>/settings/change', profiles_views.profile_settings_change, name='settings_change'),
+    path('profile/<int:user_id>/confirmation_task/', taskGenerator_views.confirmationTask_confirmation_task, name='confirmation_task'),
 
     path('events/', taskGenerator_views.events_view, name='events'),
     path('events/generation/', taskGenerator_views.tasks_idea_generation, name='events/generation'),
@@ -42,7 +46,6 @@ urlpatterns = [
     path("register/submit_form/", auth_views.user_register_submit, name="register/submit_form"),
 
     path("admin/users/", admin_system_views.users_view, name="admin/users"),
-
     path("admin/users/add/", admin_system_views.admin_users_add, name="admin/users/add"),
     path("admin/users/edit/", admin_system_views.admin_users_edit, name="admin/users/edit"),
     path("admin/users/delete/", admin_system_views.admin_users_delete, name="admin/users/delete"),
@@ -55,5 +58,10 @@ urlpatterns = [
     path("admin/tasks/edit/", admin_system_views.admin_tasks_edit, name="admin/tasks/edit"),
     path("admin/tasks/delete/", admin_system_views.admin_tasks_delete, name="admin/tasks/delete"),
 
+    path("admin/notifications/", admin_system_views.notifications_view, name="admin/notifications"),
+    path("admin/notifications/add/", admin_system_views.admin_notifications_add, name="admin/notifications/add"),
+    path("admin/notifications/edit/", admin_system_views.admin_notifications_edit, name="admin/notifications/edit"),
+    path("admin/notifications/delete/", admin_system_views.admin_notifications_delete, name="admin/notifications/delete"),
+
     path("top/", main_views.top, name="top"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
