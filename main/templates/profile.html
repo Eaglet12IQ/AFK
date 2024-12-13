@@ -85,21 +85,32 @@ Profile
         </div>    
     </div>
 </div>
-<div class="modal-container" id="confirmation-modal">
-    <div class="modal-content">
-        <h3>Подтвердите выполнение задания</h3>
-        <form method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            <label for="upload-image">Загрузите изображение подтверждения:</label>
-            <input type="file" name="confirmation_image" id="upload-image" accept="image/png, image/mp4, image/jpeg" required />
-            <label for="image-description">Добавьте описание:</label>
-            <textarea name="image_description" id="image-description" placeholder="Напишите описание к загруженному изображению..." required></textarea>
-            
-            <div class="modal-buttons">
-                <button type="submit">Подтвердить</button>
-                <button type="button" class="modal-close">Отмена</button>
+<div class="modal" id="confirmation-modal">
+    <div class="overlay"></div>
+    <div class="modal-window-shadow">
+        <div class="modal-window-border">
+            <div class="modal-window">
+                <h3>Подтвердите выполнение задания</h3>
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="upload-image">
+                        <label for="upload-image">Загрузите изображение подтверждения:</label>
+                    <input type="file" name="confirmation_image" id="upload-image" accept="image/png, image/mp4, image/jpeg" required />
+                    </div>
+                    <div class="image-description">
+                        <label for="image-description">Добавьте описание:</label>
+                        <textarea name="image_description" id="image-description" placeholder="Напишите описание к загруженному изображению..." required></textarea>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="submit">Подтвердить</button>
+                        <button type="button" class="modal-close">Отмена</button>
+                    </div>
+                </form>
+                <div class="modal-window-close">
+                    <button class="btn-close" id="close-modal-btn">X</button>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -107,21 +118,21 @@ Profile
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("confirmation-modal");
-    const closeModalButtons = document.querySelectorAll(".modal-close");
+    const closeModalButtons = document.querySelectorAll(".modal-window-close");
     const taskLinks = document.querySelectorAll(".task-date a");
 
     // Открыть модальное окно
     taskLinks.forEach(link => {
         link.addEventListener("click", function (e) {
             e.preventDefault();
-            modal.classList.add("active");
+            modal.classList.add("open");
         });
     });
 
     // Закрыть модальное окно (по кнопке "Отмена")
     closeModalButtons.forEach(button => {
         button.addEventListener("click", function () {
-            modal.classList.remove("active");
+            modal.classList.remove("open");
         });
     });
 
