@@ -115,11 +115,14 @@
             <li class="task-item">
               Задание {{ completedTask.task.id }} - {{ completedTask.task.description }}
               <span class="task-date">
-                {% if user.id == user_id %}
-                  <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Подтверждено: {{ completedTask.confirmed }}</a>
+                {% if completedTask.confirmed == 'No' %}
+                  <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Нажмите для подтверждения</a>
+                {% elif completedTask.confirmed == 'Pending' %}
+                  <span style="color: yellow; cursor: not-allowed;">На проверке</span>
                 {% else %}
-                  <span style="color: gray; cursor: not-allowed;">Подтверждено: {{ completedTask.confirmed }}</span>
-                {% endif %}- {{ completedTask.completed_when }}
+                  <span style="color: green;">Подтверждено</span>
+                {% endif %}
+                - {{ completedTask.completed_when }}
               </span>
             </li>
           {% endfor %}

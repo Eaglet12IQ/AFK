@@ -63,5 +63,7 @@ urlpatterns = [
     path("admin/notifications/edit/", admin_system_views.admin_notifications_edit, name="admin/notifications/edit"),
     path("admin/notifications/delete/", admin_system_views.admin_notifications_delete, name="admin/notifications/delete"),
 
+    path("admin/confirmation/", admin_system_views.confirmation_view, name="admin/confirmation"),
+
     path("top/", main_views.top, name="top"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

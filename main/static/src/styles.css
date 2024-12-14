@@ -616,6 +616,10 @@ video {
   position: absolute;
 }
 
+.sticky{
+  position: sticky
+}
+
 .relative {
   position: relative;
 }
