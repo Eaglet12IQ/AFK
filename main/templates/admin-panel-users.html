@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
     <title>Document</title>
 </head>
 <style>
@@ -49,7 +49,7 @@
                                 d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
                         </svg>
 
-                        <span class="mx-3">Users</span>
+                        <span class="mx-3">Пользователи</span>
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
@@ -61,7 +61,7 @@
                             </path>
                         </svg>
 
-                        <span class="mx-3">Profiles</span>
+                        <span class="mx-3">Профили</span>
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
@@ -73,11 +73,11 @@
                             </path>
                         </svg>
 
-                        <span class="mx-3">Tasks</span>
+                        <span class="mx-3">Занятия</span>
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="#">
+                        href="{% url 'admin/notifications' %}">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -85,7 +85,19 @@
                             </path>
                         </svg>
 
-                        <span class="mx-3">Forms</span>
+                        <span class="mx-3">Уведомления</span>
+                    </a>
+
+                    <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+                        href="{% url 'admin/confirmation' %}">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                            </path>
+                        </svg>
+
+                        <span class="mx-3">Подтверждение</span>
                     </a>
                 </nav>
             </div>
@@ -101,7 +113,7 @@
                     </div>
                     <div class="flex items-center">
                         <div class="relative">
-                            <a href="{% url 'main' %}"><button class="bg-gray-700 p-2 rounded-full text-white">Back</button></a>
+                            <a href="{% url 'main' %}"><button class="bg-gray-700 p-2 rounded-full text-white">Назад</button></a>
                         </div>
                     </div>
                 </header>
@@ -138,7 +150,7 @@
 
                                         <div class="mx-5">
                                             <h4 class="text-2xl font-semibold text-gray-700">{{ users|length }}</h4>
-                                            <div class="text-gray-500">User count</div>
+                                            <div class="text-gray-500">Кол-во пользователей</div>
                                         </div>
                                     </div>
                                 </div>
@@ -146,49 +158,42 @@
                         </div>
 
                         <div class="relative mx-4 lg:mx-0">
-                            <button class="p-3 bg-gray-200 rounded-full" data-modal-target="crud-modal"
-                                data-modal-toggle="crud-modal">Add</button>
+                            <button class="bg-gray-700 p-2 rounded-full text-white" data-modal-target="crud-modal" data-modal-toggle="crud-modal">Добавить</button>
                         </div>
 
                         <div class="flex flex-col mt-8">
                             <div class="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                                 <div
-                                    class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg overflow-y-auto">
+                                    class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg overflow-y-auto" style="max-height: 50vh;"> 
                                     <table class="min-w-full">
                                         <thead>
                                             <tr>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0 sticky">
                                                     Id</th>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0 sticky">
                                                     last_login</th>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0 sticky">
                                                     is_superuser</th>
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                                     Username</th>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                    Last_name</th>
-                                                <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0 sticky">
                                                     Email</th>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0 sticky">
                                                     is_staff</th>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 sticky top-0">
                                                     is_active</th>
                                                 <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0 sticky">
                                                     Data_Joined</th>
-                                                <th
-                                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                    first_name</th>
-                                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
-                                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
+                                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 top-0 sticky"></th>
+                                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 top-0 sticky"></th>
                                             </tr>
                                         </thead>
 
@@ -213,10 +218,6 @@
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>{{ user.last_name }}</span>
-                                                </td>
-                                                <td
-                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ user.email }}</span>
                                                 </td>
                                                 <td
@@ -232,20 +233,16 @@
                                                     <span>{{ user.date_joined }}</span>
                                                 </td>
                                                 <td
-                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>{{ user.first_name }}</span>
-                                                </td>
-                                                <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                                                        data-modal-target="edit-modal" data-user='{"id": "{{ user.id }}", "first_name": "{{ user.first_name }}", "last_name": "{{ user.last_name }}", "username": "{{ user.username }}", "email": "{{ user.email }}", "is_superuser": {{ user.is_superuser|yesno:"true,false" }}, "is_staff": {{ user.is_staff|yesno:"true,false" }}, "is_active": {{ user.is_active|yesno:"true,false" }}}'
-                                                        data-modal-toggle="edit-modal" onclick="openEditModal(event)">Edit</a>
+                                                        data-modal-target="edit-modal" data-user='{"id": "{{ user.id }}", "username": "{{ user.username }}", "email": "{{ user.email }}", "is_superuser": {{ user.is_superuser|yesno:"true,false" }}, "is_staff": {{ user.is_staff|yesno:"true,false" }}, "is_active": {{ user.is_active|yesno:"true,false" }}}'
+                                                        data-modal-toggle="edit-modal" onclick="openEditModal(event)">Редактировать</a>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-red-500 hover:text-red-600"
                                                         data-modal-target="popup-modal" data-user='{"id": "{{ user.id }}"}'
-                                                        data-modal-toggle="popup-modal" onclick="openDeleteModal(event)">Delete</a>
+                                                        data-modal-toggle="popup-modal" onclick="openDeleteModal(event)">Удалить</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -272,7 +269,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                     </svg>
-                    <span class="sr-only">Close modal</span>
+                    <span class="sr-only">Закрыть окно</span>
                 </button>
                 <div class="p-4 md:p-5 text-center">
                     <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
@@ -280,15 +277,13 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
-                        delete this product?</h3>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Вы уверен, что хотите удалить этого пользователя?</h3>
                     <button onclick="Delete(event)" data-modal-hide="popup-modal" type="button" 
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                        Yes, I'm sure
+                        Да, уверен
                     </button>
                     <button data-modal-hide="popup-modal" type="button"
-                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No,
-                        cancel</button>
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Нет, отмена</button>
                 </div>
             </div>
         </div>
@@ -305,7 +300,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        Create New User
+                        Создать нового пользователя
                     </h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -315,7 +310,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
-                        <span class="sr-only">Close modal</span>
+                        <span class="sr-only">Закрыть окно</span>
                     </button>
                 </div>
                 <!-- Modal body -->
@@ -323,20 +318,19 @@
                     <div class="grid gap-4 mb-4 grid-cols-2">
                         <div class="col-span-2">
                             <label for="Password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Пароль</label>
                             <input type="password" name="password" id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Password" required="">
                         </div>
                         <div class="col-span-2">
                             <label for="is_superuser"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is
-                                Superuser</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is superuser</label>
                             <select id="is_superuser" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected hidden>Select option</option>
-                                <option value="True">Yes</option>
-                                <option value="False">No</option>
+                                <option value="True">Да</option>
+                                <option value="False">Нет</option>
                             </select>
                         </div>
                         <div class="col-span-2">
@@ -345,13 +339,6 @@
                             <input type="text" name="username" id="username"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Username" required="">
-                        </div>
-                        <div class="col-span-2">
-                            <label for="Last_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input type="text" name="last_name" id="last_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Last Name">
                         </div>
                         <div class="col-span-2">
                             <label for="Email"
@@ -380,13 +367,6 @@
                                 <option value="False">No</option>
                             </select>
                         </div>
-                        <div class="col-span-2">
-                            <label for="first_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                            <input type="text" name="first_name" id="first_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="First Name">
-                        </div>
                     </div>
                     <button type="submit"
                         class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring -4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -396,7 +376,7 @@
                                 d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        Add new user
+                        Добавить нового пользователя
                     </button>
                     <div id="message" style="display: none" class="flex items-center justify-center flex-col">
                         <label class="ml-2 block text-sm text-red-500" id="response-message">
@@ -418,7 +398,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        Edit User Data
+                        Изменить данные пользователя
                     </h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -428,7 +408,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
-                        <span class="sr-only">Close modal</span>
+                        <span class="sr-only">Закрыть</span>
                     </button>
                 </div>
                 <!-- Modal body -->
@@ -460,13 +440,6 @@
                                 placeholder="Username">
                         </div>
                         <div class="col-span-2">
-                            <label for="Last_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input type="text" name="last_name" id="last_name_edit"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Last Name">
-                        </div>
-                        <div class="col-span-2">
                             <label for="Email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                             <input type="email" name="email" id="email_edit"
@@ -493,13 +466,6 @@
                                 <option value="false">No</option>
                             </select>
                         </div>
-                        <div class="col-span-2">
-                            <label for="first_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                            <input type="text" name="first_name" id="first_name_edit"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="First Name">
-                        </div>
                     </div>
                     <button type="submit"
                         class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -509,7 +475,7 @@
                                 d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        Save changes
+                        Сохранить изменения
                     </button>
                     <div id="message_edit" style="display: none" class="flex items-center justify-center flex-col">
                         <label class="ml-2 block text-sm text-red-500" id="response-message_edit">
@@ -521,7 +487,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function capitalizeFirstLetter(str) {
             if (!str) return ""; // Проверка на пустую строку
@@ -555,38 +520,45 @@
             password = document.getElementById('password').value;
             is_superuser = document.getElementById('is_superuser').value;
             username = document.getElementById('username').value;
-            last_name = document.getElementById('last_name').value;
             email = document.getElementById('email').value;
             is_staff = document.getElementById('is_staff').value;
             is_active = document.getElementById('is_active').value;
-            first_name = document.getElementById('first_name').value;
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('admin/users/add/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
     
-            $.ajax({
-                url: 'add/',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
                     'password': password,
                     'is_superuser': is_superuser,
                     'username': username,
-                    'last_name': last_name,
                     'email': email,
                     'is_staff': is_staff,
-                    'is_active': is_active,
-                    'first_name': first_name,
-                }),
-                headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    responseMessageLabel.textContent = response.message;
-                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                    responseMessageDiv.style.display = 'flex';
-                },
-                error: function (xhr) {
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
-                    responseMessageDiv.style.display = 'flex';
+                    'is_active': is_active
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                responseMessageLabel.textContent = data.message;
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
             });
         }
 
@@ -599,38 +571,45 @@
             edit_id = document.getElementById('id_edit').value;
             is_superuser = capitalizeFirstLetter(document.getElementById('is_superuser_edit').value);
             username = document.getElementById('username_edit').value;
-            last_name = document.getElementById('last_name_edit').value;
             email = document.getElementById('email_edit').value;
             is_staff = capitalizeFirstLetter(document.getElementById('is_staff_edit').value);
             is_active = capitalizeFirstLetter(document.getElementById('is_active_edit').value);
-            first_name = document.getElementById('first_name_edit').value;
+
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+            const url = new URL('admin/users/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
     
-            $.ajax({
-                url: 'edit/',
-                method: 'PATCH',
-                contentType: 'application/json',
-                data: JSON.stringify({
+            fetch(url, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                },
+                body: JSON.stringify({
                     'edit_id': edit_id,
                     'is_superuser': is_superuser,
                     'username': username,
-                    'last_name': last_name,
                     'email': email,
                     'is_staff': is_staff,
-                    'is_active': is_active,
-                    'first_name': first_name,
-                }),
-                headers: {
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                success: function(response) {
-                    responseMessageLabel.textContent = response.message;
-                    responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                    responseMessageDiv.style.display = 'flex';
-                },
-                error: function (xhr) {
-                    responseMessageLabel.textContent = xhr.responseJSON.message;
-                    responseMessageDiv.style.display = 'flex';
+                    'is_active': is_active
+                })
+            })
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
                 }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                responseMessageLabel.textContent = data.message;
+                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
+                responseMessageDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
             });
         }
 
@@ -648,20 +627,16 @@
             const edit_idInput = document.getElementById('id_edit');
             const is_superuserInput = document.getElementById('is_superuser_edit');
             const usernameInput = document.getElementById('username_edit');
-            const last_nameInput = document.getElementById('last_name_edit');
             const emailInput = document.getElementById('email_edit');
             const is_staffInput = document.getElementById('is_staff_edit');
             const is_activeInput = document.getElementById('is_active_edit');
-            const first_nameInput = document.getElementById('first_name_edit');
             
             edit_idInput.value = userData.id;
             is_superuserInput.value = userData.is_superuser;
             usernameInput.value = userData.username;
-            last_nameInput.value = userData.last_name;
             emailInput.value = userData.email;
             is_staffInput.value = userData.is_staff;
             is_activeInput.value = userData.is_active;
-            first_nameInput.value = userData.first_name;
         }
 
         function openDeleteModal(event) {
@@ -674,17 +649,19 @@
             delete_id = userData.id;
             
             function Delete(event) {
-                $.ajax({
-                    url: 'delete/',
-                    method: 'DELETE',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        'delete_id': delete_id,
-                    }),
+                const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+                const url = new URL('admin/users/delete/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+
+                fetch(url, {
+                    method: "DELETE",
                     headers: {
+                        'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                     },
-                });
+                    body: JSON.stringify({
+                        'delete_id': delete_id
+                    })
+                })
             }
 
             window.Delete = Delete;

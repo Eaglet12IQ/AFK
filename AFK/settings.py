@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mt1!vgpq77=0)12+5+6a$cr8d(s7w6%uy%62+77g3%wh(yqlrr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['afk.progfiks.ru', 'www.afk.progfiks.ru', '37.140.192.35']
 
 
 # Application definition
@@ -39,9 +39,16 @@ INSTALLED_APPS = [
     "profiles",
     "authentication",
     "admin_system",
-    "taskGenerator"
+    "taskGenerator",
+    "notification"
 ]
 
+import os
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'main', 'media')
+
+AUTH_USER_MODEL = 'authentication.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'AFK.urls'
@@ -66,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',  # Ensure this is included
             ],
         },
     },
@@ -119,6 +128,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

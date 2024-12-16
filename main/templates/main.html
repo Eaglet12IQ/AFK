@@ -1,57 +1,117 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <title>Document</title>
-</head>
-
-<body>
-<header class="conteiner">
-    <div class="logo">
-        <a href="{% url 'main' %}"> AFK</a>
-    </div>
-    <div class="navbarBorder">
-        <div class="navbar">
-            <a href="{% url 'main' %}">Home</a>
-            <a href="{% url 'events' %}">Events</a>
-            <a href="#">Top</a>
-            <a href="">Other</a>
-        </div>
-    </div>
-    <div class="login">
-        {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-        <a href="{% url 'admin/users' %}"> Admin </a>
-        {% endif %}
-        <a href="{% url 'profile' user.id %}"> Profile </a>
-        {% else %}
-        <a href="{% url 'login' %}"> Sign in </a>
-        {% endif %}
-    </div>
-</header>
+{% block title %}AFK - Main{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% endblock %}
+{% block content %}
 <div class="preview">
-    <p class="title"> AFK </p>
-    <p class="subtitle"> Find something you like to do</p>
+    <!-- <p class="title"> -->
+
+    <div class="title animation-handwrite" style="width: 180px;">
+        <svg viewBox="0 0 385 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="st0"
+                d="M77.55 96.2V19.4H39.15V96.2H77.55ZM39.15 115.4V173H0.75V19.4H19.95V0.199997H96.75V19.4H115.95V173H77.55V115.4H39.15ZM231.25 77V96.2H173.65V173H135.25V0.199997H250.45V19.4H173.65V77H231.25ZM308.15 173H269.75V0.199997H308.15V77H327.35V38.6H346.55V0.199997H384.95V38.6H365.75V77H346.55V96.2H365.75V134.6H384.95V173H346.55V134.6H327.35V96.2H308.15V173Z"
+                fill="none" />
+        </svg>
+    </div>
+
+    <style>
+        .animation-handwrite .st0 {
+            stroke: #dadadc;
+            stroke-width: 8px;
+            stroke-dasharray: 1200;
+            animation: effectText 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes effectText {
+            from {
+                fill: transparent;
+                stroke-dashoffset: 1200;
+            }
+
+            to {
+                fill: rgb(255, 255, 255);
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+
+    <!-- </p> -->
+    <p class="subtitle">Найди занятие по душе</p>
     <div>
         <div>
-            <a href="{% url 'events' %}"> Get Started </a>
+            <a href="{% url 'events' %}"> Начать </a>
+        </div>
+    </div>
+</div>
+<div class="about conteiner">
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h1>Индивидуальный подход</h1>
+            <p>Наш сервис учитывает интересы каждого пользователя, чтобы предложить наиболее подходящие занятия.</p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-magic"></i>
+            </div>
+            <h1>Автоматическая генерация</h1>
+            <p>Занятия создаются автоматически, экономя ваше время и делая процесс максимально удобным.</p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <h1>Творческие идеи</h1>
+            <p>Получайте уникальные и креативные занятия, которые помогут вам развить свои навыки и провести время с
+                пользой.</p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <h1>Гибкость и удобство</h1>
+            <p>Вы можете выбрать занятия на любое удобное время </p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h1>Поддержка интересов</h1>
+            <p>Мы учитываем ваши увлечения и хобби, чтобы каждое занятие доставляло радость и вдохновение.</p>
+        </div>
+    </div>
+    <div class="cardBorder">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <h1>Сообщество единомышленников</h1>
+            <p>Делитесь своими успехами и находите друзей с похожими интересами через нашу платформу.</p>
         </div>
     </div>
 </div>
 
-<div
-        class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
-</div>
-<div
-        class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
-</div>
-<div class="background"></div>
-</body>
+<script>
+    document.addEventListener("mousemove", function (e) {
+        const x = e.clientX;
+        const y = e.clientY;
 
-</html>
+        document.documentElement.style.setProperty("--cursor-x", `${x}px`);
+        document.documentElement.style.setProperty("--cursor-y", `${y}px`);
+    });
+</script>
+
+{% endblock %}

@@ -1,109 +1,265 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <title>Profile</title>
-</head>
+{% block title %}
+  Profile
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+{% endblock %}
 
-<body>
-    <header class="conteiner">
-        <div class="logo">
-            <a href="{% url 'main' %}"> AFK</a>
-        </div>
-        <div class="navbar">
-            <a href="{% url 'main' %}">Home</a>
-            <a href="{% url 'events' %}">Events</a>
-            <a href="#">Top</a>
-            <a href="">Other</a>
-        </div>
-        <div class="login">
-            {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-            <a href="{% url 'admin/users' %}"> Admin </a>
-            {% endif %}
-            <a href="{% url 'profile' user.id %}"> Profile </a>
-            {% else %}
-            <a href="{% url 'login' %}"> Sign in </a>
-            {% endif %}
-        </div>
-    </header>
+{% block content %}
+  <div class="profile-container-container">
     <div class="profile-container">
-        <div class="profile-header">
-            <div class="profile-image">
-                <img src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg"
-                    alt="Profile Image">
+      <div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex-1 logout logout-mobile-ver container">
+            <div class="indentation text-center">
+              <a href="{% url 'settings' user.id %}"><button>Настройки</button></a>
             </div>
-            <div class="profile-info">
-                <h2>{{ nickname }}</h2>
-                <p>Joined: <span>{{ date_joined }}</span></p>
+          </div>
+
+          <div class="flex-1 logout logout-mobile-ver container">
+            <div class="indentation text-center">
+              <button class="dropbtn" onclick="toggleDropdown()">
+                Уведомления
+                <!--  <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
+                                viewBox="0 0 24 24" width="12">
+                                <path fill="white"
+                                    d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
+                                </path>
+                            </svg>  -->
+              </button>
             </div>
+          </div>
+
+          {% if user.id == user_id %}
+            <div class="flex-1 logout logout-mobile-ver container">
+              <div class="indentation text-center">
+                <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if user.is_superuser %}
+            <div class="flex-1 logout logout-mobile-ver container">
+              <div class="indentation text-center">
+                <a href="{% url 'admin/users' %}"><button>Админ</button></a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="profile-header">
+        <div class="profile-image">
+          <img src="{{ MEDIA_URL }}{{ profile_picture }}" alt="Profile Image" />
+        </div>
+        <div class="profile-info">
+          <h2>{{ nickname }}</h2>
+          <p>
+            Участник с:<br /><span>{{ date_joined }}</span>
+          </p>
+        </div>
         {% if user.id == user_id %}
-            <div class="logout">
-                <a href="{% url 'logout' user.id %}">
-                    <button>Выйти</button>
-                </a>
+          <div class="logout logout-full-ver">
+            <div class="indentation">
+              <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
             </div>
+          </div>
         {% endif %}
+      </div>
+      <hr />
+      <div class="profile-stats">
+        <div class="stat">
+          <h3>Выполнено заданий</h3>
+          <p>{{ completedTask_count }}</p>
         </div>
-        <div class="profile-stats">
-            <div class="stat">
-                <h3>Выполнено заданий</h3>
-                <p>5</p>
-            </div>
-            <div class="stat">
-                <h3>Интересы</h3>
-                <p>2</p>
-            </div>
-            <div class="stat">
-                <h3>Друзья</h3>
-                <p>20</p>
-            </div>
+        <div class="stat">
+          <h3>Интересы</h3>
+          <p>2</p>
         </div>
-        <div class="profile-interests">
-            <h2>Интересы:</h2>
-            <div class="interests-list">
-                <div class="interest-box">
-                    <div class="image-container">
-                        <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
-                            alt="Sport">
-                    </div>
-                    <div class="label">Sport</div>
+        <div class="stat">
+          <h3>Друзья</h3>
+          <p>20</p>
+        </div>
+      </div>
+      <div class="profile-interests">
+        <h2>Интересы:</h2>
+        <div class="interests-list">
+          <div class="interest-box-shadow">
+            <div class="interest-box-border">
+              <div class="interest-box">
+                <div class="image-container">
+                  <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13" alt="Technology" />
                 </div>
-                <div class="interest-box">
-                    <div class="image-container">
-                        <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
-                            alt="Creative">
-                    </div>
-                    <div class="label">Creative</div>
-                </div>
-
+                <div class="label">Технологии</div>
+              </div>
             </div>
+          </div>
+          <div class="interest-box-shadow">
+            <div class="interest-box-border">
+              <div class="interest-box">
+                <div class="image-container">
+                  <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13" alt="Creative" />
+                </div>
+                <div class="label">Искусство</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="events">
-            <h2>Список выполненных заданий: </h2>
-            <ul class="task-list">
-                <li class="task-item">Задание 1 <span class="task-date">18 октября 2024</span></li>
-                <li class="task-item">Задание 2 <span class="task-date">18 октября 2024</span></li>
-                <li class="task-item">Задание 3 <span class="task-date">18 октября 2024</span></li>
-                <li class="task-item">Задание 4 <span class="task-date">18 октября 2024</span></li>
-                <li class="task-item">Задание 5 <span class="task-date">18 октября 2024</span></li>
-            </ul>
+      </div>
+      <div class="events">
+        <h2>Список выполненных заданий:</h2>
+        <ul class="task-list">
+          {% for completedTask in completedTasks %}
+            <li class="task-item">
+              Задание {{ completedTask.task.id }} - {{ completedTask.task.description }}
+              <span class="task-date">
+                {% if completedTask.confirmed == 'No' and user.id == user_id%}
+                  <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Нажмите для подтверждения</a>
+                {% elif completedTask.confirmed == 'Pending' and user.id == user_id %}
+                  <span style="color: yellow; cursor: not-allowed;">На проверке</span>
+                {% elif completedTask.confirmed == 'Yes' and user.id == user_id %}
+                  <span style="color: green;">Подтверждено</span>
+                {% elif completedTask.confirmed == 'No' and user.id != user_id%}
+                  <a style="color: rgba(0, 255, 255, 0.35); cursor: not-allowed;">Не подтверждено</a>
+                {% elif completedTask.confirmed == 'Pending' and user.id != user_id %}
+                  <span style="color: yellow; cursor: not-allowed;">На проверке</span>
+                {% elif completedTask.confirmed == 'Yes' and user.id != user_id %}
+                  <span style="color: rgba(0, 128, 0, 0.35);">Подтверждено</span>
+                {% else %}
+                  <span style="color: rgba(109, 109, 109, 0.829); cursor: not-allowed;">Неизвестно.Обратитесь в тех.поддержку</span>
+                {% endif %}
+                - {{ completedTask.completed_when }}
+              </span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="confirmation-modal">
+    <div class="overlay"></div>
+    <div class="modal-window-shadow">
+      <div class="modal-window-border">
+        <div class="modal-window">
+          <h3>Подтвердите выполнение задания</h3>
+          <form id="confirmation_form" method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ user.id }}" />
+            <input type="hidden" name="task_id" value="" />
+
+            <div class="upload-image">
+              <label for="upload-image">Загрузите подтверждение:</label>
+              <input type="file" name="confirmation" id="upload" required />
+            </div>
+            <div class="image-description">
+              <label for="image-description">Добавьте описание:</label>
+              <textarea name="description" id="description" placeholder="Напишите описание к подтверждению..." required></textarea>
+            </div>
+            <div class="modal-buttons">
+              <button type="submit">Подтвердить</button>
+              <button type="button" class="modal-close">Отмена</button>
+            </div>
+          </form>
+          <div class="modal-window-close">
+            <button class="btn-close" id="close-modal-btn">X</button>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div
-        class="-z-10 pointer-events-none absolute inset-0 bg-center bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_85%)]">
-    </div>
-    <div
-        class="-z-10 absolute -top-8 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[120px] lg:-top-8 lg:size-[32rem] lg:blur-[200px]">
-    </div>
-    <div class="background"></div>
-</body>
-
-</html>
+  <script>
+    function openModal(taskId) {
+      const modal = document.getElementById('confirmation-modal')
+      modal.classList.add('open')
+    
+      // Найти скрытое поле task_id в форме и установить его значение
+      const taskIdInput = document.querySelector("#confirmation_form input[name='task_id']")
+      taskIdInput.value = taskId
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById('confirmation-modal')
+      const closeModalButtons = document.querySelectorAll('.modal-window-close')
+      const taskLinks = document.querySelectorAll('.task-date a')
+    
+      // Закрыть модальное окно (по кнопке "Отмена")
+      closeModalButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          modal.classList.remove('open')
+        })
+      })
+    
+      // Закрыть модальное окно (по клику вне области окна)
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          modal.classList.remove('open')
+        }
+      })
+    
+      // Закрыть модальное окно (по нажатию Esc)
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) {
+          modal.classList.remove('open')
+        }
+      })
+    })
+    
+    // Функция для получения CSRF токена
+    function getCookie(name) {
+      let cookieValue = null
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';')
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim()
+          if (cookie.substring(0, name.length + 1) === name + '=') {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
+            break
+          }
+        }
+      }
+      return cookieValue
+    }
+    
+    const csrftoken = getCookie('csrftoken') // Получаем CSRF токен
+    
+    document.getElementById('confirmation_form').addEventListener('submit', function (event) {
+      event.preventDefault() // Предотвращаем стандартное поведение формы
+    
+      const modal = document.getElementById('confirmation-modal')
+      const form = event.target
+      const formData = new FormData(form) // Создаем объект FormData из формы
+    
+      const baseUrl = window.location.origin
+      const changeUrl = "{% url 'confirmation_task' user.id %}"
+      const url = new URL(changeUrl, baseUrl)
+    
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken // Добавляем CSRF токен в заголовки
+        },
+        body: formData // Передаем FormData как тело запроса
+      })
+        .then((response) => {
+          if (!response.ok) {
+            // Проверяем, что запрос успешен
+            return response.json().then((errorData) => {
+              return Promise.reject(new Error(errorData.message))
+            })
+          }
+          return response.json() // Парсим успешный ответ
+        })
+        .then((data) => {
+          alert('Подтверждение успешно отправлено!')
+          modal.classList.remove('active') // Закрываем модальное окно
+          window.location.reload() // Перезагружаем страницу
+        })
+        .catch((error) => {
+          alert('Ошибка отправки подтверждения: ' + error.message)
+        })
+    })
+  </script>
+{% endblock %}
