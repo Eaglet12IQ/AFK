@@ -386,7 +386,9 @@
 }
 @media (max-width: 450px) {
     .modal-window {
+      width: 100%;
       max-width: 25rem;
+      min-width: 23rem;
     }
 }
 

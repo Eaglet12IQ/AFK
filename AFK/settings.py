@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mt1!vgpq77=0)12+5+6a$cr8d(s7w6%uy%62+77g3%wh(yqlrr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['afk.progfiks.ru', 'www.afk.progfiks.ru', '37.140.192.35']
-
+# ALLOWED_HOSTS = ['afk.progfiks.ru', 'www.afk.progfiks.ru', '37.140.192.35']
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 

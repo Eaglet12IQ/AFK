@@ -71,13 +71,17 @@
       <hr />
       <div class="profile-stats">
         <div class="stat">
-          <h3>Выполнено заданий</h3>
-          <p>{{ completedTask_count }}</p>
-        </div>
-        <div class="stat">
           <h3>Интересы</h3>
           <p>2</p>
         </div>
+        <div class="stat">
+          <h3>Выполнено заданий</h3>
+          <p>{{ completedTask_count }}</p>
+        </div>
+        <!-- <div class="stat">
+          <h3>Интересы</h3>
+          <p>2</p>
+        </div> -->
         <div class="stat">
           <h3>Друзья</h3>
           <p>20</p>
@@ -143,7 +147,7 @@
     <div class="modal-window-shadow">
       <div class="modal-window-border">
         <div class="modal-window">
-          <h3>Подтвердите выполнение задания</h3>
+          <h3 class="modal-title">Подтвердите выполнение задания</h3>
           <form id="confirmation_form" method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="user_id" value="{{ user.id }}" />

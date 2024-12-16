@@ -30,3 +30,11 @@ input{
 .hidden {
     display: none;
 }
+
+/* @media (max-width: 450px) {
+    .preview-container {
+        width: 100%;
+        max-width: 25rem;
+        min-width: 21rem;
+    }
+} */
