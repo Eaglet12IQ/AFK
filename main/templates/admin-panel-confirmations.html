@@ -90,7 +90,7 @@
                     </a>
 
                     <a class="flex items-center px-6 py-2 mt-4 text-gray-100 bg-gray-700 bg-opacity-25"
-                        href="{% url 'admin/confirmation' %}">
+                        href="{% url 'admin/confirmations' %}">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -98,7 +98,7 @@
                             </path>
                         </svg>
 
-                        <span class="mx-3">Подтверждение</span>
+                        <span class="mx-3">Подтверждения</span>
                     </a>
                 </nav>
             </div>
@@ -150,7 +150,7 @@
                                         </div>
 
                                         <div class="mx-5">
-                                            <h4 class="text-2xl font-semibold text-gray-700">{{ tasks|length }}</h4>
+                                            <h4 class="text-2xl font-semibold text-gray-700">{{ confirmations|length }}</h4>
                                             <div class="text-gray-500">Кол-во подтверждений</div>
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@
                                                     Id</th>
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0 sticky">
-                                                    Файлы с подтверждением</th>
+                                                    Файл с подтверждением</th>
                                                 <th
                                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50 top-0 sticky">
                                                     Описание</th>
@@ -185,7 +185,7 @@
                                             </tr>
                                         </thead>
 
-                                        {% for notification in notifications %}
+                                        {% for confirmation in confirmations %}
                                         <tbody class="bg-white">
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -193,11 +193,15 @@
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                    <a href="{{ MEDIA_URL }}{{ confirmation.file }}" download="{{ MEDIA_URL }}{{ confirmation.file }}" style="color: blue; text-decoration: underline;">{{ confirmation.file }}</a>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span>{{ confirmation.description }}</span>
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <span>{{ confirmation.sent_when }}</span>
+                                                    <span>{{ confirmation.task_id }}</span>
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -206,13 +210,13 @@
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900" 
-                                                    data-modal-target="crud-modal2" data-notification='{"id": "{{ confirmation.id }}", "description": "{{ confirmation.description }}", "sent_when": "{{ confirmation.sent_when }}", "user_id": "{{ confirmation.user_id }}"}'
+                                                    data-modal-target="crud-modal2" data-confirmation='{"id": "{{ confirmation.id }}"}'
                                                     data-modal-toggle="crud-modal2" onclick="openEditModal(event)">Подтвердить</a>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
                                                     <a href="#" class="text-red-500 hover:text-red-600"
-                                                        data-modal-target="popup-modal" data-notification=""='{"id": "{{ notification.id }}"}'
+                                                        data-modal-target="popup-modal" data-confirmation='{"id": "{{ confirmation.id }}"}'
                                                         data-modal-toggle="popup-modal" onclick="openDeleteModal(event)">Отказать</a>
                                                 </td>
                                             </tr>
@@ -250,7 +254,7 @@
                             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Вы уверены, что хотите отклонить это подтверждение?</h3>
-                    <button onclick="Delete(confirmation)" data-modal-hide="popup-modal" type="button"
+                    <button onclick="Delete(event)" data-modal-hide="popup-modal" type="button"
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Да, уверен
                     </button>
@@ -263,13 +267,13 @@
     <!--  -->
     <!-- Modal window for accept -->
 
-    <div id="popup-modal" tabindex="-1"
+    <div id="crud-modal2" tabindex="-1"
     class="hidden    overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button type="button"
                     class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="popup-modal">
+                    data-modal-hide="crud-modal2">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -284,11 +288,11 @@
                             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Вы уверены, что хотите одобрить это подтверждение?</h3>
-                    <button onclick="Accept(confirmation)" data-modal-hide="popup-modal" type="button"
+                    <button onclick="Accept(event)" data-modal-hide="crud-modal2" type="button"
                         class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Да, уверен
                     </button>
-                    <button data-modal-hide="popup-modal" type="button"
+                    <button data-modal-hide="crud-modal2" type="button"
                         class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Нет, отмена</button>
                 </div>
             </div>
@@ -315,73 +319,53 @@
 
         const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
 
-        function handleEditSubmit(event){
+        function openEditModal(event){
             event.preventDefault();
 
-            const responseMessageLabel = document.getElementById('response-message_edit');
-            const responseMessageDiv = document.getElementById('message_edit');
+            const confirmationData = JSON.parse(event.currentTarget.dataset.confirmation);
+            
+            accept_id = confirmationData.id;
 
-            edit_id = document.getElementById('id_edit').value;
-            description = document.getElementById('description_edit').value;
+            function Accept(event) {
+                const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
+                const url = new URL('admin/confirmations/accept/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+    
+                fetch(url, {
+                    method: "PATCH",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
+                    },
+                    body: JSON.stringify({
+                        'accept_id': accept_id,
+                    })
+                });
+            }
 
-            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
-            const url = new URL('admin/notifications/edit/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
-
-            fetch(url, {
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
-                },
-                body: JSON.stringify({
-                    'edit_id': edit_id,
-                    'description': description,
-                })
-            })
-            .then(response => {
-                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
-                    return response.json().then(errorData => {
-                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
-                        return Promise.reject(new Error(errorData.message));
-                    });
-                }
-                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
-            })
-            .then(data => {
-                responseMessageLabel.textContent = data.message;
-                responseMessageLabel.className = "ml-2 block text-sm text-green-500";
-                responseMessageDiv.style.display = 'flex';
-            })
-            .catch(error => {
-                responseMessageLabel.textContent = error.message;
-                responseMessageDiv.style.display = 'flex';
-            });
+            window.Accept = Accept;
         }
-
-        document.getElementById('add_form').addEventListener('submit', handleAddSubmit);
-        document.getElementById('edit_form').addEventListener('submit', handleEditSubmit);
 
         function openDeleteModal(event) {
             // Остановим поведение по умолчанию
             event.preventDefault();
         
             // Получим значение data-user
-            const notificationData = JSON.parse(event.currentTarget.dataset.notification);
+            const confirmationData = JSON.parse(event.currentTarget.dataset.confirmation);
             
-            delete_id = notificationData.id;
+            refuse_id = confirmationData.id;
             
             function Delete(event) {
                 const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
-                const url = new URL('admin/notifications/delete/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
+                const url = new URL('admin/confirmations/refuse/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
 
                 fetch(url, {
-                    method: "DELETE",
+                    method: "PATCH",
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                     },
                     body: JSON.stringify({
-                        'delete_id': delete_id
+                        'refuse_id': refuse_id
                     })
                 });
             }
