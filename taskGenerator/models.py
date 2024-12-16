@@ -1,9 +1,11 @@
 from django.db import models
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
 import random
 from typing import Dict, Union
 from authentication.models import User
+from profiles.models import Profile
+from notification.models import Notification
 from django.urls import reverse
 
 class Tasks(models.Model):
@@ -50,6 +52,7 @@ class confirmationTask(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.ImageField(blank=True, null=True)
     description = models.TextField(max_length=100)
+    confirmed = models.BooleanField(blank=True, null=True)
 
     def confirmation_task(request):
         task_id = request.POST.get('task_id')
@@ -67,6 +70,58 @@ class confirmationTask(models.Model):
         completed_task.save()
 
         return JsonResponse({"redirect_url": reverse('profile', kwargs={'user_id': user_id})}, status=200)
+    
+    def confirmations_refuse(request):
+        data = json.loads(request.body)
+        refuse_id = data.get('refuse_id')
+
+        refuse_task = confirmationTask.objects.get(id=refuse_id)
+        completed_task = completedTask.objects.get(task=refuse_task.task, user=refuse_task.user)
+
+        completed_task.confirmed = "No"
+        completed_task.save()
+
+        Notification.objects.create(user=refuse_task.user, description=f"Ваша заявка на подтверждение {refuse_task.task.id} задания была отклонена!")
+
+        refuse_task.confirmed = False
+        refuse_task.save()
+
+        return HttpResponse(status=200)
+    
+    def confirmations_accept(request):
+        data = json.loads(request.body)
+        accept_id = data.get('accept_id')
+
+        accept_task = confirmationTask.objects.get(id=accept_id)
+        completed_task = completedTask.objects.get(task=accept_task.task, user=accept_task.user)
+
+        completed_task.confirmed = "Yes"
+        completed_task.save()
+
+        Notification.objects.create(user=accept_task.user, description=f"Ваша заявка на подтверждение {accept_task.task.id} задания была утверждена!")
+
+        accept_task.confirmed = True
+        accept_task.save()
+
+        profile = Profile.objects.get(user=accept_task.user)
+        interest_field = f"{accept_task.task.interest.lower()}_rating"  # Например, "food_rating"
+
+        # Получаем текущее значение рейтинга
+        current_rating = getattr(profile, interest_field, None)
+
+        if current_rating is not None:
+            # Обновляем значение рейтинга в зависимости от сложности задания
+            if accept_task.task.difficulty == "easy":
+                setattr(profile, interest_field, current_rating + 4)
+            elif accept_task.task.difficulty == "medium":
+                setattr(profile, interest_field, current_rating + 20)
+            elif accept_task.task.difficulty == "hard":
+                setattr(profile, interest_field, current_rating + 100)
+            
+            # Сохраняем изменения в профиле
+            profile.save()
+
+        return HttpResponse(status=200)
 
 
 

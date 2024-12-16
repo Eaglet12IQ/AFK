@@ -22,6 +22,12 @@ def profile_view(request, user_id):
         "completedTasks": formatted_completedTasks,  # Передаем отформатированные задачи
         "profile_picture": profile.profile_picture,
         "completedTask_count": completedTasks.filter(confirmed="Yes").count(),
+        "total_rating": profile.total_rating,
+        "food_rating": profile.food_rating,
+        "sport_rating": profile.sport_rating,
+        "technology_rating": profile.technology_rating,
+        "travel_rating": profile.travel_rating,
+        "creative_rating": profile.creative_rating,
     }
     return render(request, 'profile.html', context)
 
@@ -32,7 +38,7 @@ def settings_view(request, user_id):
     context = {
         "nickname": profile.nickname,
         "email": user.email,
-        "profile_picture": profile.profile_picture
+        "profile_picture": profile.profile_picture,
     }
     return render(request, 'settings.html', context)
 

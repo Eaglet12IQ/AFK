@@ -11,6 +11,25 @@ class Profile(models.Model):
     nickname = models.TextField(max_length=100)
     profile_picture = models.ImageField(default='default_picture.jpg')
 
+    food_rating = models.PositiveIntegerField(default=0)
+    sport_rating = models.PositiveIntegerField(default=0)
+    technology_rating = models.PositiveIntegerField(default=0)
+    travel_rating = models.PositiveIntegerField(default=0)
+    creative_rating = models.PositiveIntegerField(default=0)
+    total_rating = models.PositiveIntegerField(default=0, editable=False)  # Храним итог
+
+    def save(self, *args, **kwargs):
+        # Перед сохранением обновляем значение total_rating
+        self.total_rating = (
+            self.food_rating
+            + self.sport_rating
+            + self.technology_rating
+            + self.travel_rating
+            + self.creative_rating
+        )
+        super().save(*args, **kwargs)
+
+
     def settings_change(request):
         if request.method == 'POST':
             password = request.POST.get('password')

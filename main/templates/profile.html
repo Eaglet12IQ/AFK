@@ -59,6 +59,24 @@
           <p>
             Участник с:<br /><span>{{ date_joined }}</span>
           </p>
+          <p>
+            Обший рейтинг:<br /><span>{{ total_rating }}</span>
+          </p>
+          <p>
+            Food рейтинг:<br /><span>{{ food_rating }}</span>
+          </p>
+          <p>
+            Travel рейтинг:<br /><span>{{ travel_rating }}</span>
+          </p>
+          <p>
+            Creative рейтинг:<br /><span>{{ creative_rating }}</span>
+          </p>
+          <p>
+            Technology рейтинг:<br /><span>{{ technology_rating }}</span>
+          </p>
+          <p>
+            Sport рейтинг:<br /><span>{{ sport_rating }}</span>
+          </p>
         </div>
         {% if user.id == user_id %}
           <div class="logout logout-full-ver">

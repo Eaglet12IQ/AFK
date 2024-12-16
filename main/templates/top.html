@@ -20,63 +20,71 @@
     <section id="overall-rating" class="tab-content active">
         <div class="top-3-places flex flex-wrap items-end">
             <!-- Второе место -->
+            {% if top2 %}
             <div class="flip-container" style="animation: glow-silver 3.5s infinite;">
                 <div class="flip-card-inner">
                     <!-- Передняя сторона -->
                     <div class="front-side second-place pixeled-frame text-center">
-                        <img class="pixeled-frame" src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg" alt="Аватар профиля пользователя">
-                        <p class="mt-2">Пользователь 2</p>
+                        <img class="pixeled-frame" src="{{ MEDIA_URL }}{{ top2.profile_picture }}" alt="Аватар профиля пользователя">
+                        <p class="mt-2">{{top2.nickname}}</p>
                     </div>
                     <!-- Задняя сторона -->
                     <div class="back-side second-place pixeled-frame text-center">
                         <p class="subtitle">Информация<br>о пользователе</p>
                         <ul class="list-outside">
-                            <li>Заданий выполенено:<br>- 10 -</li>
-                            <li>Любимая категория:<br>- Спорт -</li>
+                            <li>Рейтинг:<br>- {{ top2.total_rating }} -</li>
+                            <li>Заданий выполенено:<br>- {{ top2.completed_tasks_count }} -</li>
+                            <li>Любимая категория:<br>- {{ top2.top_category }} -</li>
                         </ul>
                     </div>
                 </div>
             </div>
-
+            {% endif %}
+            {% if top1 %}
             <!-- Первое место -->
             <div class="flip-container" style="animation: glow-gold 3.5s infinite;">
                 <div class="flip-card-inner">
                     <!-- Передняя сторона -->
                     <div class="front-side first-place pixeled-frame text-center">
-                        <img class="pixeled-frame" src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg" alt="Аватар профиля пользователя">
-                        <p class="mt-2">Пользователь 1</p>
+                        <img class="pixeled-frame" src="{{ MEDIA_URL }}{{ top1.profile_picture }}" alt="Аватар профиля пользователя">
+                        <p class="mt-2">{{top1.nickname}}</p>
                     </div>
                     <!-- Задняя сторона -->
                     <div class="back-side first-place pixeled-frame text-center">
                         <p class="subtitle">Информация<br>о пользователе</p>
                         <ul class="list-outside">
-                            <li>Заданий выполенено:<br>- 18 -</li>
-                            <li>Любимая категория:<br>- Путешествия -</li>
+                            <li>Рейтинг:<br>- {{ top1.total_rating }} -</li>
+                            <li>Заданий выполенено:<br>- {{ top1.completed_tasks_count }} -</li>
+                            <li>Любимая категория:<br>- {{ top1.top_category }} -</li>
                         </ul>
                     </div>
                 </div>
             </div>
-
+            {% endif %}
+            {% if top3 %}
             <!-- Третье место -->
             <div class="flip-container" style="animation: glow-bronze 3.5s infinite;">
                 <div class="flip-card-inner">
                     <!-- Передняя сторона -->
                     <div class="front-side third-place pixeled-frame text-center">
-                        <img class="pixeled-frame" src="https://sh22-vologda-r19.gosweb.gosuslugi.ru/netcat_files/8/148/net_foto.jpg" alt="Аватар профиля пользователя">
-                        <p class="mt-2">Пользователь 2</p>
+                        <img class="pixeled-frame" src="{{ MEDIA_URL }}{{ top3.profile_picture }}" alt="Аватар профиля пользователя">
+                        <p class="mt-2">{{top3.nickname}}</p>
                     </div>
                     <!-- Задняя сторона -->
                     <div class="back-side third-place pixeled-frame text-center">
                         <p class="subtitle">Информация<br>о пользователе</p>
                         <ul class="list-outside">
-                            <li>Заданий выполенено:<br>- 8 -</li>
-                            <li>Любимая категория:<br>- Еда -</li>
+                            <li>Рейтинг:<br>- {{ top3.total_rating }} -</li>
+                            <li>Заданий выполенено:<br>- {{ top3.completed_tasks_count }} -</li>
+                            <li>Любимая категория:<br>- {{ top3.top_category }} -</li>
                         </ul>
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
 
+        {% if other_users %}
         <div class="table-shadow relative overflow-x-auto">
             <table class="w-full text-center pixeled-frame">
                 <thead>
@@ -90,25 +98,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="border-b">
-                        <td class="px-6 py-4 dark:text-white">4</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 4</td>
-                    </tr>
-                    <tr class="border-b dark:border-gray-700">
-                        <td class="px-6 py-4 dark:text-white">5</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 5</td>
-                    </tr>
-                    <tr class="border-b dark:border-gray-700">
-                        <td class="px-6 py-4 dark:text-white">6</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 5</td>
-                    </tr> 
-                    <tr>
-                        <td class="px-6 py-4 dark:text-white">7</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 6</td>
-                    </tr>
+                    {% for other_user in other_users %}
+                        <tr class="border-b">
+                            <td class="px-6 py-4 dark:text-white">{{ forloop.counter|add:3 }}</td>
+                            <td class="px-6 py-4 dark:text-white">{{ other_user.nickname }} | Рейтинг: {{ other_user.total_rating }}</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>                
         </div>
+        {% endif %}
     </section>
 
     
@@ -126,25 +125,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="border-b">
+                    <tr class="border-b dark:border-gray-700">
                         <td class="px-6 py-4 dark:text-white">Спорт</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 1</td>
+                        <td class="px-6 py-4 dark:text-white">{{ best_sport.nickname }} | Рейтинг: {{ best_sport.sport_rating }}</td>
                     </tr>
                     <tr class="border-b dark:border-gray-700">
                         <td class="px-6 py-4 dark:text-white">Искусство</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 2</td>
+                        <td class="px-6 py-4 dark:text-white">{{ best_creative.nickname }} | Рейтинг: {{ best_creative.creative_rating }}</td>
                     </tr>
                     <tr class="border-b dark:border-gray-700">
                         <td class="px-6 py-4 dark:text-white">Технологии</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 3</td>
+                        <td class="px-6 py-4 dark:text-white">{{ best_technology.nickname }} | Рейтинг: {{ best_technology.technology_rating }}</td>
                     </tr> 
                     <tr class="border-b dark:border-gray-700">
                         <td class="px-6 py-4 dark:text-white">Путешествия</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 4</td>
+                        <td class="px-6 py-4 dark:text-white">{{ best_travel.nickname }} | Рейтинг: {{ best_travel.travel_rating }}</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-4 dark:text-white">Еда</td>
-                        <td class="px-6 py-4 dark:text-white">Пользователь 5</td>
+                        <td class="px-6 py-4 dark:text-white">{{ best_food.nickname }} | Рейтинг: {{ best_food.food_rating }}</td>
                     </tr>
                 </tbody>
             </table>                

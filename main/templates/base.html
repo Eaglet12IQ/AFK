@@ -86,9 +86,13 @@
                 <i class="fas fa-bell"></i>
                 <div class="dropdown-content-border">
                     <div class="notification-menu" id="notificationMenu">
-                        <div class="notification-item">Уведомление 1</div>
-                        <div class="notification-item">Уведомление 2</div>
-                        <div class="notification-item">Уведомление 3</div>
+                        {% if notifications %}
+                            {% for notification in notifications %}
+                            <div class="notification-item">{{ notification.description }}</div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="notification-item">Нет новых уведомлений</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
