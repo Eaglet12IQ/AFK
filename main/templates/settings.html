@@ -6,56 +6,58 @@
 <link rel="stylesheet" href="{% static 'css/settings.css' %}">
 {% endblock %}
 {% block content %}
-<div class="preview flex justify-center text-white flex-col">
-    <h1 class="text-2xl font-bold mb-2 w-full flex justify-center" style="color: white;">Изменение аккаунта</h1>
-
-    <div class="flex items-center gap-3">
-        <label for="profile-image-input" class="cursor-pointer flex items-center">
-            <input type="file" id="profile-image-input" class="hidden" accept="image/*">
-            <img id="profile-image-preview" alt="Placeholder profile image"
-                class="rounded-img-input"
-                src="{{ MEDIA_URL }}{{ profile_picture }}" />
-        </label>
+<div class="preview-container">
+    <div class="preview flex justify-center text-white flex-col">
+        <h1 class="text-2xl font-bold mb-2 w-full flex justify-center" style="color: white;">Изменение аккаунта</h1>
+    
+        <div class="flex items-center gap-3">
+            <label for="profile-image-input" class="cursor-pointer flex items-center">
+                <input type="file" id="profile-image-input" class="hidden" accept="image/*">
+                <img id="profile-image-preview" alt="Placeholder profile image"
+                    class="rounded-img-input"
+                    src="{{ MEDIA_URL }}{{ profile_picture }}" />
+            </label>
+        </div>
+        <form class="space-y-4 flex flex-col">
+            <div class="flex" style="margin:30px 0px;">
+                <div class="w-1/2">
+                    <label class="block text-sm font-medium " for="first-name">
+                        Никнейм
+                    </label>
+                    <input
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                        id="first-name" type="text" value="{{ nickname }}" />
+                </div>
+            </div>
+            <div class="flex" style="margin-bottom: 30px;">
+                <div class="w-1/2">
+                    <label class="block text-sm font-medium " for="email">
+                        Почта
+                    </label>
+                    <input
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                        id="email" type="text" value="{{ email }}" />
+                </div>
+            </div>
+            <div id="password-container" class="flex" style="margin-bottom: 30px; display: none;">
+                <div class="">
+                    <label class="block text-sm font-medium " for="password">
+                        Введите пароль
+                    </label>
+                    <input
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+                        id="password" type="password" placeholder="Введите пароль для подтверждения" />
+                </div>
+            </div>
+            <div>
+                <button id="save-changes-button"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
+                    Сохранить изменения
+                </button>
+            </div>
+        </form>
     </div>
-    <form class="space-y-4 flex flex-col">
-        <div class="flex" style="margin:30px 0px;">
-            <div class="w-1/2">
-                <label class="block text-sm font-medium " for="first-name">
-                    Никнейм
-                </label>
-                <input
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
-                    id="first-name" type="text" value="{{ nickname }}" />
-            </div>
-        </div>
-        <div class="flex" style="margin-bottom: 30px;">
-            <div class="w-1/2">
-                <label class="block text-sm font-medium " for="email">
-                    Почта
-                </label>
-                <input
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
-                    id="email" type="text" value="{{ email }}" />
-            </div>
-        </div>
-        <div id="password-container" class="flex" style="margin-bottom: 30px; display: none;">
-            <div class="">
-                <label class="block text-sm font-medium " for="password">
-                    Введите пароль
-                </label>
-                <input
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
-                    id="password" type="password" placeholder="Введите пароль для подтверждения" />
-            </div>
-        </div>
-        <div>
-            <button id="save-changes-button"
-                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled>
-                Сохранить изменения
-            </button>
-        </div>
-    </form>
 </div>
 
 <script>
