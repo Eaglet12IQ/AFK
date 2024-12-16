@@ -117,10 +117,10 @@
         <ul class="task-list">
           {% for completedTask in completedTasks %}
             <li class="task-item">
-              Задание {{ completedTask.task.id }} - {{ completedTask.task.description }}
+              Задание {{ completedTask.task.id }}: {{ completedTask.task.description }}
               <span class="task-date">
                 {% if completedTask.confirmed == 'No' and user.id == user_id%}
-                  <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Нажмите для подтверждения</a>
+                  <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Нажмите для подтверждения:</a>
                 {% elif completedTask.confirmed == 'Pending' and user.id == user_id %}
                   <span style="color: yellow; cursor: not-allowed;">На проверке</span>
                 {% elif completedTask.confirmed == 'Yes' and user.id == user_id %}
@@ -132,9 +132,9 @@
                 {% elif completedTask.confirmed == 'Yes' and user.id != user_id %}
                   <span style="color: rgba(0, 128, 0, 0.35);">Подтверждено</span>
                 {% else %}
-                  <span style="color: rgba(109, 109, 109, 0.829); cursor: not-allowed;">Неизвестно.Обратитесь в тех.поддержку</span>
+                  <span style="color: rgba(109, 109, 109, 0.829); cursor: not-allowed;">Неизвестно. Обратитесь в тех.поддержку</span>
                 {% endif %}
-                - {{ completedTask.completed_when }}
+                {{ completedTask.completed_when }}
               </span>
             </li>
           {% endfor %}

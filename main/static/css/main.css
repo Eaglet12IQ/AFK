@@ -100,6 +100,10 @@ clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
 
 }
 .card {
+    display: flex;
+    flex-direction: column ;
+    justify-content: center;
+    text-align: center;
     position: relative;
     height: 300px;
     width: 400px;
@@ -121,11 +125,13 @@ clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
 .card h1{
     margin: 10px 0px;
     z-index: 2;
+    font-family: PixelText, normal;
 }
 
 .card p{
     color: rgb(255, 255, 255,0.5);
     z-index: 2;
+    font-family: PixelText, normal;
 }
 
 .icon i {
@@ -225,5 +231,11 @@ clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
 
     100% {
         padding: 20px 12px;
+    }
+}
+
+@media (max-width: 450px) {
+    .cardBorder {
+        max-width: 23.5rem;
     }
 }
