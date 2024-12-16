@@ -10,6 +10,12 @@
     overflow: hidden;
 }
 
+@media(max-width: 450px){
+    .preview {
+        height: 85%;
+    }
+}
+
 .preview .title {
     font-size: 9rem;
     font-weight: 900;

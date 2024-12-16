@@ -99,6 +99,7 @@ header {
 .notification-item {
     padding: 10px;
     border-bottom: 0.2rem solid rgba(107, 114, 128, 0.5);
+    text-align: center;
 }
 
 .notification-item:last-child {

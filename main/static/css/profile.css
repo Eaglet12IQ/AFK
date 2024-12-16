@@ -59,7 +59,6 @@
 
 .profile-info h2 {
     font-size: 24px;
-    margin-bottom: 10px;
     color: #ffffff; /* Цвет заголовка */
     text-align: center;
 }
@@ -68,6 +67,7 @@
     font-size: 18px;
     color: #cccccc;
     text-align: center; 
+    margin-top: 10px;
 }
 
 /* @media(max-width: 450px){
@@ -101,6 +101,7 @@
 }
 
 .indentation {
+    font-size: 19px;
     padding: 0.25rem;
     background-color: rgb(26 27 29 / 90%);
     clip-path: polygon(
@@ -109,11 +110,12 @@
             100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
             10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px)
     );
+    
 }
 
 .logout a:hover {
     transition: 0.2s;
-    background-color: #5f2f2f;
+    background-color: #9e2424;
 }
 
 .logout-mobile-ver {
@@ -141,12 +143,12 @@
 .profile-stats {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     align-items: center;
 }
 
 .stat {
-    width: 33.33%;
     text-align: center;
 }
 
@@ -190,7 +192,6 @@
 
 @media(max-width: 450px){
     .interests-list{
-        /* flex-wrap: nowrap; */
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
@@ -210,7 +211,6 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    cursor: pointer;
     transition: all 0.3s;
     clip-path: polygon(
             0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px,
@@ -267,9 +267,15 @@
 
 .events h2 {
     font-size: 30px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     color: #ffffff; /* Цвет заголовка */
     text-align: center;
+}
+
+.p-rating {
+    text-align: center;
+    font-size: 16px;
+    padding-top: 5px;
 }
 
 @media(max-width: 450px){
@@ -291,7 +297,6 @@
     margin: 10px 0; 
     border-radius: 8px; 
     transition: transform 0.3s, background-color 0.3s; 
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -62,21 +62,21 @@
           <p>
             Обший рейтинг:<br /><span>{{ total_rating }}</span>
           </p>
-          <p>
+          <!-- <p>
             Food рейтинг:<br /><span>{{ food_rating }}</span>
-          </p>
-          <p>
+          </p> -->
+          <!-- <p>
             Travel рейтинг:<br /><span>{{ travel_rating }}</span>
-          </p>
-          <p>
+          </p> -->
+          <!-- <p>
             Creative рейтинг:<br /><span>{{ creative_rating }}</span>
-          </p>
-          <p>
+          </p> -->
+          <!-- <p>
             Technology рейтинг:<br /><span>{{ technology_rating }}</span>
-          </p>
-          <p>
+          </p> -->
+          <!-- <p>
             Sport рейтинг:<br /><span>{{ sport_rating }}</span>
-          </p>
+          </p> -->
         </div>
         {% if user.id == user_id %}
           <div class="logout logout-full-ver">
@@ -117,6 +117,9 @@
                 <div class="label">Технологии</div>
               </div>
             </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ technology_rating }}</span>
+            </p>
           </div>
           <div class="interest-box-shadow">
             <div class="interest-box-border">
@@ -127,6 +130,48 @@
                 <div class="label">Искусство</div>
               </div>
             </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ creative_rating }}</span>
+            </p>
+          </div>
+          <div class="interest-box-shadow">
+            <div class="interest-box-border">
+              <div class="interest-box">
+                <div class="image-container">
+                  <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13" alt="Creative" />
+                </div>
+                <div class="label">Путешествия</div>
+              </div>
+            </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ creative_rating }}</span>
+            </p>
+          </div>
+          <div class="interest-box-shadow">
+            <div class="interest-box-border">
+              <div class="interest-box">
+                <div class="image-container">
+                  <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13" alt="Creative" />
+                </div>
+                <div class="label">Спорт</div>
+              </div>
+            </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ creative_rating }}</span>
+            </p>
+          </div>
+          <div class="interest-box-shadow">
+            <div class="interest-box-border">
+              <div class="interest-box">
+                <div class="image-container">
+                  <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Creative" />
+                </div>
+                <div class="label">Еда</div>
+              </div>
+            </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ creative_rating }}</span>
+            </p>
           </div>
         </div>
       </div>
