@@ -35,22 +35,28 @@
 .profile-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 20px;
+    justify-content: space-around;
+    padding: 20px 0;
 }
 
 .profile-image {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
+    min-width: 100px;
+    max-width: 150px;
+    margin: 0 auto;
+
+    /* Рамка */
+    background-color: #fff;
+    padding: 0.2rem;
+    clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px, calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px, 100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px));
 }
 
 .profile-image img {
     width: 100%;
-    height: 100%;
+
     object-fit: cover;
-    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    /* border-radius: 50%; */
+    clip-path: polygon(0px 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0px, calc(100% - 10px) 0px, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px, 100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0px calc(100% - 10px));
 }
 
 .profile-info {
@@ -59,13 +65,13 @@
 
 .profile-info h2 {
     font-size: 24px;
-    color: #ffffff; /* Цвет заголовка */
+    color: #fff; /* Цвет заголовка */
     text-align: center;
 }
 
 .profile-info p {
     font-size: 18px;
-    color: #cccccc;
+    color: #fff;
     text-align: center; 
     margin-top: 10px;
 }
@@ -118,7 +124,7 @@
     background-color: #9e2424;
 }
 
-.logout-mobile-ver {
+.btns-mobile-ver {
     display: none;
     /* width: 83px; */
     /* margin-left: auto; */
@@ -132,17 +138,40 @@
 }
 
 @media (width <= 768px) {
-    .logout-full-ver {
-        display: none;
+    .btns-mobile-ver {
+        display: block !important;
     }
-    .logout-mobile-ver {
-        display: block;
+
+}
+
+.username-full-ver {
+    display: block;
+    padding: 0 20px;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.username-mobile-ver {
+    display: none;
+    padding: 0 20px;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+@media (width <= 572px) {
+    .username-full-ver {
+        display: none !important;
+    }
+    .username-mobile-ver {
+        display: block !important;
+        padding: 0 0;
+        font-size: 20px;
     }
 }
 
 .profile-stats {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding-top: 20px;
     padding-bottom: 20px;
     align-items: center;
@@ -162,8 +191,6 @@
 }
 
 .profile-interests {
-    padding-left: 20px;
-    padding-right: 20px;
     padding-bottom: 20px;
 }
 
@@ -190,12 +217,12 @@
     gap:20px;
 }
 
-@media(max-width: 450px){
+/* @media(max-width: 450px){
     .interests-list{
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
-}
+} */
 
 .interest-box {
     width: 150px;
@@ -265,6 +292,10 @@
     color: black;
 }
 
+.events {
+    padding: 20px 0;
+}
+
 .events h2 {
     font-size: 30px;
     margin-bottom: 20px;
@@ -320,7 +351,7 @@
 
 .task-date {
     font-size: 16px;
-    color: #cccccc; /* Цвет даты */
+    color: #ebebeb; /* Цвет даты */
     margin-left: 13px; /* Отступ от задания */
 }
 

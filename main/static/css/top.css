@@ -138,12 +138,15 @@ tr {
 
 img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
 }
 
 .flip-container {
     perspective: 1000px; /* Создаёт глубину для 3D вращения */
-    width: 296px; /* Укажите ширину карточки */
-    height: 323px; /* Укажите высоту карточки */
+    width: 296px;
+    height: 323px;
 }
 
 .flip-card-inner {

@@ -13,49 +13,62 @@
     <div class="profile-container">
       <div>
         <div class="grid grid-cols-2 gap-3">
-          <div class="flex-1 logout logout-mobile-ver container">
+
+          {% if user.id == user_id %}
+          <div class="flex-1 logout btns-mobile-ver container">
             <div class="indentation text-center">
               <a href="{% url 'settings' user.id %}"><button>Настройки</button></a>
             </div>
           </div>
+          {% endif %}
 
-          <div class="flex-1 logout logout-mobile-ver container">
+          {% if user.id == user_id %}
+          <div class="flex-1 logout btns-mobile-ver container">
             <div class="indentation text-center">
-              <button class="dropbtn" onclick="toggleDropdown()">
+              <!-- ПОКА НЕ РАБОТАЕТ -->
+              <button class="dropbtn">
                 Уведомления
-                <!--  <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
-                                viewBox="0 0 24 24" width="12">
-                                <path fill="white"
-                                    d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
-                                </path>
-                            </svg>  -->
               </button>
             </div>
           </div>
+          {% endif %}
 
           {% if user.id == user_id %}
-            <div class="flex-1 logout logout-mobile-ver container">
+            <div class="flex-1 logout btns-mobile-ver container">
               <div class="indentation text-center">
                 <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
               </div>
             </div>
           {% endif %}
-
+          
+          {% if user.id == user_id %}
           {% if user.is_superuser %}
-            <div class="flex-1 logout logout-mobile-ver container">
+            <div class="flex-1 logout btns-mobile-ver container">
               <div class="indentation text-center">
                 <a href="{% url 'admin/users' %}"><button>Админ</button></a>
               </div>
             </div>
           {% endif %}
+          {% endif %}
         </div>
       </div>
       <div class="profile-header">
-        <div class="profile-image">
-          <img src="{{ MEDIA_URL }}{{ profile_picture }}" alt="Profile Image" />
+
+        <div>
+          <div class="profile-image">
+            <img src="{{ MEDIA_URL }}{{ profile_picture }}" alt="Profile Image" />
+          </div>
+          <div class="username-mobile-ver text-center">
+            <h2>{{ nickname }}</h2>
+          </div>
         </div>
-        <div class="profile-info">
+
+        <div class="username-full-ver text-center">
           <h2>{{ nickname }}</h2>
+        </div>
+
+        <div class="profile-info items-center">
+          <!-- <h2>{{ nickname }}</h2> -->
           <p>
             Участник с:<br /><span>{{ date_joined }}</span>
           </p>
@@ -78,13 +91,6 @@
             Sport рейтинг:<br /><span>{{ sport_rating }}</span>
           </p> -->
         </div>
-        {% if user.id == user_id %}
-          <div class="logout logout-full-ver">
-            <div class="indentation">
-              <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
-            </div>
-          </div>
-        {% endif %}
       </div>
       <hr />
       <div class="profile-stats">
