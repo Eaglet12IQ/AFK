@@ -57,6 +57,11 @@
                 </button>
             </div>
         </form>
+        <div id="message" style="display: none" class="flex items-center justify-center flex-col">
+            <label class="ml-2 block text-sm text-red-500" id="response-message">
+
+            </label>
+        </div>
     </div>
 </div>
 
@@ -119,6 +124,9 @@
     function change(event) {
         event.preventDefault();
 
+        const responseMessageLabel = document.getElementById('response-message');
+        const responseMessageDiv = document.getElementById('message');
+
         const password = document.getElementById('password').value;
         const nickname = document.getElementById('first-name').value;
         const email = document.getElementById('email').value;
@@ -143,17 +151,21 @@
             },
             body: formData
         })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorData => {
-                        return Promise.reject(new Error(errorData.message));
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                window.location.href = data.redirect_url;
-            });
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    return Promise.reject(new Error(errorData.message));
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            window.location.href = data.redirect_url;
+        })
+        .catch(error => {
+            responseMessageLabel.textContent = error.message;
+            responseMessageDiv.style.display = 'flex';
+        });
     }
 
     document.getElementById('save-changes-button').addEventListener('click', change);

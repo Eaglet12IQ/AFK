@@ -7,7 +7,9 @@ from notification.models import Notification
 from taskGenerator.models import confirmationTask
 
 def users_view(request):
-    if not request.user.is_superuser:
+    if request.user.is_staff and not request.user.is_superuser:
+        return redirect('admin/confirmations')
+    elif not request.user.is_superuser:
         return redirect("main")
     else:
         users = User.objects.all()
@@ -95,7 +97,7 @@ def admin_notifications_delete(request):
         return Notification.notifications_delete(request)
     
 def confirmations_view(request):
-    if not request.user.is_superuser:
+    if not request.user.is_superuser and not request.user.is_staff:
         return redirect("main")
     else:
         confirmations = confirmationTask.objects.filter(confirmed=None)

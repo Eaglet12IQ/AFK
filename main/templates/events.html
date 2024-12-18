@@ -99,6 +99,11 @@
     <div class="generate-shadow">
         <button class="generate-container-button" id="open-modal-btn">Сгенерировать занятие</button>
     </div>
+    <div id="message" style="display: none" class="flex items-center justify-center flex-col">
+        <label class="ml-2 block text-sm text-red-500" id="response-message">
+            
+        </label>
+    </div>
 </div>
 
 <div class="conteiner">
@@ -195,6 +200,9 @@
                 difficultyCookie = [];
             }
 
+            const responseMessageLabel = document.getElementById('response-message');
+            const responseMessageDiv = document.getElementById('message');
+
             const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
             const url = new URL('events/generation/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
 
@@ -208,23 +216,35 @@
                     'X-CSRFToken': csrftoken
                 }
             })
-                .then(response => response.json())
-                .then(data => {
-                    const spisokElement = document.getElementById('spisok');
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
+                }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                const spisokElement = document.getElementById('spisok');
 
-                    if (data["tasks_count"] > 10) {
-                        spisokElement.lastElementChild.remove();
-                    }
+                if (data["tasks_count"] > 10) {
+                    spisokElement.lastElementChild.remove();
+                }
 
-                    const li = document.createElement('li');
-                    li.innerHTML = `<h2>${data["task_id"]}</h2><p>${data["task_description"]}</p><button>Узнать больше</button>`;
-                    spisokElement.insertBefore(li, spisokElement.firstChild);
+                const li = document.createElement('li');
+                li.innerHTML = `<h2>${data["task_id"]}</h2><p>${data["task_description"]}</p><button>Узнать больше</button>`;
+                spisokElement.insertBefore(li, spisokElement.firstChild);
 
-                    const description_idea = document.getElementById('description');
-                    description_idea.textContent = data["task_description"];
+                const description_idea = document.getElementById('description');
+                description_idea.textContent = data["task_description"];
 
-                    document.getElementById("my-modal").classList.add("open");
-                });
+                document.getElementById("my-modal").classList.add("open");
+            })
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
+            });
         });
     });
 

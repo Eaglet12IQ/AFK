@@ -98,9 +98,7 @@
             </div>
             {% endif %}
             {% if user.is_authenticated %}
-            {% if user.is_superuser %}
             <a class="admin-text" href="{% url 'admin/users' %}"> Админ </a>
-            {% endif %}
             <a class="profile-text" href="{% url 'profile' user.id %}"> Профиль </a>
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown()">

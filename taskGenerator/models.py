@@ -7,6 +7,7 @@ from authentication.models import User
 from profiles.models import Profile
 from notification.models import Notification
 from django.urls import reverse
+from datetime import date
 
 class Tasks(models.Model):
     description = models.TextField(max_length=100)
@@ -18,7 +19,7 @@ class Tasks(models.Model):
         difficulty = json.loads(request.GET.get('difficulty'))
 
         from taskGenerator.models import completedTask
-        last_generations_id_list = [gen.task.id for gen in completedTask.objects.filter(user=request.user).order_by('-id')[:10]]
+        last_generations_id_list = [gen.task.id for gen in completedTask.objects.filter(user=request.user)]
 
         if not interests and not difficulty:
             tasks = Tasks.objects.filter().exclude(id__in=last_generations_id_list)
@@ -28,6 +29,9 @@ class Tasks(models.Model):
             tasks = Tasks.objects.filter(interest__in=interests).exclude(id__in=last_generations_id_list)
         else:
             tasks = Tasks.objects.filter(difficulty__in=difficulty, interest__in=interests).exclude(id__in=last_generations_id_list)
+
+        if not tasks:
+            return JsonResponse({"message": "Задания закончились("}, status=400)
 
         random_task = random.choice(tasks)
 
@@ -49,7 +53,8 @@ class completedTask(models.Model):
 
 class confirmationTask(models.Model):
     task = models.ForeignKey(Tasks, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='confirmation_tasks_as_user')  # Связь с пользователем как "инициатор"
+    doer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='confirmation_tasks_as_doer')  # Связь с пользователем как "исполнитель"
     file = models.ImageField(blank=True, null=True)
     description = models.TextField(max_length=100)
     confirmed = models.BooleanField(blank=True, null=True)
@@ -84,6 +89,7 @@ class confirmationTask(models.Model):
         Notification.objects.create(user=refuse_task.user, description=f"Ваша заявка на подтверждение {refuse_task.task.id} задания была отклонена!")
 
         refuse_task.confirmed = False
+        refuse_task.doer = request.user
         refuse_task.save()
 
         return HttpResponse(status=200)
@@ -96,11 +102,13 @@ class confirmationTask(models.Model):
         completed_task = completedTask.objects.get(task=accept_task.task, user=accept_task.user)
 
         completed_task.confirmed = "Yes"
+        completed_task.completed_when = date.today()
         completed_task.save()
 
         Notification.objects.create(user=accept_task.user, description=f"Ваша заявка на подтверждение {accept_task.task.id} задания была утверждена!")
 
         accept_task.confirmed = True
+        accept_task.doer = request.user
         accept_task.save()
 
         profile = Profile.objects.get(user=accept_task.user)
