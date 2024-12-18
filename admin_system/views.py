@@ -7,9 +7,7 @@ from notification.models import Notification
 from taskGenerator.models import confirmationTask
 
 def users_view(request):
-    if request.user.is_staff and not request.user.is_superuser:
-        return redirect('admin/confirmations')
-    elif not request.user.is_superuser:
+    if not request.user.is_superuser:
         return redirect("main")
     else:
         users = User.objects.all()

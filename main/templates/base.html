@@ -98,8 +98,10 @@
             </div>
             {% endif %}
             {% if user.is_authenticated %}
-            {% if user.is_superuser or user.is_staff %}
+            {% if user.is_superuser %}
             <a class="admin-text" href="{% url 'admin/users' %}"> Админ </a>
+            {% elif user.is_staff %}
+            <a class="admin-text" href="{% url 'admin/confirmations' %}"> Админ </a>
             {% endif %}
             <a class="profile-text" href="{% url 'profile' user.id %}"> Профиль </a>
             <div class="dropdown">
@@ -114,8 +116,10 @@
                 <div class="dropdown-content-border" id="dropdown">
                     <div class="dropdown-content" id="dropdownMenu">
                         <a class="dropdown-item" href="{% url 'settings' user.id %}">Настройки</a>
-                        {% if user.is_superuser or user.is_staff %}
+                        {% if user.is_superuser %}
                         <a href="{% url 'admin/users' %}"> Админ </a>
+                        {% elif user.is_staff %}
+                        <a href="{% url 'admin/confirmations' %}"> Админ </a>
                         {% endif %}
                         <a class="dropdown-item" href="{% url 'logout' user.id %}">Выйти</a>
                     </div>
