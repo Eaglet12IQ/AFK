@@ -19,6 +19,7 @@
         </div>
         <h2 class="text-center text-2xl text-white mb-6"> Авторизация </h2>
         <form id="login_form" class="space-y-6">
+            {% csrf_token %}
             <div> <label class="block text-sm font-medium text-gray-300" for="email/login"> Почта или логин
                 </label> <input
                     class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-700 text-white"

@@ -45,8 +45,8 @@ INSTALLED_APPS = [
 
 import os
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'main', 'media')
+MEDIA_URL = 'AFK/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'authentication.User'
 
