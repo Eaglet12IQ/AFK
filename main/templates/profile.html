@@ -203,9 +203,11 @@
                 {% else %}
                   <span style="color: rgba(109, 109, 109, 0.829); cursor: not-allowed;">Неизвестно. Обратитесь в тех.поддержку</span>
                 {% endif %}
-                {{ completedTask.completed_when }}
-              </span>
-            </li>
+                  {% if completedTask.completed_when %}
+                      {{ completedTask.completed_when }}
+                  {% endif %}
+                </span>
+              </li>
           {% endfor %}
         </ul>
       </div>
@@ -232,7 +234,7 @@
             </div>
             <div class="modal-buttons">
               <button type="submit">Подтвердить</button>
-              <button type="button" class="modal-close">Отмена</button>
+              <button type="button" class="modal-close" id="cancel-modal-btn">Отмена</button>
             </div>
           </form>
           <div class="modal-window-close">
@@ -259,6 +261,11 @@
       const taskLinks = document.querySelectorAll('.task-date a')
     
       // Закрыть модальное окно (по кнопке "Отмена")
+      document.getElementById('cancel-modal-btn').addEventListener('click', function () {
+          modal.classList.remove('open');
+      });
+
+       // Закрыть модальное окно
       closeModalButtons.forEach((button) => {
         button.addEventListener('click', function () {
           modal.classList.remove('open')

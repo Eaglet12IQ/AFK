@@ -150,6 +150,7 @@
         
             notifications.forEach(notification => {
                 notification.addEventListener('click', () => {
+                    event.stopPropagation();
                     // Сбрасываем состояние всех уведомлений
                     notifications.forEach(item => {
                         item.style.whiteSpace = "nowrap";
