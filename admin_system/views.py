@@ -95,7 +95,7 @@ def admin_notifications_delete(request):
         return Notification.notifications_delete(request)
     
 def confirmations_view(request):
-    if not request.user.is_superuser:
+    if not request.user.is_superuser and not request.user.is_staff:
         return redirect("main")
     else:
         confirmations = confirmationTask.objects.filter(confirmed=None)

@@ -108,6 +108,7 @@
             fetch(url, {
                 method: "POST",
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
                 body: JSON.stringify({
@@ -156,6 +157,7 @@
             fetch(url, {
                 method: "POST",
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken  // Добавляем CSRF токен в заголовки запроса
                 },
                 body: JSON.stringify({
