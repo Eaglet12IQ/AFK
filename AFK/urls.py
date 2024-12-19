@@ -20,11 +20,12 @@ from authentication import views as auth_views
 from profiles import views as profiles_views
 from admin_system import views as admin_system_views
 from taskGenerator import views as taskGenerator_views
+from notification import views as notification_views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", main_views.main, name="main"),
+    path("", main_views.main_view, name="main"),
 
     path('profile/<int:user_id>/', profiles_views.profile_view, name='profile'),
     path("profile/<int:user_id>/logout/", auth_views.user_profile_logout, name="logout"),
@@ -40,6 +41,8 @@ urlpatterns = [
 
     path("login/", auth_views.login_view, name="login"),
     path('login/yandex/', auth_views.user_yandex_auth, name='login/yandex'),
+    path('login/vk/', auth_views.user_vk_auth, name='login/vk'),
+    path('login/vk/submit', auth_views.user_vk_auth, name='login/vk/submit'),
     path("login/submit_form/", auth_views.user_login_submit, name="login/submit_form"),
 
     path("register/", auth_views.register_view, name="register"),
@@ -63,7 +66,11 @@ urlpatterns = [
     path("admin/notifications/edit/", admin_system_views.admin_notifications_edit, name="admin/notifications/edit"),
     path("admin/notifications/delete/", admin_system_views.admin_notifications_delete, name="admin/notifications/delete"),
 
-    path("admin/confirmation/", admin_system_views.confirmation_view, name="admin/confirmation"),
+    path("admin/confirmations/", admin_system_views.confirmations_view, name="admin/confirmations"),
+    path("admin/confirmations/accept/", admin_system_views.confirmations_accept, name="admin/confirmations/accept"),
+    path("admin/confirmations/refuse/", admin_system_views.confirmations_refuse, name="admin/confirmations/refuse"),
 
-    path("top/", main_views.top, name="top"),
+    path("top/", main_views.top_view, name="top"),
+
+    path("notification/read/", notification_views.notification_read, name="notification/read"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -73,7 +73,7 @@ def notifications_view(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        notifications = Notification.objects.all()
+        notifications = Notification.objects.filter(checked=False)
         return render(request, "admin-panel-notifications.html",{'notifications': notifications})
     
 def admin_notifications_add(request):
@@ -94,9 +94,21 @@ def admin_notifications_delete(request):
     else:
         return Notification.notifications_delete(request)
     
-def confirmation_view(request):
+def confirmations_view(request):
+    if not request.user.is_superuser and not request.user.is_staff:
+        return redirect("main")
+    else:
+        confirmations = confirmationTask.objects.filter(confirmed=None)
+        return render(request, "admin-panel-confirmations.html",{'confirmations': confirmations})
+    
+def confirmations_accept(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        confirmation = confirmationTask.objects.all()
-        return render(request, "admin-panel-confirmation.html",{'confirmation': confirmation})
+        return confirmationTask.confirmations_accept(request)
+    
+def confirmations_refuse(request):
+    if not request.user.is_superuser:
+        return redirect("main")
+    else:
+        return confirmationTask.confirmations_refuse(request)

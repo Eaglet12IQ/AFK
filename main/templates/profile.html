@@ -13,76 +13,89 @@
     <div class="profile-container">
       <div>
         <div class="grid grid-cols-2 gap-3">
-          <div class="flex-1 logout logout-mobile-ver container">
+
+          {% if user.id == user_id %}
+          <div class="flex-1 logout btns-mobile-ver container">
             <div class="indentation text-center">
               <a href="{% url 'settings' user.id %}"><button>Настройки</button></a>
             </div>
           </div>
+          {% endif %}
 
-          <div class="flex-1 logout logout-mobile-ver container">
+          {% if user.id == user_id %}
+          <div class="flex-1 logout btns-mobile-ver container">
             <div class="indentation text-center">
-              <button class="dropbtn" onclick="toggleDropdown()">
+              <!-- ПОКА НЕ РАБОТАЕТ -->
+              <button class="dropbtn">
                 Уведомления
-                <!--  <svg aria-hidden="true" aria-label="" class="BNH gUZ U9O kVc" height="12" role="img"
-                                viewBox="0 0 24 24" width="12">
-                                <path fill="white"
-                                    d="M20.16 6.65 12 14.71 3.84 6.65a2.27 2.27 0 0 0-3.18 0 2.2 2.2 0 0 0 0 3.15L12 21 23.34 9.8a2.2 2.2 0 0 0 0-3.15 2.26 2.26 0 0 0-3.18 0">
-                                </path>
-                            </svg>  -->
               </button>
             </div>
           </div>
+          {% endif %}
 
           {% if user.id == user_id %}
-            <div class="flex-1 logout logout-mobile-ver container">
+            <div class="flex-1 logout btns-mobile-ver container">
               <div class="indentation text-center">
                 <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
               </div>
             </div>
           {% endif %}
-
+          
+          {% if user.id == user_id %}
           {% if user.is_superuser %}
-            <div class="flex-1 logout logout-mobile-ver container">
+            <div class="flex-1 logout btns-mobile-ver container">
               <div class="indentation text-center">
                 <a href="{% url 'admin/users' %}"><button>Админ</button></a>
               </div>
             </div>
           {% endif %}
+          {% endif %}
         </div>
       </div>
       <div class="profile-header">
-        <div class="profile-image">
-          <img src="{{ MEDIA_URL }}{{ profile_picture }}" alt="Profile Image" />
+
+        <div>
+          <div class="profile-image">
+            <img src="{{ MEDIA_URL }}{{ profile_picture }}" alt="Profile Image" />
+          </div>
+          <div class="username-mobile-ver text-center">
+            <h2>{{ nickname }}</h2>
+          </div>
         </div>
-        <div class="profile-info">
+
+        <div class="username-full-ver text-center">
           <h2>{{ nickname }}</h2>
+        </div>
+
+        <div class="profile-info items-center">
+          <!-- <h2>{{ nickname }}</h2> -->
           <p>
             Участник с:<br /><span>{{ date_joined }}</span>
           </p>
+          <p>
+            Обший рейтинг:<br /><span>{{ total_rating }}</span>
+          </p>
+          <p>
+            Выполнено заданий:<br /><span>{{ completedTask_count }}</span>
+          </p>
+          <!-- <p>
+            Food рейтинг:<br /><span>{{ food_rating }}</span>
+          </p> -->
+          <!-- <p>
+            Travel рейтинг:<br /><span>{{ travel_rating }}</span>
+          </p> -->
+          <!-- <p>
+            Creative рейтинг:<br /><span>{{ creative_rating }}</span>
+          </p> -->
+          <!-- <p>
+            Technology рейтинг:<br /><span>{{ technology_rating }}</span>
+          </p> -->
+          <!-- <p>
+            Sport рейтинг:<br /><span>{{ sport_rating }}</span>
+          </p> -->
         </div>
-        {% if user.id == user_id %}
-          <div class="logout logout-full-ver">
-            <div class="indentation">
-              <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
-            </div>
-          </div>
-        {% endif %}
       </div>
       <hr />
-      <div class="profile-stats">
-        <div class="stat">
-          <h3>Выполнено заданий</h3>
-          <p>{{ completedTask_count }}</p>
-        </div>
-        <div class="stat">
-          <h3>Интересы</h3>
-          <p>2</p>
-        </div>
-        <div class="stat">
-          <h3>Друзья</h3>
-          <p>20</p>
-        </div>
-      </div>
       <div class="profile-interests">
         <h2>Интересы:</h2>
         <div class="interests-list">
@@ -95,6 +108,9 @@
                 <div class="label">Технологии</div>
               </div>
             </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ technology_rating }}</span>
+            </p>
           </div>
           <div class="interest-box-shadow">
             <div class="interest-box-border">
@@ -105,37 +121,102 @@
                 <div class="label">Искусство</div>
               </div>
             </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ creative_rating }}</span>
+            </p>
+          </div>
+          <div class="interest-box-shadow">
+            <div class="interest-box-border">
+              <div class="interest-box">
+                <div class="image-container">
+                  <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13" alt="Creative" />
+                </div>
+                <div class="label">Путешествия</div>
+              </div>
+            </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ travel_rating }}</span>
+            </p>
+          </div>
+          <div class="interest-box-shadow">
+            <div class="interest-box-border">
+              <div class="interest-box">
+                <div class="image-container">
+                  <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13" alt="Creative" />
+                </div>
+                <div class="label">Спорт</div>
+              </div>
+            </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ sport_rating }}</span>
+            </p>
+          </div>
+          <div class="interest-box-shadow">
+            <div class="interest-box-border">
+              <div class="interest-box">
+                <div class="image-container">
+                  <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Creative" />
+                </div>
+                <div class="label">Еда</div>
+              </div>
+            </div>
+            <p class="p-rating">
+              Рейтинг:<br /><span>{{ food_rating }}</span>
+            </p>
           </div>
         </div>
       </div>
+      {% if completedTasks %}
+      <hr />
       <div class="events">
-        <h2>Список выполненных заданий:</h2>
+        <h2>Список заданий:</h2>
         <ul class="task-list">
           {% for completedTask in completedTasks %}
-            <li class="task-item">
-              Задание {{ completedTask.task.id }} - {{ completedTask.task.description }}
+            <li class="task-item" >
+              <p>Задание {{ completedTask.task.id }} - <span style="
+                    {% if completedTask.task.difficulty == 'easy' %}
+                        color: #28a745;
+                    {% elif completedTask.task.difficulty == 'medium' %}
+                        color: #ffc107;;
+                    {% elif completedTask.task.difficulty == 'hard' %}
+                        color: #dc3545;;
+                    {% endif %}
+                ">
+              {% if completedTask.task.difficulty == 'easy' %}
+                Легкая
+              {% elif completedTask.task.difficulty == 'medium' %}
+                  Средняя
+              {% elif completedTask.task.difficulty == 'hard' %}
+                  Сложная
+              {% else %}
+                  Неизвестно
+              {% endif %}
+              </span>: {{ completedTask.task.description }}</p>
               <span class="task-date">
                 {% if completedTask.confirmed == 'No' and user.id == user_id%}
                   <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Нажмите для подтверждения</a>
                 {% elif completedTask.confirmed == 'Pending' and user.id == user_id %}
                   <span style="color: yellow; cursor: not-allowed;">На проверке</span>
                 {% elif completedTask.confirmed == 'Yes' and user.id == user_id %}
-                  <span style="color: green;">Подтверждено</span>
+                  <span style="color: green;">Подтверждено:</span>
                 {% elif completedTask.confirmed == 'No' and user.id != user_id%}
                   <a style="color: rgba(0, 255, 255, 0.35); cursor: not-allowed;">Не подтверждено</a>
                 {% elif completedTask.confirmed == 'Pending' and user.id != user_id %}
                   <span style="color: yellow; cursor: not-allowed;">На проверке</span>
                 {% elif completedTask.confirmed == 'Yes' and user.id != user_id %}
-                  <span style="color: rgba(0, 128, 0, 0.35);">Подтверждено</span>
+                  <span style="color: rgba(0, 128, 0, 0.35);">Подтверждено:</span>
                 {% else %}
-                  <span style="color: rgba(109, 109, 109, 0.829); cursor: not-allowed;">Неизвестно.Обратитесь в тех.поддержку</span>
+                  <span style="color: rgba(109, 109, 109, 0.829); cursor: not-allowed;">Неизвестно. Обратитесь в тех.поддержку</span>
                 {% endif %}
-                - {{ completedTask.completed_when }}
-              </span>
-            </li>
+                  {% if completedTask.completed_when %}
+                      {{ completedTask.completed_when }}
+                  {% endif %}
+                </span>
+              </li>
           {% endfor %}
         </ul>
       </div>
+      {% endif %}
     </div>
   </div>
   <div class="modal" id="confirmation-modal">
@@ -143,7 +224,7 @@
     <div class="modal-window-shadow">
       <div class="modal-window-border">
         <div class="modal-window">
-          <h3>Подтвердите выполнение задания</h3>
+          <h3 class="modal-title">Подтвердите выполнение задания</h3>
           <form id="confirmation_form" method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="user_id" value="{{ user.id }}" />
@@ -159,7 +240,7 @@
             </div>
             <div class="modal-buttons">
               <button type="submit">Подтвердить</button>
-              <button type="button" class="modal-close">Отмена</button>
+              <button type="button" class="modal-close" id="cancel-modal-btn">Отмена</button>
             </div>
           </form>
           <div class="modal-window-close">
@@ -186,6 +267,11 @@
       const taskLinks = document.querySelectorAll('.task-date a')
     
       // Закрыть модальное окно (по кнопке "Отмена")
+      document.getElementById('cancel-modal-btn').addEventListener('click', function () {
+          modal.classList.remove('open');
+      });
+
+       // Закрыть модальное окно
       closeModalButtons.forEach((button) => {
         button.addEventListener('click', function () {
           modal.classList.remove('open')
@@ -206,24 +292,6 @@
         }
       })
     })
-    
-    // Функция для получения CSRF токена
-    function getCookie(name) {
-      let cookieValue = null
-      if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';')
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim()
-          if (cookie.substring(0, name.length + 1) === name + '=') {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
-            break
-          }
-        }
-      }
-      return cookieValue
-    }
-    
-    const csrftoken = getCookie('csrftoken') // Получаем CSRF токен
     
     document.getElementById('confirmation_form').addEventListener('submit', function (event) {
       event.preventDefault() // Предотвращаем стандартное поведение формы

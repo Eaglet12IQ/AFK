@@ -30,3 +30,13 @@ input{
 .hidden {
     display: none;
 }
+
+@media (max-width: 450px) {
+    .preview {
+        width: 100%;
+        max-width: 23rem;
+    }
+    .settings-input {
+        font-size: 14px !important;
+    }
+}

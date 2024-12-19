@@ -20,8 +20,8 @@ class User(AbstractUser):
     def register_submit(request):
         if request.method == "POST":
             data = json.loads(request.body)  # Десериализация JSON
-            email = data.get('email').lower()
-            loginStr = data.get('login').lower()
+            email = data.get('email')
+            loginStr = data.get('login')
             password1 = data.get('password1')
             password2 = data.get('password2')
             code = data.get('code')
@@ -101,7 +101,7 @@ class User(AbstractUser):
 
         if request.method == "POST":
             data = json.loads(request.body)  # Десериализация JSON
-            emailLogin = data.get('emailLogin').lower()
+            emailLogin = data.get('emailLogin')
             password = data.get('password')
             rememberMe = data.get('rememberMe')
 
@@ -133,7 +133,7 @@ class User(AbstractUser):
     def forgot_password_submit(request):
         if request.method == "POST":
             data = json.loads(request.body)  # Десериализация JSON
-            email = data.get('email').lower()
+            email = data.get('email')
             code = data.get('code')
             if code is None:
                 try:
@@ -153,7 +153,7 @@ class User(AbstractUser):
                     return JsonResponse({"message": "Код неверен либо устарел."}, status=400) 
         if request.method == "PATCH":
             data = json.loads(request.body)  # Десериализация JSON
-            email = data.get('email').lower()
+            email = data.get('email')
             password1 = data.get('password1')
             password2 = data.get('password2')
             if password1 != password2:
@@ -176,3 +176,59 @@ class User(AbstractUser):
             'client_id': "2f83d1ed7ab94e6f9b01785af3282327",
         }
         return redirect(f"{auth_url}?{requests.compat.urlencode(params)}")
+
+    def vk_auth(request):
+        # URL для авторизации
+        auth_url = 'https://oauth.vk.com/authorize'
+        params = {
+            'client_id': '52871021',  # Замените на ID вашего приложения VK
+            'redirect_uri': 'https://127.0.0.1:8000/login/vk/submit/',  # Замените на ваш redirect_uri
+            'display': 'page',
+            'scope': 'email',  # Укажите нужные права доступа
+            'response_type': 'code',
+            'v': '5.131'  # Версия API VK
+        }
+        return redirect(f"{auth_url}?{requests.compat.urlencode(params)}")
+    
+    def vk_auth_submit(request):
+        if request.method == "GET":
+            code = request.GET.get('code')  # Получаем код авторизации от VK
+            token_url = 'https://oauth.vk.com/access_token'
+
+            # Получение токена
+            data = {
+                'client_id': '52871021',  # Замените на ID вашего приложения VK
+                'client_secret': '7d93fc417d93fc417d93fc41fa7eb5432c77d937d93fc411af7b71145a3fbc4660cc718',  # Замените на Secret вашего приложения VK
+                'redirect_uri': 'https://127.0.0.1:8000/login/vk/submit/',  # Должен совпадать с redirect_uri в приложении
+                'code': code,
+            }
+
+            response = requests.get(token_url, params=data)
+            token_info = response.json()
+            access_token = token_info.get('access_token')
+            email = token_info.get('email')  # Email доступен только при запросе scope=email
+            user_id = token_info.get('user_id')
+
+            # Получение информации о пользователе из VK
+            user_info_url = 'https://api.vk.com/method/users.get'
+            user_info_params = {
+                'user_ids': user_id,
+                'fields': 'photo_max',  # Укажите нужные поля (например, фото профиля)
+                'access_token': access_token,
+                'v': '5.131'
+            }
+            user_info_response = requests.get(user_info_url, params=user_info_params)
+            user_info = user_info_response.json()
+            user_data = user_info.get('response', [])[0]  # Получаем первый элемент списка
+
+            loginStr = user_data.get('first_name') + "_" + user_data.get('last_name')
+            try:
+                user = User.objects.get(email=email)
+                login(request, user)
+                return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
+            except User.DoesNotExist:
+                user = User.objects.create_user(username=loginStr, email=email)
+                login(request, user)  # Вход в систему
+                from profiles.models import Profile
+                Profile.objects.create(user=user, nickname="Новый пользователь")
+                return redirect(reverse('profile', kwargs={'user_id': request.user.id}))

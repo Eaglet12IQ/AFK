@@ -27,8 +27,7 @@
             <div class="navbar">
                 <a href="{% url 'main' %}">Главная</a>
                 <a href="{% url 'events' %}">Занятия</a>
-                <a href="{% url 'top' %}">Топ</a>
-                <a href="">Другое</a>
+                <a href="{% url 'top' %}">Рейтинг</a>
             </div>
         </div>
 
@@ -83,19 +82,40 @@
         <div class="login">
             {% if user.is_authenticated %}
             <div class="notification" onclick="toggleNotificationMenu()">
-                <i class="fas fa-bell"></i>
+                {% if notifications %}
+                    <i class="fas fa-bell">
+                        <span class="notification-dot" id = 'dot'></span>
+                    </i>
+                {% else %}
+                    <i class="fas fa-bell"></i>
+                {% endif %}
                 <div class="dropdown-content-border">
                     <div class="notification-menu" id="notificationMenu">
-                        <div class="notification-item">Уведомление 1</div>
-                        <div class="notification-item">Уведомление 2</div>
-                        <div class="notification-item">Уведомление 3</div>
+                        {% if notifications %}
+                            {% for notification in notifications %}
+                                <div class="notification-item" id="notification-{{ notification.id }}">
+                                    <span class="notification-preview">
+                                        {{ notification.description|truncatechars:50 }}
+                                    </span>
+                                    <span class="hidden-text" style="display: none;">
+                                        {{ notification.description }}
+                                    </span>
+                                    <button class="read-btn" id = 'read-btn' data-id="{{ notification.id }}" disabled>Отметить как прочитанное</button>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="notification-item">Нет новых уведомлений</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+            
             {% endif %}
             {% if user.is_authenticated %}
             {% if user.is_superuser %}
             <a class="admin-text" href="{% url 'admin/users' %}"> Админ </a>
+            {% elif user.is_staff %}
+            <a class="admin-text" href="{% url 'admin/confirmations' %}"> Админ </a>
             {% endif %}
             <a class="profile-text" href="{% url 'profile' user.id %}"> Профиль </a>
             <div class="dropdown">
@@ -108,9 +128,8 @@
                     </svg>
                 </button>
                 <div class="dropdown-content-border" id="dropdown">
-                    <div class="dropdown-content" id="dropdownMenu">
+                    <div class="dropdown-content text-center" id="dropdownMenu">
                         <a class="dropdown-item" href="{% url 'settings' user.id %}">Настройки</a>
-                        <a href="{% url 'admin/users' %}"> Админ </a>
                         <a class="dropdown-item" href="{% url 'logout' user.id %}">Выйти</a>
                     </div>
                 </div>
@@ -132,6 +151,111 @@
     {% block content %}{% endblock %}
     {% endblock %}
     <script>
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Добавляем обработчик клика на все блоки notification-item
+            const buttons = document.querySelectorAll('.read-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const notificationId = button.getAttribute('data-id');
+                    markAsRead(notificationId);
+                });
+            });
+
+            const notifications = document.querySelectorAll('.notification-item');
+        
+            notifications.forEach(notification => {
+                notification.addEventListener('click', () => {
+                    event.stopPropagation();
+                    // Сбрасываем состояние всех уведомлений
+                    notifications.forEach(item => {
+                        item.style.whiteSpace = "nowrap";
+                        const previewText = item.querySelector('.notification-preview');
+                        const hiddenText = item.querySelector('.hidden-text');
+                        if (previewText) previewText.style.display = "inline";
+                        if (hiddenText) hiddenText.style.display = "none";
+                        
+                    });
+        
+                    // Устанавливаем состояние для текущего уведомления
+                    notification.style.whiteSpace = "normal";
+                    notification.style.cursor = "auto";
+                    const previewText = notification.querySelector('.notification-preview');
+                    const hiddenText = notification.querySelector('.hidden-text');
+        
+                    if (previewText) previewText.style.display = "none";
+                    if (hiddenText) hiddenText.style.display = "inline";
+                    document.getElementById('read-btn').disabled = false;
+                });
+            });
+        });
+
+        function markAsRead(notificationId) {
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен
+            const url = new URL('notification/read/', baseUrl);  // Относительный путь комбинируется с базовым URL
+        
+            fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken // Для защиты CSRF
+                },
+                body: JSON.stringify({ "id": notificationId })
+            })
+            .then(response => response.json())  // Преобразуем ответ в JSON
+            .then(data => {
+                if (data.message === 'Уведомление прочитано.') {
+                    // Если уведомление успешно отмечено как прочитанное, обновляем UI
+                    const notificationElement = document.getElementById('notification-' + notificationId);
+                    const dotnotification = document.getElementById('dot')
+                    if (notificationElement) {
+                        // Скрываем уведомление
+                        notificationElement.remove();
+                    }
+            
+                    // Проверяем, есть ли еще видимые уведомления
+                    const visibleNotifications = Array.from(document.querySelectorAll('.notification-item'))
+                        .filter(item => getComputedStyle(item).display !== 'none'); // Фильтруем те, что не скрыты
+            
+                    const notificationsContainer = document.getElementById('notificationMenu');
+                    if (notificationsContainer) {
+                        if (visibleNotifications.length === 0) {
+                            // Если нет видимых уведомлений, добавляем сообщение о том, что их нет
+                            dotnotification.remove();
+                            const noNotificationsMessage = document.createElement('div');
+                            noNotificationsMessage.classList.add('notification-item');
+                            noNotificationsMessage.textContent = 'Нет новых уведомлений';
+                            notificationsContainer.appendChild(noNotificationsMessage);
+                        }
+                    } else {
+                        console.error('Контейнер для уведомлений не найден.');
+                    }
+                } else {
+                    console.error('Ошибка при отметке уведомления как прочитанное');
+                }
+            })                                
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        }        
+        
         function toggleDropdown() {
             const dropdown = document.querySelector('.dropdown');
             const notificationMenu = document.querySelector('.notification');

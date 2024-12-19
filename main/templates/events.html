@@ -99,8 +99,14 @@
     <div class="generate-shadow">
         <button class="generate-container-button" id="open-modal-btn">Сгенерировать занятие</button>
     </div>
+    <div id="message" style="display: none" class="flex items-center justify-center flex-col">
+        <label class="ml-2 block text-sm text-red-500" id="response-message">
+            
+        </label>
+    </div>
 </div>
 
+{% if completedTasks %}
 <div class="conteiner">
     <div class="slogan-container">
         <h1>Список последних сгенерированных занятий:</h1>
@@ -109,15 +115,18 @@
         {% for completedTask in completedTasks %}
         <li>
             <h2>{{completedTask.task.id}}</h2>
-            <p>{{completedTask.task.description}}</p><button>Узнать больше</button>
+            <p>{{completedTask.task.description}}</p>
+            <!-- <button>Узнать больше</button> -->
         </li>
         {% endfor %}
     </ul>
 </div>
+{% endif %}
 
 <div class="background"></div>
 
 <div class="modal" id="my-modal">
+    <div class="overlay"></div>
     <div class="modal-window-shadow">
         <div class="modal-window-border">
             <div class="modal-window">
@@ -141,24 +150,7 @@
 </div>
 
 <script>
-    function getCookieForCsrf(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    const csrftoken = getCookieForCsrf('csrftoken'); // Получаем CSRF токен
-
-    function getCookie(name) {
+    function getCookieForGeneration(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
@@ -180,20 +172,23 @@
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
             let title = button.getAttribute('data-title')
-            let interestsCookie = getCookie('interests');
+            let interestsCookie = getCookieForGeneration('interests');
             if (interestsCookie) {
                 interestsCookie = JSON.parse(interestsCookie);
             }
             else {
                 interestsCookie = [];
             }
-            let difficultyCookie = getCookie('difficulty');
+            let difficultyCookie = getCookieForGeneration('difficulty');
             if (difficultyCookie) {
                 difficultyCookie = JSON.parse(difficultyCookie);
             }
             else {
                 difficultyCookie = [];
             }
+
+            const responseMessageLabel = document.getElementById('response-message');
+            const responseMessageDiv = document.getElementById('message');
 
             const baseUrl = window.location.origin;  // Получаем текущий протокол и домен (например, http://example.com)
             const url = new URL('events/generation/', baseUrl);  // Относительный путь будет комбинироваться с базовым URL
@@ -208,23 +203,63 @@
                     'X-CSRFToken': csrftoken
                 }
             })
-                .then(response => response.json())
-                .then(data => {
-                    const spisokElement = document.getElementById('spisok');
-
-                    if (data["tasks_count"] > 10) {
-                        spisokElement.lastElementChild.remove();
-                    }
-
-                    const li = document.createElement('li');
-                    li.innerHTML = `<h2>${data["task_id"]}</h2><p>${data["task_description"]}</p><button>Узнать больше</button>`;
-                    spisokElement.insertBefore(li, spisokElement.firstChild);
-
-                    const description_idea = document.getElementById('description');
-                    description_idea.textContent = data["task_description"];
-
-                    document.getElementById("my-modal").classList.add("open");
-                });
+            .then(response => {
+                if (!response.ok) {  // Если код ответа не в диапазоне 2xx (например, 400 или 500)
+                    return response.json().then(errorData => {
+                        // Ожидаем JSON с ошибкой и генерируем ошибку с данным сообщением
+                        return Promise.reject(new Error(errorData.message));
+                    });
+                }
+                return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
+            })
+            .then(data => {
+                // Проверяем, существует ли контейнер с id="spisok"
+                let spisokElement = document.getElementById('spisok');
+            
+                // Если список не существует, создаем его вместе с контейнером
+                if (!spisokElement) {
+                    // Создаем контейнер для списка
+                    const container = document.createElement('div');
+                    container.classList.add('conteiner');
+                    
+                    // Создаем контейнер для заголовка
+                    const sloganContainer = document.createElement('div');
+                    sloganContainer.classList.add('slogan-container');
+                    
+                    // Создаем заголовок
+                    const heading = document.createElement('h1');
+                    heading.textContent = 'Список последних сгенерированных занятий:';
+                    sloganContainer.appendChild(heading);
+                    
+                    // Создаем сам список
+                    const newSpisok = document.createElement('ul');
+                    newSpisok.classList.add('spisok');
+                    newSpisok.id = 'spisok';  // Устанавливаем id для spisok
+                    
+                    // Добавляем все элементы в контейнер
+                    container.appendChild(sloganContainer);
+                    container.appendChild(newSpisok);
+                    
+                    // Добавляем контейнер в родительский элемент
+                    document.body.appendChild(container);  // Вы можете выбрать конкретный контейнер вместо body
+            
+                    spisokElement = newSpisok;  // Присваиваем список элементу
+                }
+            
+                // Добавляем новое занятие в список
+                const li = document.createElement('li');
+                li.innerHTML = `<h2>${data["task_id"]}</h2><p>${data["task_description"]}</p><button>Узнать больше</button>`;
+                spisokElement.insertBefore(li, spisokElement.firstChild);
+            
+                // Открытие модального окна с подробным описанием
+                const description_idea = document.getElementById('description');
+                description_idea.textContent = data["task_description"];
+                document.getElementById("my-modal").classList.add("open");
+            })                        
+            .catch(error => {
+                responseMessageLabel.textContent = error.message;
+                responseMessageDiv.style.display = 'flex';
+            });
         });
     });
 
@@ -251,7 +286,7 @@
 
     function selectDifficulty(difficulty) {
         // Получаем куку с уровнем сложности
-        const difficultyCookie = getCookie('difficulty');
+        const difficultyCookie = getCookieForGeneration('difficulty');
         let myDictFromCookie;
 
         // Если кука существует, парсим ее как массив; если нет, создаем пустой массив
@@ -291,7 +326,7 @@
         // Toggle класс selected для выбранного блока
         box.classList.toggle('selected');
 
-        const interestsCookie = getCookie('interests');
+        const interestsCookie = getCookieForGeneration('interests');
         if (interestsCookie) {
             // Если кука существует, парсим ее как JSON
             myDictFromCookie = JSON.parse(interestsCookie);
@@ -311,14 +346,14 @@
         setCookie('interests', myDictFromCookieStr, 3650);
     }
     document.addEventListener('DOMContentLoaded', function () {
-        const interestsCookie = getCookie('interests');
+        const interestsCookie = getCookieForGeneration('interests');
         let myDictFromCookieInterests = [];
 
         if (interestsCookie) {
             myDictFromCookieInterests = JSON.parse(interestsCookie);
         }
 
-        const difficultyCookie = JSON.parse(getCookie('difficulty') || '[]');
+        const difficultyCookie = JSON.parse(getCookieForGeneration('difficulty') || '[]');
 
         // Получаем все кнопки с классом .difficulty-button
         const selectedButtons = document.querySelectorAll('.difficulty-button');
