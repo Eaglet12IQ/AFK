@@ -106,6 +106,7 @@
     </div>
 </div>
 
+{% if completedTasks %}
 <div class="conteiner">
     <div class="slogan-container">
         <h1>Список последних сгенерированных занятий:</h1>
@@ -119,6 +120,7 @@
         {% endfor %}
     </ul>
 </div>
+{% endif %}
 
 <div class="background"></div>
 
@@ -226,21 +228,49 @@
                 return response.json();  // Если все в порядке, возвращаем JSON для успешного ответа
             })
             .then(data => {
-                const spisokElement = document.getElementById('spisok');
-
-                if (data["tasks_count"] > 10) {
-                    spisokElement.lastElementChild.remove();
+                // Проверяем, существует ли контейнер с id="spisok"
+                let spisokElement = document.getElementById('spisok');
+            
+                // Если список не существует, создаем его вместе с контейнером
+                if (!spisokElement) {
+                    // Создаем контейнер для списка
+                    const container = document.createElement('div');
+                    container.classList.add('conteiner');
+                    
+                    // Создаем контейнер для заголовка
+                    const sloganContainer = document.createElement('div');
+                    sloganContainer.classList.add('slogan-container');
+                    
+                    // Создаем заголовок
+                    const heading = document.createElement('h1');
+                    heading.textContent = 'Список последних сгенерированных занятий:';
+                    sloganContainer.appendChild(heading);
+                    
+                    // Создаем сам список
+                    const newSpisok = document.createElement('ul');
+                    newSpisok.classList.add('spisok');
+                    newSpisok.id = 'spisok';  // Устанавливаем id для spisok
+                    
+                    // Добавляем все элементы в контейнер
+                    container.appendChild(sloganContainer);
+                    container.appendChild(newSpisok);
+                    
+                    // Добавляем контейнер в родительский элемент
+                    document.body.appendChild(container);  // Вы можете выбрать конкретный контейнер вместо body
+            
+                    spisokElement = newSpisok;  // Присваиваем список элементу
                 }
-
+            
+                // Добавляем новое занятие в список
                 const li = document.createElement('li');
                 li.innerHTML = `<h2>${data["task_id"]}</h2><p>${data["task_description"]}</p><button>Узнать больше</button>`;
                 spisokElement.insertBefore(li, spisokElement.firstChild);
-
+            
+                // Открытие модального окна с подробным описанием
                 const description_idea = document.getElementById('description');
                 description_idea.textContent = data["task_description"];
-
                 document.getElementById("my-modal").classList.add("open");
-            })
+            })                        
             .catch(error => {
                 responseMessageLabel.textContent = error.message;
                 responseMessageDiv.style.display = 'flex';
