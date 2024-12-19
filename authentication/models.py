@@ -20,8 +20,8 @@ class User(AbstractUser):
     def register_submit(request):
         if request.method == "POST":
             data = json.loads(request.body)  # Десериализация JSON
-            email = data.get('email').lower()
-            loginStr = data.get('login').lower()
+            email = data.get('email')
+            loginStr = data.get('login')
             password1 = data.get('password1')
             password2 = data.get('password2')
             code = data.get('code')
@@ -101,7 +101,7 @@ class User(AbstractUser):
 
         if request.method == "POST":
             data = json.loads(request.body)  # Десериализация JSON
-            emailLogin = data.get('emailLogin').lower()
+            emailLogin = data.get('emailLogin')
             password = data.get('password')
             rememberMe = data.get('rememberMe')
 
@@ -133,7 +133,7 @@ class User(AbstractUser):
     def forgot_password_submit(request):
         if request.method == "POST":
             data = json.loads(request.body)  # Десериализация JSON
-            email = data.get('email').lower()
+            email = data.get('email')
             code = data.get('code')
             if code is None:
                 try:
@@ -153,7 +153,7 @@ class User(AbstractUser):
                     return JsonResponse({"message": "Код неверен либо устарел."}, status=400) 
         if request.method == "PATCH":
             data = json.loads(request.body)  # Десериализация JSON
-            email = data.get('email').lower()
+            email = data.get('email')
             password1 = data.get('password1')
             password2 = data.get('password2')
             if password1 != password2:

@@ -36,7 +36,4 @@ def register_view(request):
         return render(request, "register.html")
     
 def forgot_password_view(request):
-    if request.user.is_authenticated:
-        return redirect(reverse('profile', kwargs={'user_id': request.user.id}))
-    else:
-        return render(request, "forgot_password.html")
+    return render(request, "forgot_password.html")

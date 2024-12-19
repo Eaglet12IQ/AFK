@@ -61,6 +61,19 @@ header {
     margin-right: 10px;
 }
 
+
+.notification-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    border: 2px solid white; /* Обводка вокруг точки */
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
 .notification-menu {
     display: none;
     /*position: absolute;*/
@@ -135,7 +148,7 @@ header {
 }
 
 .logo a {
-    font-size: 1.5rem;
+    font-size: 2rem;
     line-height: 2rem;
     padding: 0.25rem 0.75rem;
     font-family: PixelText, normal;
@@ -171,7 +184,7 @@ header {
 .navbar a {
     padding: 0.25rem 0.75rem;
     /*border-radius: 9999px;*/
-    font-size: 0.875rem;
+    font-size: 1.025rem;
     line-height: 1.5;
     font-weight: 500;
     color: #ebebeb;
@@ -227,6 +240,7 @@ header {
 }
 
 .login a {
+    font-size: 1.025rem;
     padding: 0.25rem 0.75rem;
     /*border-radius: 9999px;*/
     transition: all 0.2s;
@@ -308,6 +322,10 @@ header {
 .dropdown.closed .dropdown-content-border {
     display: block;
     animation: dropdownClose 0.5s reverse;
+}
+
+.hidden-text{
+    overflow-wrap: break-word;
 }
 
 @keyframes dropdown {
