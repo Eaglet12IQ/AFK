@@ -75,6 +75,9 @@
           <p>
             Обший рейтинг:<br /><span>{{ total_rating }}</span>
           </p>
+          <p>
+            Выполнено заданий:<br /><span>{{ completedTask_count }}</span>
+          </p>
           <!-- <p>
             Food рейтинг:<br /><span>{{ food_rating }}</span>
           </p> -->
@@ -93,24 +96,6 @@
         </div>
       </div>
       <hr />
-      <div class="profile-stats">
-        <div class="stat">
-          <h3>Интересы</h3>
-          <p>2</p>
-        </div>
-        <div class="stat">
-          <h3>Выполнено заданий</h3>
-          <p>{{ completedTask_count }}</p>
-        </div>
-        <!-- <div class="stat">
-          <h3>Интересы</h3>
-          <p>2</p>
-        </div> -->
-        <div class="stat">
-          <h3>Друзья</h3>
-          <p>20</p>
-        </div>
-      </div>
       <div class="profile-interests">
         <h2>Интересы:</h2>
         <div class="interests-list">
@@ -150,7 +135,7 @@
               </div>
             </div>
             <p class="p-rating">
-              Рейтинг:<br /><span>{{ creative_rating }}</span>
+              Рейтинг:<br /><span>{{ travel_rating }}</span>
             </p>
           </div>
           <div class="interest-box-shadow">
@@ -163,7 +148,7 @@
               </div>
             </div>
             <p class="p-rating">
-              Рейтинг:<br /><span>{{ creative_rating }}</span>
+              Рейтинг:<br /><span>{{ sport_rating }}</span>
             </p>
           </div>
           <div class="interest-box-shadow">
@@ -176,13 +161,14 @@
               </div>
             </div>
             <p class="p-rating">
-              Рейтинг:<br /><span>{{ creative_rating }}</span>
+              Рейтинг:<br /><span>{{ food_rating }}</span>
             </p>
           </div>
         </div>
       </div>
+      <hr />
       <div class="events">
-        <h2>Список выполненных заданий:</h2>
+        <h2>Список заданий:</h2>
         <ul class="task-list">
           {% for completedTask in completedTasks %}
             <li class="task-item">

@@ -1,12 +1,13 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from authentication.models import User
 from profiles.models import Profile
 from taskGenerator.models import completedTask
+from django.db.models import F
 
 def profile_view(request, user_id):
     profile = get_object_or_404(Profile, user_id=user_id)
     user = get_object_or_404(User, id=user_id)
-    completedTasks = completedTask.objects.filter(user=user_id)
+    completedTasks = completedTask.objects.filter(user=user_id).order_by(F('completed_when').desc(nulls_first=True))
 
     # Преобразуем дату выполнения задач с проверкой на None
     formatted_completedTasks = []

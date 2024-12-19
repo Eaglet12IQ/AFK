@@ -51,4 +51,14 @@ class Notification(models.Model):
         Notification.objects.bulk_create(notifications)
         
         return JsonResponse({"message": "Уведомление создано."}, status=201)
+    
+    def read(request):
+        data = json.loads(request.body)
+        id = data.get('id')
+
+        notification = Notification.objects.get(id=id)
+
+        notification.checked = True
+        notification.save()
         
+        return JsonResponse({"message": "Уведомление прочитано."}, status=200)

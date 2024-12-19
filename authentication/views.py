@@ -17,6 +17,12 @@ def user_forgot_password_submit(request):
 def user_yandex_auth(request):
     return User.yandex_auth(request)
 
+def user_vk_auth(request):
+    return User.vk_auth(request)
+
+def user_vk_auth_submit(request):
+    return User.vk_auth_submit(request)
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect(reverse('profile', kwargs={'user_id': request.user.id}))

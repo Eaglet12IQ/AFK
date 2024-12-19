@@ -1,3 +1,4 @@
-from django.shortcuts import render
+from notification.models import Notification
 
-# Create your views here.
+def notification_read(request):
+    return Notification.read(request)
