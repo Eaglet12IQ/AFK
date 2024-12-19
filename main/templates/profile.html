@@ -166,6 +166,7 @@
           </div>
         </div>
       </div>
+      {% if completedTasks %}
       <hr />
       <div class="events">
         <h2>Список заданий:</h2>
@@ -215,6 +216,7 @@
           {% endfor %}
         </ul>
       </div>
+      {% endif %}
     </div>
   </div>
   <div class="modal" id="confirmation-modal">
