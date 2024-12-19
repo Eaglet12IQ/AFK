@@ -31,10 +31,12 @@ input{
     display: none;
 }
 
-/* @media (max-width: 450px) {
-    .preview-container {
+@media (max-width: 450px) {
+    .preview {
         width: 100%;
-        max-width: 25rem;
-        min-width: 21rem;
+        max-width: 23rem;
     }
-} */
+    .settings-input {
+        font-size: 14px !important;
+    }
+}

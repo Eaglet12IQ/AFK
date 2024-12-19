@@ -88,7 +88,15 @@
                     <div class="notification-menu" id="notificationMenu">
                         {% if notifications %}
                             {% for notification in notifications %}
-                            <div class="notification-item">{{ notification.description }}</div>
+                            <div class="notification-item">
+                                <span class="notification-preview">
+                                    {{ notification.description|truncatechars:50 }}
+                                </span>
+                                <span class="hidden-text" style="display: none;">
+                                    {{ notification.description}}
+                                </span>
+                                <button class="read-btn">Отметить как прочитанное</button>
+                            </div>
                             {% endfor %}
                         {% else %}
                             <div class="notification-item">Нет новых уведомлений</div>
@@ -114,7 +122,7 @@
                     </svg>
                 </button>
                 <div class="dropdown-content-border" id="dropdown">
-                    <div class="dropdown-content" id="dropdownMenu">
+                    <div class="dropdown-content text-center" id="dropdownMenu">
                         <a class="dropdown-item" href="{% url 'settings' user.id %}">Настройки</a>
                         {% if user.is_superuser %}
                         <a href="{% url 'admin/users' %}"> Админ </a>
@@ -142,6 +150,35 @@
     {% block content %}{% endblock %}
     {% endblock %}
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Добавляем обработчик клика на все блоки notification-item
+            const notifications = document.querySelectorAll('.notification-item');
+        
+            notifications.forEach(notification => {
+                notification.addEventListener('click', () => {
+                    event.stopPropagation();
+                    // Сбрасываем состояние всех уведомлений
+                    notifications.forEach(item => {
+                        item.style.whiteSpace = "nowrap";
+                        const previewText = item.querySelector('.notification-preview');
+                        const hiddenText = item.querySelector('.hidden-text');
+                        
+                        if (previewText) previewText.style.display = "inline";
+                        if (hiddenText) hiddenText.style.display = "none";
+                    });
+        
+                    // Устанавливаем состояние для текущего уведомления
+                    notification.style.whiteSpace = "normal";
+                    notification.style.cursor = "auto";
+                    const previewText = notification.querySelector('.notification-preview');
+                    const hiddenText = notification.querySelector('.hidden-text');
+        
+                    if (previewText) previewText.style.display = "none";
+                    if (hiddenText) hiddenText.style.display = "inline";
+                });
+            });
+        });
+        
         function toggleDropdown() {
             const dropdown = document.querySelector('.dropdown');
             const notificationMenu = document.querySelector('.notification');
