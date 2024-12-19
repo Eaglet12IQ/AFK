@@ -12,7 +12,7 @@ def top_view(request):
     # Добавляем количество завершенных задач и категорию с наибольшим рейтингом для каждого пользователя
     for profile in profiles:
         # Количество завершенных задач
-        profile.completed_tasks_count = completedTask.objects.filter(user=profile.user.id).count()
+        profile.completed_tasks_count = completedTask.objects.filter(user=profile.user.id, confirmed="Yes").count()
 
         # Определяем категорию с наибольшим рейтингом
         category_ratings = {

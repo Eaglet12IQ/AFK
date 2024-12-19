@@ -20,6 +20,7 @@ from authentication import views as auth_views
 from profiles import views as profiles_views
 from admin_system import views as admin_system_views
 from taskGenerator import views as taskGenerator_views
+from notification import views as notification_views
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -40,6 +41,8 @@ urlpatterns = [
 
     path("login/", auth_views.login_view, name="login"),
     path('login/yandex/', auth_views.user_yandex_auth, name='login/yandex'),
+    path('login/vk/', auth_views.user_vk_auth, name='login/vk'),
+    path('login/vk/submit', auth_views.user_vk_auth, name='login/vk/submit'),
     path("login/submit_form/", auth_views.user_login_submit, name="login/submit_form"),
 
     path("register/", auth_views.register_view, name="register"),
@@ -68,4 +71,6 @@ urlpatterns = [
     path("admin/confirmations/refuse/", admin_system_views.confirmations_refuse, name="admin/confirmations/refuse"),
 
     path("top/", main_views.top_view, name="top"),
+
+    path("notification/read/", notification_views.notification_read, name="notification/read"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

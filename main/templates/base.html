@@ -28,7 +28,6 @@
                 <a href="{% url 'main' %}">Главная</a>
                 <a href="{% url 'events' %}">Занятия</a>
                 <a href="{% url 'top' %}">Топ</a>
-                <a href="">Другое</a>
             </div>
         </div>
 
@@ -88,14 +87,14 @@
                     <div class="notification-menu" id="notificationMenu">
                         {% if notifications %}
                             {% for notification in notifications %}
-                            <div class="notification-item">
+                            <div class="notification-item" id="notification-{{ notification.id }}">
                                 <span class="notification-preview">
                                     {{ notification.description|truncatechars:50 }}
                                 </span>
                                 <span class="hidden-text" style="display: none;">
-                                    {{ notification.description}}
+                                    {{ notification.description }}
                                 </span>
-                                <button class="read-btn">Отметить как прочитанное</button>
+                                <button class="read-btn" data-id="{{ notification.id }}">Отметить как прочитанное</button>
                             </div>
                             {% endfor %}
                         {% else %}
@@ -124,11 +123,6 @@
                 <div class="dropdown-content-border" id="dropdown">
                     <div class="dropdown-content text-center" id="dropdownMenu">
                         <a class="dropdown-item" href="{% url 'settings' user.id %}">Настройки</a>
-                        {% if user.is_superuser %}
-                        <a href="{% url 'admin/users' %}"> Админ </a>
-                        {% elif user.is_staff %}
-                        <a href="{% url 'admin/confirmations' %}"> Админ </a>
-                        {% endif %}
                         <a class="dropdown-item" href="{% url 'logout' user.id %}">Выйти</a>
                     </div>
                 </div>
@@ -150,8 +144,34 @@
     {% block content %}{% endblock %}
     {% endblock %}
     <script>
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken'); // Получаем CSRF токен
+
         document.addEventListener("DOMContentLoaded", () => {
             // Добавляем обработчик клика на все блоки notification-item
+            const buttons = document.querySelectorAll('.read-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const notificationId = button.getAttribute('data-id');
+                    markAsRead(notificationId);
+                });
+            });
+
             const notifications = document.querySelectorAll('.notification-item');
         
             notifications.forEach(notification => {
@@ -178,6 +198,53 @@
                 });
             });
         });
+
+        function markAsRead(notificationId) {
+            const baseUrl = window.location.origin;  // Получаем текущий протокол и домен
+            const url = new URL('notification/read/', baseUrl);  // Относительный путь комбинируется с базовым URL
+        
+            fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken // Для защиты CSRF
+                },
+                body: JSON.stringify({ "id": notificationId })
+            })
+            .then(response => response.json())  // Преобразуем ответ в JSON
+            .then(data => {
+                if (data.message === 'Уведомление прочитано.') {
+                    // Если уведомление успешно отмечено как прочитанное, обновляем UI
+                    const notificationElement = document.getElementById('notification-' + notificationId);
+                    if (notificationElement) {
+                        // Скрываем уведомление
+                        notificationElement.remove();
+                    }
+            
+                    // Проверяем, есть ли еще видимые уведомления
+                    const visibleNotifications = Array.from(document.querySelectorAll('.notification-item'))
+                        .filter(item => getComputedStyle(item).display !== 'none'); // Фильтруем те, что не скрыты
+            
+                    const notificationsContainer = document.getElementById('notificationMenu');
+                    if (notificationsContainer) {
+                        if (visibleNotifications.length === 0) {
+                            // Если нет видимых уведомлений, добавляем сообщение о том, что их нет
+                            const noNotificationsMessage = document.createElement('div');
+                            noNotificationsMessage.classList.add('notification-item');
+                            noNotificationsMessage.textContent = 'Нет новых уведомлений';
+                            notificationsContainer.appendChild(noNotificationsMessage);
+                        }
+                    } else {
+                        console.error('Контейнер для уведомлений не найден.');
+                    }
+                } else {
+                    console.error('Ошибка при отметке уведомления как прочитанное');
+                }
+            })                                
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        }        
         
         function toggleDropdown() {
             const dropdown = document.querySelector('.dropdown');

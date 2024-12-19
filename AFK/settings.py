@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "authentication",
     "admin_system",
     "taskGenerator",
-    "notification"
+    "notification",
+    'django_extensions',
 ]
 
 import os

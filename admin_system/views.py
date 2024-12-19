@@ -73,7 +73,7 @@ def notifications_view(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        notifications = Notification.objects.all()
+        notifications = Notification.objects.filter(checked=False)
         return render(request, "admin-panel-notifications.html",{'notifications': notifications})
     
 def admin_notifications_add(request):
