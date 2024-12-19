@@ -66,7 +66,7 @@ class confirmationTask(models.Model):
         description = request.POST.get('description')
 
         task = Tasks.objects.get(id=task_id)
-        completed_task = completedTask.objects.get(task=task_id)
+        completed_task = completedTask.objects.get(task=task_id, user=user_id)
         user = User.objects.get(id=user_id)
 
         confirmationTask.objects.create(task=task, user=user, file=confirmation_file, description=description)
