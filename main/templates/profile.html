@@ -301,7 +301,7 @@
       const formData = new FormData(form) // Создаем объект FormData из формы
     
       const baseUrl = window.location.origin
-      const changeUrl = "{% url 'confirmation_task' user.id %}"
+      const changeUrl = "{% url 'confirmation_task' user_id %}"
       const url = new URL(changeUrl, baseUrl)
     
       fetch(url, {
