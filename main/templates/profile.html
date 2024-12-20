@@ -172,8 +172,26 @@
         <h2>Список заданий:</h2>
         <ul class="task-list">
           {% for completedTask in completedTasks %}
-            <li class="task-item">
-              Задание {{ completedTask.task.id }} - {{ completedTask.task.difficulty }}: {{ completedTask.task.description }}
+            <li class="task-item" >
+              <p>Задание {{ completedTask.task.id }} - <span style="
+                    {% if completedTask.task.difficulty == 'easy' %}
+                        color: #28a745;
+                    {% elif completedTask.task.difficulty == 'medium' %}
+                        color: #ffc107;;
+                    {% elif completedTask.task.difficulty == 'hard' %}
+                        color: #dc3545;;
+                    {% endif %}
+                ">
+              {% if completedTask.task.difficulty == 'easy' %}
+                Легкая
+              {% elif completedTask.task.difficulty == 'medium' %}
+                  Средняя
+              {% elif completedTask.task.difficulty == 'hard' %}
+                  Сложная
+              {% else %}
+                  Неизвестно
+              {% endif %}
+              </span>: {{ completedTask.task.description }}</p>
               <span class="task-date">
                 {% if completedTask.confirmed == 'No' and user.id == user_id%}
                   <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Нажмите для подтверждения</a>
@@ -274,24 +292,6 @@
         }
       })
     })
-    
-    // Функция для получения CSRF токена
-    function getCookie(name) {
-      let cookieValue = null
-      if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';')
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim()
-          if (cookie.substring(0, name.length + 1) === name + '=') {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
-            break
-          }
-        }
-      }
-      return cookieValue
-    }
-    
-    const csrftoken = getCookie('csrftoken') // Получаем CSRF токен
     
     document.getElementById('confirmation_form').addEventListener('submit', function (event) {
       event.preventDefault() // Предотвращаем стандартное поведение формы

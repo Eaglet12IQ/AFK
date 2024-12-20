@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "admin_system",
     "taskGenerator",
     "notification",
-    'django_extensions',
 ]
 
 import os

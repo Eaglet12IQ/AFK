@@ -27,7 +27,7 @@
             <div class="navbar">
                 <a href="{% url 'main' %}">Главная</a>
                 <a href="{% url 'events' %}">Занятия</a>
-                <a href="{% url 'top' %}">Топ</a>
+                <a href="{% url 'top' %}">Рейтинг</a>
             </div>
         </div>
 
@@ -82,20 +82,26 @@
         <div class="login">
             {% if user.is_authenticated %}
             <div class="notification" onclick="toggleNotificationMenu()">
-                <i class="fas fa-bell"></i>
+                {% if notifications %}
+                    <i class="fas fa-bell">
+                        <span class="notification-dot" id = 'dot'></span>
+                    </i>
+                {% else %}
+                    <i class="fas fa-bell"></i>
+                {% endif %}
                 <div class="dropdown-content-border">
                     <div class="notification-menu" id="notificationMenu">
                         {% if notifications %}
                             {% for notification in notifications %}
-                            <div class="notification-item" id="notification-{{ notification.id }}">
-                                <span class="notification-preview">
-                                    {{ notification.description|truncatechars:50 }}
-                                </span>
-                                <span class="hidden-text" style="display: none;">
-                                    {{ notification.description }}
-                                </span>
-                                <button class="read-btn" data-id="{{ notification.id }}">Отметить как прочитанное</button>
-                            </div>
+                                <div class="notification-item" id="notification-{{ notification.id }}">
+                                    <span class="notification-preview">
+                                        {{ notification.description|truncatechars:50 }}
+                                    </span>
+                                    <span class="hidden-text" style="display: none;">
+                                        {{ notification.description }}
+                                    </span>
+                                    <button class="read-btn" id = 'read-btn' data-id="{{ notification.id }}" disabled>Отметить как прочитанное</button>
+                                </div>
                             {% endfor %}
                         {% else %}
                             <div class="notification-item">Нет новых уведомлений</div>
@@ -103,6 +109,7 @@
                     </div>
                 </div>
             </div>
+            
             {% endif %}
             {% if user.is_authenticated %}
             {% if user.is_superuser %}
@@ -182,9 +189,9 @@
                         item.style.whiteSpace = "nowrap";
                         const previewText = item.querySelector('.notification-preview');
                         const hiddenText = item.querySelector('.hidden-text');
-                        
                         if (previewText) previewText.style.display = "inline";
                         if (hiddenText) hiddenText.style.display = "none";
+                        
                     });
         
                     // Устанавливаем состояние для текущего уведомления
@@ -195,6 +202,7 @@
         
                     if (previewText) previewText.style.display = "none";
                     if (hiddenText) hiddenText.style.display = "inline";
+                    document.getElementById('read-btn').disabled = false;
                 });
             });
         });
@@ -216,6 +224,7 @@
                 if (data.message === 'Уведомление прочитано.') {
                     // Если уведомление успешно отмечено как прочитанное, обновляем UI
                     const notificationElement = document.getElementById('notification-' + notificationId);
+                    const dotnotification = document.getElementById('dot')
                     if (notificationElement) {
                         // Скрываем уведомление
                         notificationElement.remove();
@@ -229,6 +238,7 @@
                     if (notificationsContainer) {
                         if (visibleNotifications.length === 0) {
                             // Если нет видимых уведомлений, добавляем сообщение о том, что их нет
+                            dotnotification.remove();
                             const noNotificationsMessage = document.createElement('div');
                             noNotificationsMessage.classList.add('notification-item');
                             noNotificationsMessage.textContent = 'Нет новых уведомлений';

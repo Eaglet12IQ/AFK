@@ -115,7 +115,8 @@
         {% for completedTask in completedTasks %}
         <li>
             <h2>{{completedTask.task.id}}</h2>
-            <p>{{completedTask.task.description}}</p><button>Узнать больше</button>
+            <p>{{completedTask.task.description}}</p>
+            <!-- <button>Узнать больше</button> -->
         </li>
         {% endfor %}
     </ul>
@@ -125,6 +126,7 @@
 <div class="background"></div>
 
 <div class="modal" id="my-modal">
+    <div class="overlay"></div>
     <div class="modal-window-shadow">
         <div class="modal-window-border">
             <div class="modal-window">
@@ -148,24 +150,7 @@
 </div>
 
 <script>
-    function getCookieForCsrf(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    const csrftoken = getCookieForCsrf('csrftoken'); // Получаем CSRF токен
-
-    function getCookie(name) {
+    function getCookieForGeneration(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
@@ -187,14 +172,14 @@
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
             let title = button.getAttribute('data-title')
-            let interestsCookie = getCookie('interests');
+            let interestsCookie = getCookieForGeneration('interests');
             if (interestsCookie) {
                 interestsCookie = JSON.parse(interestsCookie);
             }
             else {
                 interestsCookie = [];
             }
-            let difficultyCookie = getCookie('difficulty');
+            let difficultyCookie = getCookieForGeneration('difficulty');
             if (difficultyCookie) {
                 difficultyCookie = JSON.parse(difficultyCookie);
             }
@@ -301,7 +286,7 @@
 
     function selectDifficulty(difficulty) {
         // Получаем куку с уровнем сложности
-        const difficultyCookie = getCookie('difficulty');
+        const difficultyCookie = getCookieForGeneration('difficulty');
         let myDictFromCookie;
 
         // Если кука существует, парсим ее как массив; если нет, создаем пустой массив
@@ -341,7 +326,7 @@
         // Toggle класс selected для выбранного блока
         box.classList.toggle('selected');
 
-        const interestsCookie = getCookie('interests');
+        const interestsCookie = getCookieForGeneration('interests');
         if (interestsCookie) {
             // Если кука существует, парсим ее как JSON
             myDictFromCookie = JSON.parse(interestsCookie);
@@ -361,14 +346,14 @@
         setCookie('interests', myDictFromCookieStr, 3650);
     }
     document.addEventListener('DOMContentLoaded', function () {
-        const interestsCookie = getCookie('interests');
+        const interestsCookie = getCookieForGeneration('interests');
         let myDictFromCookieInterests = [];
 
         if (interestsCookie) {
             myDictFromCookieInterests = JSON.parse(interestsCookie);
         }
 
-        const difficultyCookie = JSON.parse(getCookie('difficulty') || '[]');
+        const difficultyCookie = JSON.parse(getCookieForGeneration('difficulty') || '[]');
 
         // Получаем все кнопки с классом .difficulty-button
         const selectedButtons = document.querySelectorAll('.difficulty-button');
