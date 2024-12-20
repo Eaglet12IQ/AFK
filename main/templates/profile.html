@@ -2,178 +2,302 @@
 {% load static %}
 
 {% block title %}
-  Profile
+Profile
 {% endblock %}
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
 {% endblock %}
 
 {% block content %}
-  <div class="profile-container-container">
-    <div class="profile-container">
-      <div>
-        <div class="grid grid-cols-2 gap-3">
 
-          {% if user.id == user_id %}
-          <div class="flex-1 logout btns-mobile-ver container">
-            <div class="indentation text-center">
-              <a href="{% url 'settings' user.id %}"><button>Настройки</button></a>
-            </div>
-          </div>
-          {% endif %}
-
-          {% if user.id == user_id %}
-          <div class="flex-1 logout btns-mobile-ver container">
-            <div class="indentation text-center">
-              <!-- ПОКА НЕ РАБОТАЕТ -->
-              <button class="dropbtn">
-                Уведомления
-              </button>
-            </div>
-          </div>
-          {% endif %}
-
-          {% if user.id == user_id %}
-            <div class="flex-1 logout btns-mobile-ver container">
-              <div class="indentation text-center">
-                <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
-              </div>
-            </div>
-          {% endif %}
-          
-          {% if user.id == user_id %}
-          {% if user.is_superuser %}
-            <div class="flex-1 logout btns-mobile-ver container">
-              <div class="indentation text-center">
-                <a href="{% url 'admin/users' %}"><button>Админ</button></a>
-              </div>
-            </div>
-          {% endif %}
-          {% endif %}
-        </div>
+<!-- Модалка уведомлений -->
+<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-full max-h-full bg-black" style="--tw-bg-opacity: 0.5 !important;">
+  <div class="relative p-4 w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-700" style="max-width: 450px !important;">
+    <!-- Modal content -->
+    <div class="relative">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Уведомления</h3>
+        <button id="close-modal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+          </svg>
+          <span class="sr-only">Закрыть</span>
+        </button>
       </div>
-      <div class="profile-header">
+      <!-- Modal body -->
+      <div class="notification-menu" id="notificationMenu">
+        {% if notifications %}
+        {% for notification in notifications %}
+        <div class="notification-item" id="notification-{{ notification.id }}">
+          <span class="notification-preview">
+            {{ notification.description|truncatechars:50 }}
+          </span>
+          <span class="hidden-text" style="display: none;">
+            {{ notification.description }}
+          </span>
+          <button class="read-btn" id='read-btn' data-id="{{ notification.id }}" disabled>Отметить как прочитанное</button>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="notification-item">Нет новых уведомлений</div>
+        {% endif %}
+      </div>
+      <!-- Modal footer -->
+      <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+        <button id="accept-btn" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          ОК
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div>
-          <div class="profile-image">
-            <img src="{{ MEDIA_URL }}{{ profile_picture }}" alt="Profile Image" />
-          </div>
-          <div class="username-mobile-ver text-center">
-            <h2>{{ nickname }}</h2>
+<script>
+  // Открытие модалки
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('default-modal');
+    const openModalBtn = document.getElementById('toggle-modal');
+    const closeModalBtns = document.querySelectorAll('#close-modal, #accept-btn');
+
+    // Открытие модального окна
+    openModalBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex'); // Устанавливаем flex для центрирования
+    });
+
+    // Закрытие модального окна по кнопкам
+    closeModalBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        closeModal();
+      });
+    });
+
+    // Закрытие модального окна при клике на пустую область
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Функция закрытия модального окна
+    const closeModal = () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+  });
+
+  // Снятие disabled с кнопки "Прочитанно"
+  document.addEventListener("DOMContentLoaded", () => {
+    const notifications = document.querySelectorAll('.notification-item');
+
+    notifications.forEach(notification => {
+      notification.addEventListener('click', (event) => {
+        event.stopPropagation();
+
+        // Сбрасываем состояние всех уведомлений
+        notifications.forEach(item => {
+          item.style.whiteSpace = "nowrap";
+          const previewText = item.querySelector('.notification-preview');
+          const hiddenText = item.querySelector('.hidden-text');
+          if (previewText) previewText.style.display = "inline";
+          if (hiddenText) hiddenText.style.display = "none";
+
+          // Отключаем кнопку для всех уведомлений
+          const button = item.querySelector('.read-btn');
+          if (button) button.disabled = true;
+        });
+
+        // Устанавливаем состояние для текущего уведомления
+        notification.style.whiteSpace = "normal";
+        notification.style.cursor = "auto";
+        const previewText = notification.querySelector('.notification-preview');
+        const hiddenText = notification.querySelector('.hidden-text');
+
+        if (previewText) previewText.style.display = "none";
+        if (hiddenText) hiddenText.style.display = "inline";
+
+        // Включаем кнопку для текущего уведомления
+        const button = notification.querySelector('.read-btn');
+        if (button) button.disabled = false;
+      });
+    });
+  });
+</script>
+
+<div class="profile-container-container">
+  <div class="profile-container">
+    <div>
+      <div class="grid grid-cols-2 gap-3">
+
+        {% if user.id == user_id %}
+        <div class="flex-1 logout btns-mobile-ver container">
+          <div class="indentation text-center">
+            <a href="{% url 'settings' user.id %}"><button>Настройки</button></a>
           </div>
         </div>
+        {% endif %}
 
-        <div class="username-full-ver text-center">
+        {% if user.id == user_id %}
+        <div class="flex-1 logout btns-mobile-ver container">
+          <div class="indentation text-center">
+            <!-- РАБОТАЕТ КРИВО -->
+            <button class="notification-modal" id="toggle-modal">
+              Уведомления
+            </button>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if user.id == user_id %}
+        <div class="flex-1 logout btns-mobile-ver container">
+          <div class="indentation text-center">
+            <a href="{% url 'logout' user.id %}"><button>Выйти</button></a>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if user.id == user_id %}
+        {% if user.is_superuser %}
+        <div class="flex-1 logout btns-mobile-ver container">
+          <div class="indentation text-center">
+            <a href="{% url 'admin/users' %}"><button>Админ</button></a>
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="profile-header">
+
+      <div>
+        <div class="profile-image">
+          <img src="{{ MEDIA_URL }}{{ profile_picture }}" alt="Profile Image" />
+        </div>
+        <div class="username-mobile-ver text-center">
           <h2>{{ nickname }}</h2>
         </div>
+      </div>
 
-        <div class="profile-info items-center">
-          <!-- <h2>{{ nickname }}</h2> -->
-          <p>
-            Участник с:<br /><span>{{ date_joined }}</span>
-          </p>
-          <p>
-            Обший рейтинг:<br /><span>{{ total_rating }}</span>
-          </p>
-          <p>
-            Выполнено заданий:<br /><span>{{ completedTask_count }}</span>
-          </p>
-          <!-- <p>
+      <div class="username-full-ver text-center">
+        <h2>{{ nickname }}</h2>
+      </div>
+
+      <div class="profile-info items-center">
+        <!-- <h2>{{ nickname }}</h2> -->
+        <p>
+          Участник с:<br /><span>{{ date_joined }}</span>
+        </p>
+        <p>
+          Обший рейтинг:<br /><span>{{ total_rating }}</span>
+        </p>
+        <p>
+          Выполнено заданий:<br /><span>{{ completedTask_count }}</span>
+        </p>
+        <!-- <p>
             Food рейтинг:<br /><span>{{ food_rating }}</span>
           </p> -->
-          <!-- <p>
+        <!-- <p>
             Travel рейтинг:<br /><span>{{ travel_rating }}</span>
           </p> -->
-          <!-- <p>
+        <!-- <p>
             Creative рейтинг:<br /><span>{{ creative_rating }}</span>
           </p> -->
-          <!-- <p>
+        <!-- <p>
             Technology рейтинг:<br /><span>{{ technology_rating }}</span>
           </p> -->
-          <!-- <p>
+        <!-- <p>
             Sport рейтинг:<br /><span>{{ sport_rating }}</span>
           </p> -->
+      </div>
+    </div>
+    <hr />
+    <div class="profile-interests">
+      <h2>Интересы:</h2>
+      <div class="interests-list">
+        <div class="interest-box-shadow">
+          <div class="interest-box-border">
+            <div class="interest-box">
+              <div class="image-container">
+                <img
+                  src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13"
+                  alt="Technology" />
+              </div>
+              <div class="label">Технологии</div>
+            </div>
+          </div>
+          <p class="p-rating">
+            Рейтинг:<br /><span>{{ technology_rating }}</span>
+          </p>
+        </div>
+        <div class="interest-box-shadow">
+          <div class="interest-box-border">
+            <div class="interest-box">
+              <div class="image-container">
+                <img
+                  src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13"
+                  alt="Creative" />
+              </div>
+              <div class="label">Искусство</div>
+            </div>
+          </div>
+          <p class="p-rating">
+            Рейтинг:<br /><span>{{ creative_rating }}</span>
+          </p>
+        </div>
+        <div class="interest-box-shadow">
+          <div class="interest-box-border">
+            <div class="interest-box">
+              <div class="image-container">
+                <img
+                  src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13"
+                  alt="Creative" />
+              </div>
+              <div class="label">Путешествия</div>
+            </div>
+          </div>
+          <p class="p-rating">
+            Рейтинг:<br /><span>{{ travel_rating }}</span>
+          </p>
+        </div>
+        <div class="interest-box-shadow">
+          <div class="interest-box-border">
+            <div class="interest-box">
+              <div class="image-container">
+                <img
+                  src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13"
+                  alt="Creative" />
+              </div>
+              <div class="label">Спорт</div>
+            </div>
+          </div>
+          <p class="p-rating">
+            Рейтинг:<br /><span>{{ sport_rating }}</span>
+          </p>
+        </div>
+        <div class="interest-box-shadow">
+          <div class="interest-box-border">
+            <div class="interest-box">
+              <div class="image-container">
+                <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Creative" />
+              </div>
+              <div class="label">Еда</div>
+            </div>
+          </div>
+          <p class="p-rating">
+            Рейтинг:<br /><span>{{ food_rating }}</span>
+          </p>
         </div>
       </div>
-      <hr />
-      <div class="profile-interests">
-        <h2>Интересы:</h2>
-        <div class="interests-list">
-          <div class="interest-box-shadow">
-            <div class="interest-box-border">
-              <div class="interest-box">
-                <div class="image-container">
-                  <img src="https://avatars.mds.yandex.net/i?id=743664af1475046ddf9fe5149eeee155_l-9065887-images-thumbs&n=13" alt="Technology" />
-                </div>
-                <div class="label">Технологии</div>
-              </div>
-            </div>
-            <p class="p-rating">
-              Рейтинг:<br /><span>{{ technology_rating }}</span>
-            </p>
-          </div>
-          <div class="interest-box-shadow">
-            <div class="interest-box-border">
-              <div class="interest-box">
-                <div class="image-container">
-                  <img src="https://avatars.mds.yandex.net/i?id=73aa7bee9641f1d37382e5813e3841bf_l-4575585-images-thumbs&n=13" alt="Creative" />
-                </div>
-                <div class="label">Искусство</div>
-              </div>
-            </div>
-            <p class="p-rating">
-              Рейтинг:<br /><span>{{ creative_rating }}</span>
-            </p>
-          </div>
-          <div class="interest-box-shadow">
-            <div class="interest-box-border">
-              <div class="interest-box">
-                <div class="image-container">
-                  <img src="https://avatars.mds.yandex.net/i?id=110c7b87efe45840e086b15e588bf5a8015a2964-9138191-images-thumbs&n=13" alt="Creative" />
-                </div>
-                <div class="label">Путешествия</div>
-              </div>
-            </div>
-            <p class="p-rating">
-              Рейтинг:<br /><span>{{ travel_rating }}</span>
-            </p>
-          </div>
-          <div class="interest-box-shadow">
-            <div class="interest-box-border">
-              <div class="interest-box">
-                <div class="image-container">
-                  <img src="https://avatars.mds.yandex.net/i?id=bfb7c3961115b4fb0200f3e43d5287fd_l-4575978-images-thumbs&n=13" alt="Creative" />
-                </div>
-                <div class="label">Спорт</div>
-              </div>
-            </div>
-            <p class="p-rating">
-              Рейтинг:<br /><span>{{ sport_rating }}</span>
-            </p>
-          </div>
-          <div class="interest-box-shadow">
-            <div class="interest-box-border">
-              <div class="interest-box">
-                <div class="image-container">
-                  <img src="https://cdn.culture.ru/images/44f9c8a1-a9c7-5da6-b7b7-cb57970aaf6c" alt="Creative" />
-                </div>
-                <div class="label">Еда</div>
-              </div>
-            </div>
-            <p class="p-rating">
-              Рейтинг:<br /><span>{{ food_rating }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-      {% if completedTasks %}
-      <hr />
-      <div class="events">
-        <h2>Список заданий:</h2>
-        <ul class="task-list">
-          {% for completedTask in completedTasks %}
-            <li class="task-item" >
-              <p>Задание {{ completedTask.task.id }} - <span style="
+    </div>
+    {% if completedTasks %}
+    <hr />
+    <div class="events">
+      <h2>Список заданий:</h2>
+      <ul class="task-list">
+        {% for completedTask in completedTasks %}
+        <li class="task-item">
+          <p>Задание {{ completedTask.task.id }} - <span style="
                     {% if completedTask.task.difficulty == 'easy' %}
                         color: #28a745;
                     {% elif completedTask.task.difficulty == 'medium' %}
@@ -183,151 +307,154 @@
                     {% endif %}
                 ">
               {% if completedTask.task.difficulty == 'easy' %}
-                Легкая
+              Легкая
               {% elif completedTask.task.difficulty == 'medium' %}
-                  Средняя
+              Средняя
               {% elif completedTask.task.difficulty == 'hard' %}
-                  Сложная
+              Сложная
               {% else %}
-                  Неизвестно
+              Неизвестно
               {% endif %}
-              </span>: {{ completedTask.task.description }}</p>
-              <span class="task-date">
-                {% if completedTask.confirmed == 'No' and user.id == user_id%}
-                  <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Нажмите для подтверждения</a>
-                {% elif completedTask.confirmed == 'Pending' and user.id == user_id %}
-                  <span style="color: yellow; cursor: not-allowed;">На проверке</span>
-                {% elif completedTask.confirmed == 'Yes' and user.id == user_id %}
-                  <span style="color: green;">Подтверждено:</span>
-                {% elif completedTask.confirmed == 'No' and user.id != user_id%}
-                  <a style="color: rgba(0, 255, 255, 0.35); cursor: not-allowed;">Не подтверждено</a>
-                {% elif completedTask.confirmed == 'Pending' and user.id != user_id %}
-                  <span style="color: yellow; cursor: not-allowed;">На проверке</span>
-                {% elif completedTask.confirmed == 'Yes' and user.id != user_id %}
-                  <span style="color: rgba(0, 128, 0, 0.35);">Подтверждено:</span>
-                {% else %}
-                  <span style="color: rgba(109, 109, 109, 0.829); cursor: not-allowed;">Неизвестно. Обратитесь в тех.поддержку</span>
-                {% endif %}
-                  {% if completedTask.completed_when %}
-                      {{ completedTask.completed_when }}
-                  {% endif %}
-                </span>
-              </li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
+            </span>: {{ completedTask.task.description }}</p>
+          <span class="task-date">
+            {% if completedTask.confirmed == 'No' and user.id == user_id%}
+            <a href="javascript:void(0);" onclick="openModal({{ completedTask.task.id }})" style="color: aqua;">Нажмите
+              для подтверждения</a>
+            {% elif completedTask.confirmed == 'Pending' and user.id == user_id %}
+            <span style="color: yellow; cursor: not-allowed;">На проверке</span>
+            {% elif completedTask.confirmed == 'Yes' and user.id == user_id %}
+            <span style="color: green;">Подтверждено:</span>
+            {% elif completedTask.confirmed == 'No' and user.id != user_id%}
+            <a style="color: rgba(0, 255, 255, 0.35); cursor: not-allowed;">Не подтверждено</a>
+            {% elif completedTask.confirmed == 'Pending' and user.id != user_id %}
+            <span style="color: yellow; cursor: not-allowed;">На проверке</span>
+            {% elif completedTask.confirmed == 'Yes' and user.id != user_id %}
+            <span style="color: rgba(0, 128, 0, 0.35);">Подтверждено:</span>
+            {% else %}
+            <span style="color: rgba(109, 109, 109, 0.829); cursor: not-allowed;">Неизвестно. Обратитесь в
+              тех.поддержку</span>
+            {% endif %}
+            {% if completedTask.completed_when %}
+            {{ completedTask.completed_when }}
+            {% endif %}
+          </span>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
+    {% endif %}
   </div>
-  <div class="modal" id="confirmation-modal">
-    <div class="overlay"></div>
-    <div class="modal-window-shadow">
-      <div class="modal-window-border">
-        <div class="modal-window">
-          <h3 class="modal-title">Подтвердите выполнение задания</h3>
-          <form id="confirmation_form" method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" name="user_id" value="{{ user.id }}" />
-            <input type="hidden" name="task_id" value="" />
+</div>
+<div class="modal" id="confirmation-modal">
+  <div class="overlay"></div>
+  <div class="modal-window-shadow">
+    <div class="modal-window-border">
+      <div class="modal-window">
+        <h3 class="modal-title">Подтвердите выполнение задания</h3>
+        <form id="confirmation_form" method="POST" action="" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="user_id" value="{{ user.id }}" />
+          <input type="hidden" name="task_id" value="" />
 
-            <div class="upload-image">
-              <label for="upload-image">Загрузите подтверждение:</label>
-              <input type="file" name="confirmation" id="upload" required />
-            </div>
-            <div class="image-description">
-              <label for="image-description">Добавьте описание:</label>
-              <textarea name="description" id="description" placeholder="Напишите описание к подтверждению..." required></textarea>
-            </div>
-            <div class="modal-buttons">
-              <button type="submit">Подтвердить</button>
-              <button type="button" class="modal-close" id="cancel-modal-btn">Отмена</button>
-            </div>
-          </form>
-          <div class="modal-window-close">
-            <button class="btn-close" id="close-modal-btn">X</button>
+          <div class="upload-image">
+            <label for="upload-image">Загрузите подтверждение:</label>
+            <input type="file" name="confirmation" id="upload" required />
           </div>
+          <div class="image-description">
+            <label for="image-description">Добавьте описание:</label>
+            <textarea name="description" id="description" placeholder="Напишите описание к подтверждению..."
+              required></textarea>
+          </div>
+          <div class="modal-buttons">
+            <button type="submit">Подтвердить</button>
+            <button type="button" class="modal-close" id="cancel-modal-btn">Отмена</button>
+          </div>
+        </form>
+        <div class="modal-window-close">
+          <button class="btn-close" id="close-modal-btn">X</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    function openModal(taskId) {
-      const modal = document.getElementById('confirmation-modal')
-      modal.classList.add('open')
-    
-      // Найти скрытое поле task_id в форме и установить его значение
-      const taskIdInput = document.querySelector("#confirmation_form input[name='task_id']")
-      taskIdInput.value = taskId
-    }
-    
-    document.addEventListener('DOMContentLoaded', function () {
-      const modal = document.getElementById('confirmation-modal')
-      const closeModalButtons = document.querySelectorAll('.modal-window-close')
-      const taskLinks = document.querySelectorAll('.task-date a')
-    
-      // Закрыть модальное окно (по кнопке "Отмена")
-      document.getElementById('cancel-modal-btn').addEventListener('click', function () {
-          modal.classList.remove('open');
-      });
+<script>
+  function openModal(taskId) {
+    const modal = document.getElementById('confirmation-modal')
+    modal.classList.add('open')
 
-       // Закрыть модальное окно
-      closeModalButtons.forEach((button) => {
-        button.addEventListener('click', function () {
-          modal.classList.remove('open')
-        })
-      })
-    
-      // Закрыть модальное окно (по клику вне области окна)
-      modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
-          modal.classList.remove('open')
-        }
-      })
-    
-      // Закрыть модальное окно (по нажатию Esc)
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.classList.contains('open')) {
-          modal.classList.remove('open')
-        }
+    // Найти скрытое поле task_id в форме и установить его значение
+    const taskIdInput = document.querySelector("#confirmation_form input[name='task_id']")
+    taskIdInput.value = taskId
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('confirmation-modal')
+    const closeModalButtons = document.querySelectorAll('.modal-window-close')
+    const taskLinks = document.querySelectorAll('.task-date a')
+
+    // Закрыть модальное окно (по кнопке "Отмена")
+    document.getElementById('cancel-modal-btn').addEventListener('click', function () {
+      modal.classList.remove('open');
+    });
+
+    // Закрыть модальное окно
+    closeModalButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        modal.classList.remove('open')
       })
     })
-    
-    document.getElementById('confirmation_form').addEventListener('submit', function (event) {
-      event.preventDefault() // Предотвращаем стандартное поведение формы
-    
-      const modal = document.getElementById('confirmation-modal')
-      const form = event.target
-      const formData = new FormData(form) // Создаем объект FormData из формы
-    
-      const baseUrl = window.location.origin
-      const changeUrl = "{% url 'confirmation_task' user.id %}"
-      const url = new URL(changeUrl, baseUrl)
-    
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': csrftoken // Добавляем CSRF токен в заголовки
-        },
-        body: formData // Передаем FormData как тело запроса
-      })
-        .then((response) => {
-          if (!response.ok) {
-            // Проверяем, что запрос успешен
-            return response.json().then((errorData) => {
-              return Promise.reject(new Error(errorData.message))
-            })
-          }
-          return response.json() // Парсим успешный ответ
-        })
-        .then((data) => {
-          alert('Подтверждение успешно отправлено!')
-          modal.classList.remove('active') // Закрываем модальное окно
-          window.location.reload() // Перезагружаем страницу
-        })
-        .catch((error) => {
-          alert('Ошибка отправки подтверждения: ' + error.message)
-        })
+
+    // Закрыть модальное окно (по клику вне области окна)
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        modal.classList.remove('open')
+      }
     })
-  </script>
+
+    // Закрыть модальное окно (по нажатию Esc)
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        modal.classList.remove('open')
+      }
+    })
+  })
+
+  document.getElementById('confirmation_form').addEventListener('submit', function (event) {
+    event.preventDefault() // Предотвращаем стандартное поведение формы
+
+    const modal = document.getElementById('confirmation-modal')
+    const form = event.target
+    const formData = new FormData(form) // Создаем объект FormData из формы
+
+    const baseUrl = window.location.origin
+    const changeUrl = "{% url 'confirmation_task' user.id %}"
+    const url = new URL(changeUrl, baseUrl)
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrftoken // Добавляем CSRF токен в заголовки
+      },
+      body: formData // Передаем FormData как тело запроса
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // Проверяем, что запрос успешен
+          return response.json().then((errorData) => {
+            return Promise.reject(new Error(errorData.message))
+          })
+        }
+        return response.json() // Парсим успешный ответ
+      })
+      .then((data) => {
+        alert('Подтверждение успешно отправлено!')
+        modal.classList.remove('active') // Закрываем модальное окно
+        window.location.reload() // Перезагружаем страницу
+      })
+      .catch((error) => {
+        alert('Ошибка отправки подтверждения: ' + error.message)
+      })
+  })
+</script>
 {% endblock %}
