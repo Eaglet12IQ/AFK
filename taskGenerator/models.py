@@ -14,6 +14,41 @@ class Tasks(models.Model):
     difficulty = models.TextField(max_length=10)
     interest = models.TextField(max_length=30)
 
+    def tasks_add(request):
+        data = json.loads(request.body)
+        description = data.get('description')
+        difficulty = data.get('difficulty')
+        interest = data.get('interest')
+
+        Tasks.objects.create(description=description, difficulty=difficulty, interest=interest)
+
+        return JsonResponse({"message": "Занятие создано."}, status=201)
+    
+    def tasks_edit(request):
+        data = json.loads(request.body)
+        edit_id = data.get('edit_id')
+        description = data.get('description')
+        difficulty = data.get('difficulty')
+        interest = data.get('interest')
+
+        edit_task = Tasks.objects.get(id=edit_id)
+
+        edit_task.description = description
+        edit_task.difficulty = difficulty
+        edit_task.interest = interest
+
+        edit_task.save()
+
+        return JsonResponse({"message": "Информация о занятии изменена."}, status=200)
+    
+    def tasks_delete(request):
+        data = json.loads(request.body)
+        delete_id = data.get('delete_id')
+
+        Tasks.objects.filter(id=delete_id).delete()
+
+        return HttpResponse(status=200)
+
     def idea_generation(request):
         interests = json.loads(request.GET.get('interests'))
         difficulty = json.loads(request.GET.get('difficulty'))

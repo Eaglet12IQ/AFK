@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
 from django.urls import reverse
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core.cache import cache
 from AFK.utils.password_check import password_check
 from AFK.utils.confirmation import send_confirmation_email
@@ -176,6 +176,65 @@ class User(AbstractUser):
             'client_id': "2f83d1ed7ab94e6f9b01785af3282327",
         }
         return redirect(f"{auth_url}?{requests.compat.urlencode(params)}")
+    
+    def users_add(request):
+        data = json.loads(request.body)
+        username = data.get('username')
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({"message": "Пользователь с таким именем уже существует."}, status=400)
+        
+        email = data.get('email')
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({"message": "Пользователь с такой почтой уже существует."}, status=400)
+        
+        password = data.get('password')
+        is_superuser = data.get('is_superuser')
+        is_staff = data.get('is_staff')
+        is_active = data.get('is_active')
+
+        user = User.objects.create_user(username=username, password=password, email=email, is_superuser=is_superuser, is_staff=is_staff, is_active=is_active)
+
+        # Аутентифицируем пользователя
+        if user is not None:
+            from profiles.models import Profile
+            Profile.objects.create(user=user, nickname="Новый пользователь")
+            return JsonResponse({"message": "Пользователь зарегистрирован."}, status=201)
+        
+    def users_edit(request):
+        data = json.loads(request.body)
+        edit_id = data.get('edit_id')
+
+        username = data.get('username')
+        if User.objects.filter(username=username).exclude(id=edit_id).exists():
+            return JsonResponse({"message": "Пользователь с таким именем уже существует."}, status=400)
+        
+        email = data.get('email')
+        if User.objects.filter(email=email).exclude(id=edit_id).exists():
+            return JsonResponse({"message": "Пользователь с такой почтой уже существует."}, status=400)
+        
+        is_superuser = data.get('is_superuser')
+        is_staff = data.get('is_staff')
+        is_active = data.get('is_active')
+
+        edit_user = User.objects.get(id=edit_id)
+
+        edit_user.username = username
+        edit_user.email = email
+        edit_user.is_superuser = is_superuser
+        edit_user.is_staff = is_staff
+        edit_user.is_active = is_active
+
+        edit_user.save()
+
+        return JsonResponse({"message": "Данные пользователя изменены."}, status=200)
+    
+    def users_delete(request):
+        data = json.loads(request.body)
+        delete_id = data.get('delete_id')
+
+        User.objects.filter(id=delete_id).delete()
+
+        return HttpResponse(status=200)
 
     def vk_auth(request):
         # URL для авторизации

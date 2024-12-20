@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from authentication.models import User
 from profiles.models import Profile
 from taskGenerator.models import Tasks
-from admin_system.models import Admin
 from notification.models import Notification
 from taskGenerator.models import confirmationTask
 
@@ -17,19 +16,19 @@ def admin_users_add(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        return Admin.users_add(request)
+        return User.users_add(request)
         
 def admin_users_edit(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        return Admin.users_edit(request)
+        return User.users_edit(request)
     
 def admin_users_delete(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        return Admin.users_delete(request)
+        return User.users_delete(request)
 
 def profiles_view(request):
     if not request.user.is_superuser:
@@ -42,7 +41,7 @@ def admin_profiles_edit(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        return Admin.profiles_edit(request)
+        return Profile.profiles_edit(request)
 
 def tasks_view(request):
     if not request.user.is_superuser:
@@ -55,19 +54,19 @@ def admin_tasks_add(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        return Admin.tasks_add(request)
+        return Tasks.tasks_add(request)
 
 def admin_tasks_edit(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        return Admin.tasks_edit(request)
+        return Tasks.tasks_edit(request)
     
 def admin_tasks_delete(request):
     if not request.user.is_superuser:
         return redirect("main")
     else:
-        return Admin.tasks_delete(request)
+        return Tasks.tasks_delete(request)
     
 def notifications_view(request):
     if not request.user.is_superuser:

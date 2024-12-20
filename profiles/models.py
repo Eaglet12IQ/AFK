@@ -29,6 +29,22 @@ class Profile(models.Model):
         )
         super().save(*args, **kwargs)
 
+    def profiles_edit(request):
+        data = json.loads(request.body)
+        edit_id = data.get('edit_id')
+
+        nickname = data.get('nickname')
+
+        profile_picture = data.get('profile_picture')
+
+        edit_profile = Profile.objects.get(user_id=edit_id)
+
+        edit_profile.nickname = nickname
+        edit_profile.profile_picture = profile_picture
+
+        edit_profile.save()
+
+        return JsonResponse({"message": "Данные профиля изменены."}, status=200)
 
     def settings_change(request):
         if request.method == 'POST':
